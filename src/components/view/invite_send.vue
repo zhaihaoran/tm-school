@@ -1,0 +1,150 @@
+<template>
+    <div v-loading="loading" >
+        <Search :search="handleSearch" >
+            <template slot-scope="props" >
+                <div class="search-input">
+                    <el-input type="search" placeholder="搜索关键字" v-model="searchText" ></el-input>
+                </div>
+            </template>
+        </Search>
+        <div v-for="person in data" :key="person.$index" class="tm-card invite-send">
+            <a href="/home_lecturer.html" class="card-image">
+                <img :src="person.personalPageLinkUrl" class="img-fluid" :alt="person.name">
+            </a>
+            <div class="card-wrapper">
+                <p class="no-margin" ><span class="teacher-name" >{{person.name}}</span>{{person.speakerShortDesc}}</p>
+                <p>
+                    <span class="num tm-text-color" >{{person.appointmentTimes}}</span>邀约数
+                    <span class="num tm-text-color" style="margin-left:20px;" >{{person.benefitPeopleTimes}}</span>贡献人次
+                </p>
+                <p class="no-margin text-overflow" >简介：{{person.speakerDesc}}</p>
+            </div>
+            <el-button @click="handleInvite(person)" class="tm-btn invite-btn">邀约</el-button>
+        </div>
+        <el-card class="text-center" >
+            <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page.sync="page"
+                :page-size="perPage"
+                layout="total, prev, pager, next"
+                :total="count"
+                class="offer-pagination"
+            >
+            </el-pagination>
+        </el-card>
+    </div>
+</template>
+<script>
+import { mapState, mapMutations } from 'vuex';
+import Search from '@layout/search.vue';
+
+export default {
+    data() {
+        return {
+            searchText: ''
+        };
+    },
+    computed: {
+        ...mapState({
+            orderType: state => state.search.orderType,
+            data: state => state.search.data,
+            count: state => state.search.count,
+            loading: state => state.search.tableLoading,
+            page: state => state.search.page,
+            perPage: state => state.search.perPage
+        })
+    },
+    components: {
+        Search
+    },
+    mounted() {
+        const data = {
+            act: 'getSpeakerList',
+            onError: res => {
+                console.log('success');
+            },
+            onSuccess: res => {}
+        };
+        console.log(data);
+        this.getPageData(data);
+    },
+    methods: {
+        ...mapMutations(['getPageData', 'formSubmit']),
+        handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+        },
+        handleCurrentChange(val) {
+            console.log(`当前页: ${val}`);
+        },
+        handleInvite({ speakerId, speakTitle, speakTimestamp, speakDuration }) {
+            // 发起邀约 --- 参数对不上？ 为什么要传其他东西，不只需要id
+            const cfg = {
+                act: 'createAppointment',
+                speakerId,
+                speakTitle,
+                speakTimestamp,
+                speakDuration
+            };
+            console.log(cfg);
+            this.formSubmit(cfg);
+        },
+        handleSearch() {
+            const data = {
+                act: 'getSpeakerList',
+                orderType: this.orderType,
+                searchText: this.searchText,
+                page: this.page,
+                perPage: this.perPage,
+                onError: res => {
+                    console.log('success');
+                },
+                onSuccess: res => {}
+            };
+            this.getPageData(data);
+        }
+    }
+};
+</script>
+<style>
+.admin-step {
+    height: 200px;
+}
+.invite-send.tm-card {
+    display: flex;
+    flex-direction: row;
+}
+.invite-send .card-image {
+    width: 160px;
+    overflow: hidden;
+}
+.invite-send .card-wrapper {
+    flex: 1;
+    color: #6e6e6e;
+    padding-left: 20px;
+    max-width: 740px;
+}
+.invite-send .card-wrapper p {
+    max-height: 66px;
+    line-height: 22px;
+}
+
+.invite-send .card-wrapper p .num {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.invite-send .card-wrapper p .teacher-name {
+    font-size: 22px;
+    font-weight: bold;
+    color: #000;
+    margin-right: 20px;
+}
+.invite-btn {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    padding: 12px 26px;
+}
+</style>
