@@ -65,7 +65,7 @@
                             </el-steps>
                         </el-popover>
                         <!-- <el-button type="text" v-if="scope.row.schoolStatus === 3"  ><span v-popover:popover >待课后反馈提交</span><span  > </span></el-button> -->
-                        <el-button type="text" v-popover:popover >{{attrs["schoolStatus"][scope.row.schoolStatus]}} <span class="normal-a" @click.stop.prevent='handleShowImage' v-if="scope.row.schoolStatus === 3" >(立即上传）</span> </el-button>
+                        <el-button type="text" v-popover:popover >{{attrs["schoolStatus"][scope.row.schoolStatus]}} <span class="normal-a" @click.stop.prevent='handleShowImage(scope.row)' v-if="scope.row.schoolStatus == 3" >(立即上传）</span> </el-button>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -99,23 +99,33 @@
                 </el-dialog>
                 <el-upload
                     class="upload-box"
-                    action="/admin/act=upload#!method=POST"
+                    action=""
+                    :on-change="handleChange"
                     :on-preview="handlePreview"
                     :on-remove="handleRemove"
                     :before-remove="beforeRemove"
+                    :auto-upload="false"
                     :limit="3"
                     list-type="picture-card"
                     :on-exceed="handleExceed"
-                    :file-list="responseImages">
+                    :file-list="feedList">
                     <i class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
+                <span slot="footer" class="dialog-footer center">
+                    <el-button @click="handleSubmitFeedList" type="primary" >提交反馈</el-button>
+                </span>
             </el-dialog>
         </div>
     </div>
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { attrs, formatAttr, dateformat } from '@comp/lib/api_maps.js';
+import {
+    attrs,
+    formatAttr,
+    dateformat,
+    commonPageInit
+} from '@comp/lib/api_maps.js';
 import MessageBox from '@layout/modal/message.vue';
 import Table from '@layout/table.vue';
 
@@ -126,6 +136,7 @@ export default {
     },
     data() {
         return {
+            currentId: '',
             attrs,
             modal: {
                 upload: false,
@@ -145,23 +156,32 @@ export default {
         };
     },
     mounted() {
-        console.log('挂载');
-        this.updateValue({ status: 2 });
-        const data = {
-            act: 'getAppointmentList',
-            status: 2
-        };
-        this.getPageData(data);
+        commonPageInit(
+            this,
+            { status: 2 },
+            {
+                act: 'getAppointmentList',
+                status: 2
+            }
+        );
     },
     computed: {
         ...mapState({
             data: state => state.search.data,
-            loading: state => state.search.tableLoading
+            loading: state => state.search.tableLoading,
+            feedList: state => state.search.feedList
         })
     },
     methods: {
+        dateformat,
         formatAttr,
-        ...mapMutations(['updateValue', 'getPageData', 'formSubmit']),
+        ...mapMutations([
+            'updateValue',
+            'getPageData',
+            'formSubmit',
+            'getFeedList',
+            'photoUpload'
+        ]),
         filterFromSide(value, row, column) {
             const property = column['property'];
             return attrs[property][row[property]] === value;
@@ -170,16 +190,38 @@ export default {
             console.log('remove');
             console.log(file, fileList);
         },
+        /* 上传照片 */
+        handleChange(file) {
+            let formCfg = new FormData();
+            formCfg.append('act', 'uploadFeedback');
+            formCfg.append('appointmentId', this.currentId);
+            formCfg.append('file', file.raw);
+            this.photoUpload({
+                formCfg,
+                onSuccess: res => {
+                    this.updateValue({
+                        feedList: feedList.push(res.data.data)
+                    });
+                },
+                onError: res => {
+                    console.log('error', res);
+                }
+            });
+        },
         // 学校预览照片，并可以上传
-        handleShowImage() {
+        handleShowImage(row) {
             this.modal.upload = true;
+            this.currentId = row.appointmentId;
+            this.getFeedList({
+                act: 'getFeedbackList',
+                appointmentId: row.appointmentId
+            });
         },
         handlePreview(file) {
             this.ImageUrl = file.url;
             this.Visible = true;
         },
         handleExceed(files, fileList) {
-            console.log('exceed');
             this.$message.warning(
                 `当前限制选择 3 个文件，本次选择了 ${
                     files.length
@@ -187,8 +229,13 @@ export default {
             );
         },
         beforeRemove(file, fileList) {
-            console.log('beforeRemove');
             return this.$confirm(`确定移除 ${file.name}？`);
+        },
+        handleSubmitFeedList() {
+            this.formSubmit({
+                act: 'submitFeedback',
+                appointmentId: this.currentId
+            });
         }
     }
 };

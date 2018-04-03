@@ -45,7 +45,7 @@
                     align="center"
                     label="拒绝原因">
                     <template slot-scope="scope">
-                        <el-button type="text" @click="showReason(scope.row.reason)" >查看原因</el-button>
+                        <el-button type="text" @click="showReason(scope.row)" >查看原因</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -61,7 +61,7 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { attrs, formatAttr, dateformat } from '@comp/lib/api_maps.js';
+import { attrs, dateformat, commonPageInit } from '@comp/lib/api_maps.js';
 
 import Search from '@layout/search.vue';
 import Table from '@layout/table.vue';
@@ -73,13 +73,15 @@ export default {
         };
     },
     mounted() {
-        console.log('被拒绝');
-        this.updateValue({ status: 4 });
-        const data = {
-            act: 'getAppointmentList',
-            status: 4
-        };
-        this.getPageData(data);
+        commonPageInit(
+            this,
+            { status: 4, fromSide: 2 },
+            {
+                act: 'getAppointmentList',
+                status: 4,
+                fromSide: 2
+            }
+        );
     },
     computed: {
         ...mapState({
@@ -94,9 +96,23 @@ export default {
     components: { Search, MessageBox, Table },
     methods: {
         dateformat,
-        ...mapMutations(['updateValue', 'getPageData', 'formSubmit']),
-        showReason(reason) {
-            this.$alert(reason, '拒绝原因').catch(() => {});
+        ...mapMutations([
+            'updateValue',
+            'getPageData',
+            'formSubmit',
+            'getRejectDesc'
+        ]),
+        showReason(row) {
+            this.getRejectDesc({
+                act: 'getRejectDescOfAppointment',
+                appointmentId: row.appointmentId,
+                onSuccess: res => {
+                    console.log('success', res);
+                    this.$alert(res.data.data.rejectDesc, '拒绝原因').catch(
+                        () => {}
+                    );
+                }
+            });
         },
         handleSearch() {
             const data = {

@@ -18,14 +18,14 @@
                 <el-form-item label="学校地址" prop="address" >
                     <el-input v-model="form.address"></el-input>
                 </el-form-item>
-                <el-form-item label="责任老师" prop="teacherPhone" >
+                <el-form-item label="责任老师" prop="teacher" >
+                    <el-input v-model="form.teacher"></el-input>
+                </el-form-item>
+                <el-form-item label="联系电话" prop="teacherPhone" >
                     <el-input v-model="form.teacherPhone"></el-input>
                 </el-form-item>
-                <el-form-item label="联系电话" prop="telephone" >
-                    <el-input v-model="form.telephone"></el-input>
-                </el-form-item>
                 <el-form-item label="学校图片" >
-                    <Upload action="/admin/logout" :previewUrl="form.schoolPhotoUrl" ></Upload>
+                    <Upload filepathname="schoolPhotoShortPathFilename" previewname="schoolPhotoUrl" :action="Api.upload" :preview="schoolPhotoUrl" ></Upload>
                     <div class="pic-info">
                         <h3>请拍摄学校的外景，尽量包含学校的名字</h3>
                         <p class="info-p">图片类型：JPG、PNG</p>
@@ -35,7 +35,7 @@
                     </div>
                 </el-form-item>
                 <el-form-item label="开课教室图片" >
-                    <Upload action="/admin/logout" :previewUrl="form.classroomPhotoUrl" ></Upload>
+                    <Upload filepathname="classroomPhotoShortPathFilename" previewname="classroomPhotoUrl" :action="Api.upload" :preview="classroomPhotoUrl" ></Upload>
                 </el-form-item>
                 <div class="individar"></div>
                 <h3 class="info-h3" >贫困学校申请</h3>
@@ -65,41 +65,41 @@
                         <div class="cube">
                             <p>1.电脑</p>
                             <el-radio-group v-model="form.havePC">
-                                <el-radio :label="3">是</el-radio>
-                                <el-radio :label="6">否</el-radio>
-                                <el-radio :label="9">不确定</el-radio>
+                                <el-radio label="0">是</el-radio>
+                                <el-radio label="1">否</el-radio>
+                                <el-radio label="2">不确定</el-radio>
                             </el-radio-group>
                         </div>
                         <div class="cube">
                             <p>2.网络</p>
                             <el-radio-group v-model="form.haveNet">
-                                <el-radio :label="3">是</el-radio>
-                                <el-radio :label="6">否</el-radio>
-                                <el-radio :label="9">不确定</el-radio>
+                                <el-radio label="0">是</el-radio>
+                                <el-radio label="1">否</el-radio>
+                                <el-radio label="2">不确定</el-radio>
                             </el-radio-group>
                         </div>
                         <div class="cube">
                             <p>3.多媒体教师（有投影或显示设备）</p>
                             <el-radio-group v-model="form.haveMultimediaClassroom">
-                                <el-radio :label="3">是</el-radio>
-                                <el-radio :label="6">否</el-radio>
-                                <el-radio :label="9">不确定</el-radio>
+                                <el-radio label="0">是</el-radio>
+                                <el-radio label="1">否</el-radio>
+                                <el-radio label="2">不确定</el-radio>
                             </el-radio-group>
                         </div>
                         <div class="cube">
                             <p>4.摄像头</p>
                             <el-radio-group v-model="form.haveCamera">
-                                <el-radio :label="3">是</el-radio>
-                                <el-radio :label="6">否</el-radio>
-                                <el-radio :label="9">不确定</el-radio>
+                                <el-radio label="0">是</el-radio>
+                                <el-radio label="1">否</el-radio>
+                                <el-radio label="2">不确定</el-radio>
                             </el-radio-group>
                         </div>
                         <div class="cube">
                             <p>5.麦克风</p>
                             <el-radio-group v-model="form.haveMic">
-                                <el-radio :label="3">是</el-radio>
-                                <el-radio :label="6">否</el-radio>
-                                <el-radio :label="9">不确定</el-radio>
+                                <el-radio label="0">是</el-radio>
+                                <el-radio label="1">否</el-radio>
+                                <el-radio label="2">不确定</el-radio>
                             </el-radio-group>
                         </div>
                     </div>
@@ -112,8 +112,8 @@
                 <el-form-item prop="whyChooseUs"  label-width="0" required >
                     <el-input type="textarea" :rows="rows" class="info-textarea" v-model="form.whyChooseUs"></el-input>
                 </el-form-item>
-                <el-form-item prop="radio" label-width="0" required >
-                    <el-checkbox v-model="form.radio">我已阅读并同意途梦 <a class="tm-a" href="#">用户规约</a></el-checkbox>
+                <el-form-item label-width="0" >
+                    <el-checkbox v-model="isOk" >我已阅读并同意途梦 <a class="tm-a" href="#">用户规约</a></el-checkbox>
                 </el-form-item>
                 <el-button type="primary" @click="onSubmit('form')">提交审核</el-button>
                 <el-button @click="resetForm('form')">重置</el-button>
@@ -134,7 +134,7 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex';
-
+import { Api } from '@comp/lib/api_maps';
 import Upload from '@layout/upload.vue';
 
 import img_class from '@image/admin/class.png';
@@ -144,7 +144,10 @@ import img_camera from '@image/admin/camera.png';
 export default {
     data() {
         return {
+            isOk: false,
+            Api,
             rows: 8,
+            form: {},
             modal: {
                 submit: false
             },
@@ -190,13 +193,6 @@ export default {
                         message: '请填写活动形式',
                         trigger: 'blur'
                     }
-                ],
-                radio: [
-                    {
-                        required: true,
-                        message: '必须勾选',
-                        trigger: 'change'
-                    }
                 ]
             },
             img_class,
@@ -206,37 +202,65 @@ export default {
     },
     computed: mapState({
         checkState: state => state.common.checkState,
-        form: state => state.common.form
+        schoolPhotoUrl: state => state.upload.schoolPhotoUrl,
+        classroomPhotoUrl: state => state.upload.classroomPhotoUrl,
+        classroomPhotoShortPathFilename: state =>
+            state.upload.classroomPhotoShortPathFilename,
+        schoolPhotoShortPathFilename: state =>
+            state.upload.schoolPhotoShortPathFilename
     }),
     mounted() {
-        const cfg = {
-            act: 'getApplication'
-        };
-        this.getFormData(cfg);
+        this.getFormData({
+            act: 'getApplication',
+            onSuccess: res => {
+                this.form = res.data.data;
+                const {
+                    classroomPhotoShortPathFilename,
+                    classroomPhotoUrl,
+                    schoolPhotoShortPathFilename,
+                    schoolPhotoUrl
+                } = this.form;
+                console.log(
+                    classroomPhotoShortPathFilename,
+                    classroomPhotoUrl,
+                    schoolPhotoShortPathFilename,
+                    schoolPhotoUrl
+                );
+                this.update({
+                    classroomPhotoShortPathFilename,
+                    classroomPhotoUrl,
+                    schoolPhotoShortPathFilename,
+                    schoolPhotoUrl
+                });
+            }
+        });
     },
     methods: {
-        ...mapMutations(['getFormData', 'formSubmit']),
+        ...mapMutations(['getFormData', 'formSubmit', 'update']),
         onSubmit(form) {
-            const cfg = this.form;
+            const cfg = Object.assign(this.form, {
+                classroomPhotoShortPathFilename: this
+                    .classroomPhotoShortPathFilename,
+                schoolPhotoShortPathFilename: this.schoolPhotoShortPathFilename
+            });
+
+            delete cfg.schoolPhotoUrl;
+            delete cfg.classroomPhotoUrl;
+
             this.$refs[form].validate(valid => {
-                if (valid) {
-                    const data = Object.assign(
-                        {
-                            act: 'submitApplication',
-                            onSuccess: res => {
-                                console.log(res);
-                                this.modal.submit = true;
-                            },
-                            onError: res => {
-                                this.$message({
-                                    showClose: true,
-                                    message: '提交失败',
-                                    type: 'error'
-                                });
-                            }
+                if (valid && this.isOk) {
+                    const data = {
+                        act: 'submitApplication',
+                        ...cfg,
+                        onSuccess: res => {
+                            console.log(res);
+                            this.modal.submit = true;
                         },
-                        cfg
-                    );
+                        onError: res => {
+                            console.log(res);
+                        }
+                    };
+
                     this.formSubmit(data);
                 } else {
                     this.$message({
@@ -260,7 +284,7 @@ export default {
     }
 };
 </script>
-<style lang="scss" >
+<style lang="scss" scoped >
 .el-dialog__wrapper.certi-submit-modal {
     p {
         margin: 0;

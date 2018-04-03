@@ -118,6 +118,7 @@ router.beforeEach((to, from, next) => {
 
 // 全局配置
 axios.defaults.baseURL = 'http://10.0.0.148/api';
+axios.defaults.url = 'schoolConsole/';
 axios.defaults.method = 'post';
 axios.defaults.withCredentials = true;
 
@@ -143,7 +144,7 @@ axios.interceptors.response.use(res => {
             type: 'error',
             onClose: () => {
                 console.log("登陆");
-                // window.location.href=home
+                window.location.href=home
             }
         })
         return res;

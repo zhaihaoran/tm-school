@@ -86,7 +86,6 @@ export default {
                 speakTimestamp,
                 speakDuration
             };
-            console.log(cfg);
             this.formSubmit(cfg);
         },
         handleSearch() {

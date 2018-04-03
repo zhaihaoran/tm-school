@@ -158,12 +158,22 @@ const attrs = {
         222: '学校不存在',
     },
 }
+
+const baseURL = 'http://10.0.0.148';
+
+const Api = {
+    upload: baseURL + '/api/common/?act=upload'
+}
+
 module.exports = {
     // 日期格式化
+    baseURL,
+    Api,
     attrs,
     dateformat(timestamp, state = 0) {
-        var date = new Date(+timestamp);
+        var date = new Date(+timestamp * 1000);
         var y = date.getFullYear();
+        // 月份是从0开始的！！坑死老子了
         var m = date.getMonth();
         var d = date.getDate();
         var h = date.getHours();
@@ -171,6 +181,7 @@ module.exports = {
         var s = date.getSeconds();
 
         m = m < 10 ? '0' + m : m;
+        m = +m + 1;
         d = d < 10 ? '0' + d : d;
         h = h < 10 ? '0' + h : h;
         s = s < 10 ? '0' + s : s;
@@ -195,5 +206,10 @@ module.exports = {
             menus
         } = attrs;
         return menus[menuId][type];
+    },
+    /* getPageDate */
+    commonPageInit(context, obj, cfg) {
+        context.updateValue(obj);
+        context.getPageData(cfg);
     }
 }

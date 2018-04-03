@@ -63,7 +63,12 @@
 import MessageBox from '@layout/modal/message.vue';
 import Table from '@layout/table.vue';
 
-import { attrs, formatAttr, dateformat } from '@comp/lib/api_maps.js';
+import {
+    attrs,
+    formatAttr,
+    dateformat,
+    commonPageInit
+} from '@comp/lib/api_maps.js';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
@@ -73,13 +78,14 @@ export default {
         };
     },
     mounted() {
-        console.log('挂载');
-        this.updateValue({ status: 3 });
-        const data = {
-            act: 'getAppointmentList',
-            status: 3
-        };
-        this.getPageData(data);
+        commonPageInit(
+            this,
+            { status: 3 },
+            {
+                act: 'getAppointmentList',
+                status: 3
+            }
+        );
     },
     components: { MessageBox, Table },
     computed: {

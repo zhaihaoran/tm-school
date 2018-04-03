@@ -58,45 +58,14 @@
                         </el-button>
                     </template>
                 </el-table-column>
-                <el-table-column align="center" min-width="160px" label="操作">
+                <el-table-column align="center" width="180px" label="操作">
                     <template slot-scope="scope">
                         <Operation :handleEdit="handleEdit" :scope="scope"></Operation>
                     </template>
                 </el-table-column>
             </Table>
-            <!-- modal edit -->
-            <el-dialog
-                :visible.sync="modal_edit"
-                width="30%"
-            >
-                <el-form ref="form" :model="form" label-width="80px" >
-                    <el-form-item label="演讲者" >
-                        <span>{{form.speakerName}}</span>
-                    </el-form-item>
-                    <el-form-item label="演讲主题" >
-                        <el-input v-model="form.speakTitle" ></el-input>
-                    </el-form-item>
-                    <el-form-item label="演讲时间" >
-                        <el-date-picker
-                            v-model.number="form.speakTimestamp"
-                            type="datetime"
-                            value-format="timestamp"
-                            placeholder="选择日期时间">
-                        </el-date-picker>
-                    </el-form-item>
-                    <el-form-item label="演讲时长" >
-                        <el-input v-model="form.speakDuration" >
-                            <template slot="append">分钟</template>
-                        </el-input>
-                    </el-form-item>
-                    <el-form-item label="邀约时间" >
-                        <span>{{dateformat(form.speakTimestamp)}}</span>
-                    </el-form-item>
-                </el-form>
-                <span slot="footer" class="tm-modal-footer">
-                    <el-button class="tm-btn" type="primary" @click="handleSubmitForm">确 定</el-button>
-                </span>
-            </el-dialog>
+            <!-- edit -->
+            <EditInvite></EditInvite>
         </div>
     </div>
 </template>
@@ -104,7 +73,13 @@
 import Operation from '@layout/operation.vue';
 import MessageBox from '@layout/modal/message.vue';
 import Table from '@layout/table.vue';
-import { attrs, formatAttr, dateformat } from '@comp/lib/api_maps.js';
+import EditInvite from '@layout/modal/editInvite.vue';
+import {
+    attrs,
+    formatAttr,
+    dateformat,
+    commonPageInit
+} from '@comp/lib/api_maps.js';
 
 import { mapState, mapMutations } from 'vuex';
 
@@ -117,13 +92,15 @@ export default {
         };
     },
     mounted() {
-        console.log('挂载');
-        this.updateValue({ status: 1 });
-        const data = {
-            act: 'getAppointmentList',
-            status: 1
-        };
-        this.getPageData(data);
+        commonPageInit(
+            this,
+            { status: 1, fromSide: 1 },
+            {
+                act: 'getAppointmentList',
+                status: 1,
+                fromSide: 1
+            }
+        );
     },
     computed: {
         ...mapState({
@@ -133,31 +110,21 @@ export default {
     },
     methods: {
         dateformat,
-        ...mapMutations(['updateValue', 'getPageData', 'formSubmit']),
+        ...mapMutations([
+            'updateValue',
+            'getPageData',
+            'formSubmit',
+            'showModal'
+        ]),
         handleEdit(index, row) {
-            this.modal_edit = true;
-            this.form = Object.assign(row);
-        },
-        handleSubmitForm() {
-            this.modal_edit = false;
-
-            const data = {
-                act: 'modifyAppointment',
-                appointmentId: this.form.appointmentId,
-                speakTitle: this.form.speakTitle,
-                speakTimestamp: this.form.speakTimestamp,
-                speakDuration: this.form.speakDuration
-            };
-
-            this.formSubmit(data, function() {
-                console.log('haha');
-            });
+            this.showModal(row);
         }
     },
     components: {
         Operation,
         MessageBox,
-        Table
+        Table,
+        EditInvite
     }
 };
 </script>
