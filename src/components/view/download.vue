@@ -20,7 +20,7 @@
     </div>
 </template>
 <script>
-import classin from 'assets/image/classin.png';
+import classin from '@image/classin.png';
 export default {
     data() {
         return {

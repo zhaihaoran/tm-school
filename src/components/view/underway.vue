@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="tm-card">
-            <Table :loading="loading" :is-pagination="false" :data="data" >
+            <Table :loading="loading" :data="data" >
                 <el-table-column
                     prop="fromSide"
                     align="center"
@@ -126,8 +126,8 @@ import {
     dateformat,
     commonPageInit
 } from '@comp/lib/api_maps.js';
-import MessageBox from '@layout/modal/message.vue';
-import Table from '@layout/table.vue';
+import MessageBox from '@layout/modal/Message.vue';
+import Table from '@layout/Table.vue';
 
 export default {
     components: {
@@ -142,17 +142,7 @@ export default {
                 upload: false,
                 imageUrl: '',
                 image: false
-            },
-            responseImages: [
-                {
-                    name: 'guest1.jpeg',
-                    url: '/static/image/guests/guest1.png'
-                },
-                {
-                    name: 'guest2.jpeg',
-                    url: '/static/image/guests/guest1.png'
-                }
-            ]
+            }
         };
     },
     mounted() {
@@ -219,7 +209,7 @@ export default {
         },
         handlePreview(file) {
             this.ImageUrl = file.url;
-            this.Visible = true;
+            this.VisibSle = true;
         },
         handleExceed(files, fileList) {
             this.$message.warning(

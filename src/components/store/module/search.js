@@ -9,7 +9,7 @@ const state = {
     orderType: 0, // 排序类型
     status: 1, // 发起状态
     page: 1, //页码
-    perPage: 20, //每页数量
+    perPage: 10, //每页数量
     data: [], // 数据
     fromSide: 0, // 从哪来
     form: {}, // 表单信息
@@ -57,9 +57,13 @@ const mutations = {
             perPage: 20 //每页数量
         }
     },
-    getPageData(state, cfg) {
+    getPageData(state, {
+        onSuccess,
+        ...cfg
+    }) {
         state.tableLoading = true;
         fetchPost({
+            onSuccess,
             cfg,
             ActionSuccess: res => {
                 state.data = res.data.data.data;

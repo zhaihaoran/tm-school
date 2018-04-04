@@ -2,7 +2,7 @@
     <div>
         <div v-show="checkState === 1" class="tm-card invite-send certifi-info">
             <div class="card-image">
-                <img src="/static/image/admin/cerrifi_check.png" class="img-fluid" alt="hi">
+                <img :src="cerrifi_check" class="img-fluid" alt="hi">
             </div>
             <div class="card-wrapper">
                 <h2>欢迎申请途梦学校</h2>
@@ -31,7 +31,7 @@
                         <p class="info-p">图片类型：JPG、PNG</p>
                         <p class="info-p">图片大小：不超过5M</p>
                         <h3 class="mm">样例</h3>
-                        <img src="/static/image/banner.png" class="img-fluid" alt="demo">
+                        <img :src="schoolDemo" class="img-fluid" alt="demo">
                     </div>
                 </el-form-item>
                 <el-form-item label="开课教室图片" >
@@ -115,12 +115,13 @@
                 <el-form-item label-width="0" >
                     <el-checkbox :disabled="isDisabled" v-model="isCheck" >我已阅读并同意途梦 <a class="tm-a" href="#">用户规约</a></el-checkbox>
                 </el-form-item>
-                <div v-if="checkState !== 3">
+                <div v-if="!isDisabled">
                     <el-button class="tm-border" @click="onSave('form')">保存文件</el-button>
                     <el-button type="primary" @click="onSubmit('form')">提交审核</el-button>
                 </div>
             </el-form>
-            <el-dialog v-if="checkState !== 3" width="30%" center class="certi-submit-modal" :visible.sync="modal.submit" >
+            <!-- modal -->
+            <el-dialog v-if="!isDisabled" width="30%" center class="certi-submit-modal" :visible.sync="modal.submit" >
                 <span class="submit-modal"><i class="icon iconfont icon-submit"></i></span>
                 <h3>学校申请提交成功</h3>
                 <p>感谢您申请加入途梦学校</p>
@@ -137,11 +138,15 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 import { Api } from '@comp/lib/api_maps';
-import Upload from '@layout/upload.vue';
 
+import schoolDemo from '@image/admin/school.png';
+import classDemo from '@image/admin/class.png';
+import cerrifi_check from '@image/admin/cerrifi_check.png';
 import img_class from '@image/admin/class.png';
 import img_pc from '@image/admin/pc.png';
 import img_camera from '@image/admin/camera.png';
+
+import Upload from '@layout/Upload.vue';
 
 export default {
     data() {
@@ -183,8 +188,11 @@ export default {
                 ]
             },
             img_class,
+            cerrifi_check,
             img_pc,
             img_camera,
+            schoolDemo,
+            classDemo,
             isOk: false
         };
     },

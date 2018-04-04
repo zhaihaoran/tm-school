@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="tm-card">
-            <Table :loading="loading" :is-pagination="false" :data="data" >
+            <Table :loading="loading" :data="data" >
                 <el-table-column
                     align="center"
                     prop="speakerName"
@@ -70,10 +70,10 @@
     </div>
 </template>
 <script>
-import Operation from '@layout/operation.vue';
-import MessageBox from '@layout/modal/message.vue';
-import Table from '@layout/table.vue';
-import EditInvite from '@layout/modal/editInvite.vue';
+import Operation from '@layout/Operation.vue';
+import MessageBox from '@layout/modal/Message.vue';
+import Table from '@layout/Table.vue';
+import EditInvite from '@layout/modal/Edit_invite.vue';
 import {
     attrs,
     formatAttr,

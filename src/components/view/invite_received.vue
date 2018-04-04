@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="tm-card">
-            <Table :is-pagination="false" :data="data" >
+            <Table :data="data" >
                 <el-table-column
                     align="center"
                     prop="speakerName"
@@ -52,11 +52,10 @@
     </div>
 </template>
 <script>
-import Progress from '@layout/modal/progress.vue';
-import Operation from '@layout/operation.vue';
-import EditInvite from '@layout/modal/editInvite.vue';
-import MessageBox from '@layout/modal/message.vue';
-import Table from '@layout/table.vue';
+import Operation from '@layout/Operation.vue';
+import EditInvite from '@layout/modal/Edit_invite.vue';
+import MessageBox from '@layout/modal/Message.vue';
+import Table from '@layout/Table.vue';
 
 import {
     attrs,
@@ -104,7 +103,6 @@ export default {
         }
     },
     components: {
-        Progress,
         Operation,
         MessageBox,
         Table,

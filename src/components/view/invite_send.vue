@@ -1,13 +1,13 @@
 <template>
     <div v-loading="loading" >
-        <Search :search="handleSearch" >
+        <Search :cfg="searchCfg" >
             <template slot-scope="props" >
                 <div class="search-input">
-                    <el-input type="search" placeholder="搜索关键字" v-model="searchText" ></el-input>
+                    <el-input type="search" placeholder="搜索关键字" v-model="searchCfg.searchText" ></el-input>
                 </div>
             </template>
         </Search>
-        <div v-for="person in data" :key="person.$index" class="tm-card invite-send">
+        <div v-for="person in data" :key="person.$index" class="tm-card in-card">
             <a href="/home_lecturer.html" class="card-image">
                 <img :src="person.personalPageLinkUrl" class="img-fluid" :alt="person.name">
             </a>
@@ -24,28 +24,24 @@
         <!-- edit -->
         <EditInvite title="发起邀约" ></EditInvite>
         <el-card class="text-center" >
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page.sync="page"
-                :page-size="perPage"
-                layout="total, prev, pager, next"
-                :total="count"
-                class="offer-pagination"
-            >
-            </el-pagination>
+            <Pagination :cfg="searchCfg" :count="count" ></Pagination>
         </el-card>
     </div>
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex';
-import EditInvite from '@layout/modal/sendInvite.vue';
-import Search from '@layout/search.vue';
+import Pagination from '@layout/Pagination.vue';
+import EditInvite from '@layout/modal/Send_invite.vue';
+import Search from '@layout/Search.vue';
 
 export default {
     data() {
         return {
-            searchText: ''
+            searchCfg: {
+                act: 'getSpeakerList',
+                orderType: this.orderType,
+                searchText: ''
+            }
         };
     },
     computed: {
@@ -60,36 +56,29 @@ export default {
     },
     components: {
         Search,
-        EditInvite
+        EditInvite,
+        Pagination
     },
     mounted() {
-        const data = {
+        this.getPageData({
             act: 'getSpeakerList',
             onError: res => {},
             onSuccess: res => {
                 console.log(res);
             }
-        };
-        this.getPageData(data);
+        });
     },
     methods: {
         ...mapMutations(['getPageData', 'showModal', 'formSubmit']),
         handleEdit(row) {
-            const obj = {
+            this.showModal({
                 speakerId: row.speakerId,
                 speakerName: row.name,
                 speakDuration: '',
                 speakerTitle: '',
                 speakTimestamp: 0,
                 addTimestamp: 0
-            };
-            this.showModal(obj);
-        },
-        handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
+            });
         },
         handleInvite({ speakerId, speakTitle, speakTimestamp, speakDuration }) {
             // 发起邀约 --- 参数对不上？ 为什么要传其他东西，不只需要id
@@ -101,63 +90,51 @@ export default {
                 speakDuration
             };
             this.formSubmit(cfg);
-        },
-        handleSearch() {
-            const data = {
-                act: 'getSpeakerList',
-                orderType: this.orderType,
-                searchText: this.searchText,
-                page: this.page,
-                perPage: this.perPage,
-                onError: res => {
-                    console.log('success');
-                },
-                onSuccess: res => {}
-            };
-            this.getPageData(data);
         }
     }
 };
 </script>
-<style>
+<style lang="scss" scoped >
+.offer-pagination {
+    margin: 0;
+}
 .admin-step {
     height: 200px;
 }
-.invite-send.tm-card {
+.in-card.tm-card {
     display: flex;
     flex-direction: row;
-}
-.invite-send .card-image {
-    width: 160px;
-    overflow: hidden;
-}
-.invite-send .card-wrapper {
-    flex: 1;
-    color: #6e6e6e;
-    padding-left: 20px;
-    max-width: 740px;
-}
-.invite-send .card-wrapper p {
-    max-height: 66px;
-    line-height: 22px;
-}
+    .card-image {
+        width: 160px;
+        overflow: hidden;
+    }
+    .card-wrapper {
+        flex: 1;
+        color: #6e6e6e;
+        padding-left: 20px;
+        max-width: 740px;
+        p {
+            max-height: 66px;
+            line-height: 22px;
+            .num {
+                font-size: 20px;
+                font-weight: bold;
+                margin-right: 10px;
+            }
 
-.invite-send .card-wrapper p .num {
-    font-size: 20px;
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-.invite-send .card-wrapper p .teacher-name {
-    font-size: 22px;
-    font-weight: bold;
-    color: #000;
-    margin-right: 20px;
-}
-.invite-btn {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    padding: 12px 26px;
+            .teacher-name {
+                font-size: 22px;
+                font-weight: bold;
+                color: #000;
+                margin-right: 20px;
+            }
+        }
+    }
+    .invite-btn {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        padding: 12px 26px;
+    }
 }
 </style>

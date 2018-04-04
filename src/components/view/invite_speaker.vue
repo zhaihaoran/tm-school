@@ -53,8 +53,8 @@
 </template>
 
 <script>
-import Operation from '@layout/operation.vue';
-import MessageBox from '@layout/modal/message.vue';
+import Operation from '@layout/Operation.vue';
+import MessageBox from '@layout/modal/Message.vue';
 export default {
     data() {
         return {

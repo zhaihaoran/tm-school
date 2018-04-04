@@ -21,20 +21,7 @@ export default {
     }
 };
 </script>
-<style lang="scss">
-.flow-step {
-    height: 800px;
-    padding: 40px;
-    .step-click.el-step.is-vertical {
-        .el-step__title {
-            color: #bb2133;
-            text-decoration: underline;
-            &:hover {
-                cursor: pointer;
-            }
-        }
-    }
-}
+<style lang="scss" scoped >
 .el-step.is-vertical {
     .el-step__head {
         width: auto;

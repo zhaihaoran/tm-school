@@ -2,6 +2,7 @@
     <el-date-picker
         v-model="timerange"
         value-format="timestamp"
+        :default-time="now"
         type="datetimerange"
         :picker-options="pickerOptions"
         range-separator="至"
@@ -51,14 +52,16 @@ export default {
                         }
                     }
                 ]
-            }
+            },
+            now: new Date().getTime()
         };
     },
     computed: {
         timerange: {
             set(value) {
                 this.$store.commit('updateValue', {
-                    timerange: value
+                    // 当清空时，设为[]
+                    timerange: value || []
                 });
             },
             get() {

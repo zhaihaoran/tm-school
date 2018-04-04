@@ -96,13 +96,14 @@
     </el-tabs>
 </template>
 <script>
-import Cropper from '@layout/modal/cropper.vue';
 import jQuery from 'jquery';
 import '@comp/lib/velocity.min.js';
 import '@comp/lib/materialbox.js';
 import { mapState, mapMutations } from 'vuex';
 
 import { Api } from '@comp/lib/api_maps';
+
+import Cropper from '@layout/modal/Cropper.vue';
 
 export default {
     data() {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Search :search="handleSearch" >
+        <Search :cfg="searchCfg" >
             <template slot-scope="props" >
                 <div class="search-input">
                     <TimeRange></TimeRange>
@@ -8,7 +8,7 @@
             </template>
         </Search>
         <div class="tm-card">
-            <Table :loading="tableLoading" :data="data" :totalCount="count" >
+            <Table :loading="tableLoading" :data="data" >
                 <el-table-column
                     prop="status"
                     align="center"
@@ -79,7 +79,7 @@
                     align="center"
                     label="拒绝原因">
                     <template slot-scope="scope">
-                        <el-button v-show="scope.row.status == 4" type="text" @click="showReason(scope.row.reason)" >查看原因</el-button>
+                        <el-button v-show="scope.row.status == 4" type="text" @click="showReason(scope.row)" >查看原因</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -98,6 +98,7 @@
                     </template>
                 </el-table-column>
             </Table>
+            <Pagination :cfg="searchCfg" :count="count" ></Pagination>
             <!-- edit -->
             <EditInvite></EditInvite>
         </div>
@@ -112,18 +113,25 @@ import {
     commonPageInit
 } from '@comp/lib/api_maps.js';
 
-import Operation from '@layout/operation.vue';
-import EditInvite from '@layout/modal/editInvite.vue';
-import Search from '@layout/search.vue';
-import Table from '@layout/table.vue';
-import MessageBox from '@layout/modal/message.vue';
-import TimeRange from '@layout/timerange.vue';
+import Pagination from '@layout/Pagination.vue';
+import Operation from '@layout/Operation.vue';
+import EditInvite from '@layout/modal/Edit_invite.vue';
+import Search from '@layout/Search.vue';
+import Table from '@layout/Table.vue';
+import MessageBox from '@layout/modal/Message.vue';
+import TimeRange from '@layout/TimeRange.vue';
 
 export default {
     data() {
         return {
             attrs,
-            form: {}
+            form: {},
+            searchCfg: {
+                act: 'getAppointmentList',
+                orderType: this.orderType,
+                speakTimestampStart: undefined,
+                speakTimestampEnd: undefined
+            }
         };
     },
     computed: {
@@ -133,7 +141,6 @@ export default {
             data: state => state.search.data,
             count: state => state.search.count,
             tableLoading: state => state.search.tableLoading,
-            page: state => state.search.page,
             perPage: state => state.search.perPage,
             status: state => state.search.status
         })
@@ -148,7 +155,15 @@ export default {
             }
         );
     },
-    components: { Search, Operation, MessageBox, EditInvite, Table, TimeRange },
+    components: {
+        Search,
+        Operation,
+        MessageBox,
+        EditInvite,
+        Table,
+        TimeRange,
+        Pagination
+    },
     methods: {
         formatAttr,
         dateformat,
@@ -156,7 +171,8 @@ export default {
             'updateValue',
             'getPageData',
             'formSubmit',
-            'showModal'
+            'showModal',
+            'getRejectDesc'
         ]),
         handleEdit(index, row) {
             this.showModal(row);
@@ -165,29 +181,20 @@ export default {
             const property = column['property'];
             return attrs[property][row[property]] === value;
         },
-        showReason(reason) {
-            this.$alert(reason, '拒绝原因').catch(() => {});
-        },
-        handleSearch() {
-            const data = {
-                act: 'getAppointmentList',
-                orderType: this.orderType,
-                speakTimestampStart: this.timerange[0],
-                speakTimestampEnd: this.timerange[1],
-                page: this.page,
-                perPage: this.perPage,
-                status: this.status
-            };
-            this.getPageData(data);
+        showReason(row) {
+            this.getRejectDesc({
+                act: 'getRejectDescOfAppointment',
+                appointmentId: row.appointmentId,
+                onSuccess: res => {
+                    console.log('success', res);
+                    this.$alert(res.data.data.rejectDesc, '拒绝原因').catch(
+                        () => {}
+                    );
+                }
+            });
         }
     }
 };
 </script>
-<style lang="scss" scoped>
-.pagination {
-    display: flex;
-    justify-content: flex-end;
-}
-</style>
 
 

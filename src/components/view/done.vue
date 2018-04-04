@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="tm-card">
-            <Table :is-pagination="false" :loading="loading" :data="data" >
+            <Table :loading="loading" :data="data" >
                 <el-table-column
                     prop="fromSide"
                     align="center"
@@ -60,8 +60,8 @@
     </div>
 </template>
 <script>
-import MessageBox from '@layout/modal/message.vue';
-import Table from '@layout/table.vue';
+import MessageBox from '@layout/modal/Message.vue';
+import Table from '@layout/Table.vue';
 
 import {
     attrs,

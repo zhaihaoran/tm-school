@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import Sidebar from '@layout/sidebar.vue';
-import Header from '@layout/header.vue';
+import Sidebar from '@layout/Sidebar.vue';
+import Header from '@layout/Header.vue';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
