@@ -12,20 +12,20 @@
         <div class="tm-card info-box">
             <el-form ref="form" :model="form" :rules="rules" label-width="100px">
                 <h3>基本信息</h3>
-                <el-form-item label="学校名称" prop="name" >
-                    <el-input v-model="form.name"></el-input>
+                <el-form-item label="学校名称" prop="name">
+                    <el-input v-model="form.name" :disabled="isDisabled" ></el-input>
                 </el-form-item>
                 <el-form-item label="学校地址" prop="address" >
-                    <el-input v-model="form.address"></el-input>
+                    <el-input v-model="form.address" :disabled="isDisabled" ></el-input>
                 </el-form-item>
                 <el-form-item label="责任老师" prop="teacher" >
-                    <el-input v-model="form.teacher"></el-input>
+                    <el-input v-model="form.teacher" :disabled="isDisabled" ></el-input>
                 </el-form-item>
                 <el-form-item label="联系电话" prop="teacherPhone" >
-                    <el-input v-model="form.teacherPhone"></el-input>
+                    <el-input v-model="form.teacherPhone" :disabled="isDisabled" ></el-input>
                 </el-form-item>
                 <el-form-item label="学校图片" >
-                    <Upload filepathname="schoolPhotoShortPathFilename" previewname="schoolPhotoUrl" :action="Api.upload" :preview="schoolPhotoUrl" ></Upload>
+                    <Upload filepathname="schoolPhotoShortPathFilename" previewname="schoolPhotoUrl" :action="Api.upload" :preview="schoolPhotoUrl" :disabled="isDisabled" ></Upload>
                     <div class="pic-info">
                         <h3>请拍摄学校的外景，尽量包含学校的名字</h3>
                         <p class="info-p">图片类型：JPG、PNG</p>
@@ -35,15 +35,15 @@
                     </div>
                 </el-form-item>
                 <el-form-item label="开课教室图片" >
-                    <Upload filepathname="classroomPhotoShortPathFilename" previewname="classroomPhotoUrl" :action="Api.upload" :preview="classroomPhotoUrl" ></Upload>
+                    <Upload filepathname="classroomPhotoShortPathFilename" previewname="classroomPhotoUrl" :action="Api.upload" :disabled="isDisabled" :preview="classroomPhotoUrl" ></Upload>
                 </el-form-item>
                 <div class="individar"></div>
                 <h3 class="info-h3" >贫困学校申请</h3>
                 <p class="info-p">普通学校可以享受6次免费演讲分享，之后将收取费用用于公益事业</p>
                 <p class="info-p">贫困学校可以完全享受免费的演讲分享</p>
                 <p class="info-p">如果您的学校符合贫困条件，请填写相关信息</p>
-                <el-form-item prop="poorDesc" label-width="0" required >
-                    <el-input type="textarea" :rows="rows" class="info-textarea" v-model="form.poorDesc"></el-input>
+                <el-form-item prop="poorDesc" label-width="0" >
+                    <el-input type="textarea" :disabled="isDisabled" :rows="rows" class="info-textarea" v-model="form.poorDesc"></el-input>
                 </el-form-item>
                 <div class="individar"></div>
                 <h3>附加信息</h3>
@@ -64,7 +64,7 @@
                     <div class="info-table-col">
                         <div class="cube">
                             <p>1.电脑</p>
-                            <el-radio-group v-model="form.havePC">
+                            <el-radio-group :disabled="isDisabled" v-model="form.havePC">
                                 <el-radio label="0">是</el-radio>
                                 <el-radio label="1">否</el-radio>
                                 <el-radio label="2">不确定</el-radio>
@@ -72,7 +72,7 @@
                         </div>
                         <div class="cube">
                             <p>2.网络</p>
-                            <el-radio-group v-model="form.haveNet">
+                            <el-radio-group :disabled="isDisabled" v-model="form.haveNet">
                                 <el-radio label="0">是</el-radio>
                                 <el-radio label="1">否</el-radio>
                                 <el-radio label="2">不确定</el-radio>
@@ -80,7 +80,7 @@
                         </div>
                         <div class="cube">
                             <p>3.多媒体教师（有投影或显示设备）</p>
-                            <el-radio-group v-model="form.haveMultimediaClassroom">
+                            <el-radio-group :disabled="isDisabled" v-model="form.haveMultimediaClassroom">
                                 <el-radio label="0">是</el-radio>
                                 <el-radio label="1">否</el-radio>
                                 <el-radio label="2">不确定</el-radio>
@@ -88,7 +88,7 @@
                         </div>
                         <div class="cube">
                             <p>4.摄像头</p>
-                            <el-radio-group v-model="form.haveCamera">
+                            <el-radio-group :disabled="isDisabled" v-model="form.haveCamera">
                                 <el-radio label="0">是</el-radio>
                                 <el-radio label="1">否</el-radio>
                                 <el-radio label="2">不确定</el-radio>
@@ -96,7 +96,7 @@
                         </div>
                         <div class="cube">
                             <p>5.麦克风</p>
-                            <el-radio-group v-model="form.haveMic">
+                            <el-radio-group :disabled="isDisabled" v-model="form.haveMic">
                                 <el-radio label="0">是</el-radio>
                                 <el-radio label="1">否</el-radio>
                                 <el-radio label="2">不确定</el-radio>
@@ -105,20 +105,22 @@
                     </div>
                 </div>
                 <h5 class="info-h5">学生情况</h5>
-                <el-form-item prop="studentStatus"  label-width="0" required >
-                    <el-input type="textarea" :rows="rows" class="info-textarea"  v-model="form.studentStatus"></el-input>
+                <el-form-item prop="studentStatus"  label-width="0" >
+                    <el-input type="textarea" :disabled="isDisabled" :rows="rows" class="info-textarea"  v-model="form.studentStatus"></el-input>
                 </el-form-item>
                 <h5 class="info-h5">为什么选择途梦？希望途梦为学生带来什么</h5>
-                <el-form-item prop="whyChooseUs"  label-width="0" required >
-                    <el-input type="textarea" :rows="rows" class="info-textarea" v-model="form.whyChooseUs"></el-input>
+                <el-form-item prop="whyChooseUs"  label-width="0" >
+                    <el-input type="textarea" :disabled="isDisabled" :rows="rows" class="info-textarea" v-model="form.whyChooseUs"></el-input>
                 </el-form-item>
                 <el-form-item label-width="0" >
-                    <el-checkbox v-model="isOk" >我已阅读并同意途梦 <a class="tm-a" href="#">用户规约</a></el-checkbox>
+                    <el-checkbox :disabled="isDisabled" v-model="isCheck" >我已阅读并同意途梦 <a class="tm-a" href="#">用户规约</a></el-checkbox>
                 </el-form-item>
-                <el-button type="primary" @click="onSubmit('form')">提交审核</el-button>
-                <el-button @click="resetForm('form')">重置</el-button>
+                <div v-if="checkState !== 3">
+                    <el-button class="tm-border" @click="onSave('form')">保存文件</el-button>
+                    <el-button type="primary" @click="onSubmit('form')">提交审核</el-button>
+                </div>
             </el-form>
-            <el-dialog width="30%" center class="certi-submit-modal" :visible.sync="modal.submit" >
+            <el-dialog v-if="checkState !== 3" width="30%" center class="certi-submit-modal" :visible.sync="modal.submit" >
                 <span class="submit-modal"><i class="icon iconfont icon-submit"></i></span>
                 <h3>学校申请提交成功</h3>
                 <p>感谢您申请加入途梦学校</p>
@@ -144,7 +146,6 @@ import img_camera from '@image/admin/camera.png';
 export default {
     data() {
         return {
-            isOk: false,
             Api,
             rows: 8,
             form: {},
@@ -157,87 +158,89 @@ export default {
                         required: true,
                         message: '请输入学校名称',
                         trigger: 'blur'
-                    },
-                    {
-                        min: 3,
-                        max: 5,
-                        message: '长度在 3 到 5 个字符',
-                        trigger: 'blur'
                     }
                 ],
-                region: [
+                address: [
                     {
                         required: true,
                         message: '请选择活动区域',
                         trigger: 'change'
                     }
                 ],
-                type: [
+                teacher: [
                     {
-                        type: 'array',
                         required: true,
-                        message: '请至少选择一个活动性质',
+                        message: '请填写教师名称',
                         trigger: 'change'
                     }
                 ],
-                resource: [
+                teacherPhone: [
                     {
                         required: true,
-                        message: '请选择活动资源',
+                        message: '请填写联系电话',
                         trigger: 'change'
-                    }
-                ],
-                freeinfo: [
-                    {
-                        required: true,
-                        message: '请填写活动形式',
-                        trigger: 'blur'
                     }
                 ]
             },
             img_class,
             img_pc,
-            img_camera
+            img_camera,
+            isOk: false
         };
     },
-    computed: mapState({
-        checkState: state => state.common.checkState,
-        schoolPhotoUrl: state => state.upload.schoolPhotoUrl,
-        classroomPhotoUrl: state => state.upload.classroomPhotoUrl,
-        classroomPhotoShortPathFilename: state =>
-            state.upload.classroomPhotoShortPathFilename,
-        schoolPhotoShortPathFilename: state =>
-            state.upload.schoolPhotoShortPathFilename
-    }),
+    computed: {
+        ...mapState({
+            checkState: state => state.common.checkState,
+            schoolPhotoUrl: state => state.upload.schoolPhotoUrl,
+            classroomPhotoUrl: state => state.upload.classroomPhotoUrl,
+            classroomPhotoShortPathFilename: state =>
+                state.upload.classroomPhotoShortPathFilename,
+            schoolPhotoShortPathFilename: state =>
+                state.upload.schoolPhotoShortPathFilename,
+            // 动态绑定disabled
+            isDisabled() {
+                return this.checkState === 3;
+            }
+        }),
+        isCheck: {
+            set(value) {
+                this.isOk = !this.isOk;
+            },
+            get() {
+                return this.isDisabled ? !this.isOk : this.isOk;
+            }
+        }
+    },
     mounted() {
         this.getFormData({
             act: 'getApplication',
             onSuccess: res => {
                 this.form = res.data.data;
+
                 const {
                     classroomPhotoShortPathFilename,
                     classroomPhotoUrl,
                     schoolPhotoShortPathFilename,
                     schoolPhotoUrl
                 } = this.form;
-                console.log(
-                    classroomPhotoShortPathFilename,
-                    classroomPhotoUrl,
-                    schoolPhotoShortPathFilename,
-                    schoolPhotoUrl
-                );
+
                 this.update({
                     classroomPhotoShortPathFilename,
                     classroomPhotoUrl,
                     schoolPhotoShortPathFilename,
                     schoolPhotoUrl
                 });
+            },
+            onError: res => {
+                if (res.data.code === 212) {
+                    this.form = {};
+                }
             }
         });
     },
     methods: {
         ...mapMutations(['getFormData', 'formSubmit', 'update']),
-        onSubmit(form) {
+        handleForm(form, action, onSuccess, onError) {
             const cfg = Object.assign(this.form, {
                 classroomPhotoShortPathFilename: this
                     .classroomPhotoShortPathFilename,
@@ -248,19 +251,14 @@ export default {
             delete cfg.classroomPhotoUrl;
 
             this.$refs[form].validate(valid => {
-                if (valid && this.isOk) {
+                if (valid && this.isCheck) {
                     const data = {
-                        act: 'submitApplication',
+                        act: action,
                         ...cfg,
-                        onSuccess: res => {
-                            console.log(res);
-                            this.modal.submit = true;
-                        },
-                        onError: res => {
-                            console.log(res);
-                        }
+                        isMessage: false,
+                        onSuccess,
+                        onError
                     };
-
                     this.formSubmit(data);
                 } else {
                     this.$message({
@@ -271,12 +269,31 @@ export default {
                     return false;
                 }
             });
+
+            return cfg;
+        },
+        onSubmit(form) {
+            this.handleForm(
+                form,
+                'submitApplication',
+                res => {
+                    this.modal.submit = true;
+                },
+                res => {}
+            );
+        },
+        onSave(form) {
+            this.handleForm(
+                form,
+                'modifyApplication',
+                res => {
+                    console.log(res);
+                },
+                res => {}
+            );
         },
         handleRemove(file, fileList) {
             console.log(file, fileList);
-        },
-        resetForm(formName) {
-            this.$refs[formName].resetFields();
         }
     },
     components: {

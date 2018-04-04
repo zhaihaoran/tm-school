@@ -19,8 +19,10 @@
                 </p>
                 <p class="no-margin text-overflow" >简介：{{person.speakerDesc}}</p>
             </div>
-            <el-button @click="handleInvite(person)" class="tm-btn invite-btn">邀约</el-button>
+            <el-button @click="handleEdit(person)" class="tm-btn invite-btn">邀约</el-button>
         </div>
+        <!-- edit -->
+        <EditInvite title="发起邀约" ></EditInvite>
         <el-card class="text-center" >
             <el-pagination
                 @size-change="handleSizeChange"
@@ -37,6 +39,7 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex';
+import EditInvite from '@layout/modal/sendInvite.vue';
 import Search from '@layout/search.vue';
 
 export default {
@@ -56,21 +59,32 @@ export default {
         })
     },
     components: {
-        Search
+        Search,
+        EditInvite
     },
     mounted() {
         const data = {
             act: 'getSpeakerList',
-            onError: res => {
-                console.log('success');
-            },
-            onSuccess: res => {}
+            onError: res => {},
+            onSuccess: res => {
+                console.log(res);
+            }
         };
-        console.log(data);
         this.getPageData(data);
     },
     methods: {
-        ...mapMutations(['getPageData', 'formSubmit']),
+        ...mapMutations(['getPageData', 'showModal', 'formSubmit']),
+        handleEdit(row) {
+            const obj = {
+                speakerId: row.speakerId,
+                speakerName: row.name,
+                speakDuration: '',
+                speakerTitle: '',
+                speakTimestamp: 0,
+                addTimestamp: 0
+            };
+            this.showModal(obj);
+        },
         handleSizeChange(val) {
             console.log(`每页 ${val} 条`);
         },

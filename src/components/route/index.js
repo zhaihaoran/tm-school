@@ -15,7 +15,6 @@ import Invite_received from '@comp/view/invite_received.vue'
 // 进行中
 import Underway from '@comp/view/underway.vue'
 
-import Certification_checked from '@comp/view/certifi_checked.vue'
 import Certification_check from '@comp/view/certifi_check.vue'
 import Invite_all from '@comp/view/invite_all.vue'
 import Refused from '@comp/view/refused.vue'
@@ -34,7 +33,7 @@ Vue.use(Router)
 const router = new Router({
     routes: [{
         path: '/',
-        redirect: '/invite/send'
+        redirect: '/certification/check'
     }, {
         path: '/help',
         redirect: '/help/flow/school'
@@ -62,10 +61,6 @@ const router = new Router({
         path: '/invite/received',
         name: 'invite_received',
         component: Invite_received,
-    }, {
-        path: '/certification/checked',
-        name: 'Certification_checked',
-        component: Certification_checked,
     }, {
         path: '/certification/check',
         name: 'Certification_check',
@@ -131,7 +126,7 @@ axios.interceptors.request.use(config => {
     return Promise.reject(err)
 })
 
-const home = "http://www.baidu.com"
+const home = "http://10.0.0.148/"
 
 /* 响应拦截 */
 axios.interceptors.response.use(res => {
@@ -152,6 +147,7 @@ axios.interceptors.response.use(res => {
         return res;
     } else {
         console.log("error",res.data);
+        return res;
     }
 }, err => {
     return Promise.reject(err)

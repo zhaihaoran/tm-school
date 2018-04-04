@@ -80,12 +80,13 @@ const mutations = {
     formSubmit(state, {
         onError,
         onSuccess,
+        isMessage = true,
         ...cfg
     }) {
         fetchPost({
             onError,
             onSuccess,
-            isMessage: true,
+            isMessage: isMessage,
             successText: "提交成功",
             cfg,
             errorText: "提交失败"

@@ -7,7 +7,10 @@ import {
 
 
 const state = {
-    form: {},
+    form: {
+        speakTimestamp: new Date().getTime() / 1000,
+        addTimestamp: new Date().getTime() / 1000,
+    },
     modal: false,
     speakTimestamp: 0
 }
@@ -55,7 +58,10 @@ const mutations = {
     },
     closeModal(state, cfg) {
         state.modal = false;
-        state.form = {};
+        state.form = {
+            speakTimestamp: 0,
+            addTimestamp: 0
+        };
     },
     setDateValue(state, payload) {
         state = Object.assign(state, payload)

@@ -63,6 +63,7 @@ const attrs = {
             path: "/certification/check",
             status: {
                 1: "未审核",
+                2: "已提交",
                 3: "已审核"
             },
             icon: "el-icon-phone"
@@ -171,6 +172,9 @@ module.exports = {
     Api,
     attrs,
     dateformat(timestamp, state = 0) {
+        if (timestamp < 1000) {
+            return ''
+        }
         var date = new Date(+timestamp * 1000);
         var y = date.getFullYear();
         // 月份是从0开始的！！坑死老子了

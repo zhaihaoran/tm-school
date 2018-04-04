@@ -3,6 +3,7 @@
     <el-upload
         class="avatar-uploader"
         :action="action"
+        :disabled="disabled"
         list-type="picture-card"
         :with-credentials="true"
         :show-file-list="false"
@@ -21,6 +22,10 @@ export default {
     props: {
         action: {
             type: String
+        },
+        disabled: {
+            type: Boolean,
+            default: false
         },
         preview: {
             type: String,

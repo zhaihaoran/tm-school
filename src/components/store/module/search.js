@@ -3,9 +3,6 @@ import qs from 'qs';
 import {
     Message
 } from 'element-ui';
-import {
-    dateformat
-} from '@comp/lib/api_maps'
 
 const state = {
     timerange: [], // 开始时间，结束时间
@@ -136,12 +133,11 @@ const mutations = {
             onSuccess,
             cfg,
             ActionSuccess: res => {
-                console.log(res);
                 state.chatList.push({
                     senderType: 1,
-                    senderName: "自己", // 发送者名称
+                    senderName: "我", // 发送者名称
                     message: cfg.message, // 消息
-                    addTimestamp: dateformat(new Date().getTime())
+                    addTimestamp: Math.floor(new Date().getTime()/1000)
                 })
             }
         });

@@ -10,7 +10,7 @@
                 <span>{{form.speakerName}}</span>
             </el-form-item>
             <el-form-item label="演讲主题" >
-                <el-input v-model="form.speakTitle" ></el-input>
+                <el-input placeholder="演讲主题" v-model="form.speakTitle" ></el-input>
             </el-form-item>
             <el-form-item label="演讲时间" >
                 <el-date-picker
@@ -21,7 +21,7 @@
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="演讲时长" >
-                <el-input v-model="form.speakDuration" >
+                <el-input placeholder="60分钟以上" v-model="form.speakDuration" >
                     <template slot="append">分钟</template>
                 </el-input>
             </el-form-item>
@@ -75,8 +75,8 @@ export default {
             console.log(this.speakTimestamp);
 
             this.submit({
-                act: 'modifyAppointment',
-                appointmentId: this.form.appointmentId,
+                act: 'createAppointment',
+                speakerId: this.form.speakerId,
                 speakTitle: this.form.speakTitle,
                 speakTimestamp: this.speakTimestamp / 1000,
                 speakDuration: this.form.speakDuration,

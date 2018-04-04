@@ -15,7 +15,7 @@
                     <p class="no-margin"
                         :class="{school:item.senderType ==1,speaker:item.senderType ==2,tumeng:item.senderType ==3 }"
                     >
-                        <span class="name">{{item.senderName}}</span><span class="time"> {{item.addTimestamp}}</span>
+                        <span class="name">{{item.senderName}}</span><span class="time"> {{dateformat(item.addTimestamp)}}</span>
                     </p>
                     <p class="message">
                         {{item.message}}
@@ -23,8 +23,8 @@
                 </div>
             </div>
             <el-form ref="modal_message" class="message-form">
-                <el-form-item  >
-                    <el-input class="tm-textarea" type="textarea" v-model="message" placeholder="请输入..." ></el-input>
+                <el-form-item>
+                    <el-input @keyup.native.ctrl.enter="sendMessage(scope.row)" class="tm-textarea" type="textarea" v-model="message" placeholder="ctrl + enter 快捷发送" ></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer">
@@ -34,6 +34,7 @@
     </div>
 </template>
 <script>
+import { dateformat } from '@comp/lib/api_maps';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
@@ -64,6 +65,7 @@ export default {
     },
     props: ['scope'],
     methods: {
+        dateformat,
         ...mapMutations(['getChatList', 'sendChatMsg']),
         handleChatList(row) {
             this.loading = true;
@@ -77,16 +79,9 @@ export default {
                     this.$refs.mesbox.scrollTop = this.$refs.mesbox.scrollHeight;
                 }
             });
-            // axios
-            //     .get('/admin/chatlist')
-            //     .then(res => {
-            //         const data = res.data.data.chatMessageList;
-            //         this.chatList = data;
-            //     })
-            //     .then(res => {
-            //         this.loading = false;
-            //         this.$refs.mesbox.scrollTop = this.$refs.mesbox.scrollHeight;
-            //     });
+        },
+        handleSend() {
+            console.log('haha');
         },
         sendMessage(row) {
             if (!this.message) {
