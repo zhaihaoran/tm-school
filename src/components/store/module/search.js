@@ -73,26 +73,27 @@ const mutations = {
         })
     },
     /* 删除 */
-    deleteSubmit(state, {
-        appointmentId,
-        ...cfg
-    }) {
+    deleteSubmit(state, cfg) {
         fetchPost({
-            appointmentId,
+            cfg,
+            isMessage: true,
+            successText: "删除成功",
+            errorText: "删除失败",
             onSuccess: res => {
                 // 提交成功
-                state.data = state.data.filter(el => el.appointmentId !== appointmentId);
+                state.data = state.data.filter(el => el.appointmentId !== cfg.appointmentId);
             },
-            ...cfg
         });
     },
     /* 拒绝 */
     refuse(state, cfg) {
         fetchPost({
             cfg,
+            isMessage: true,
+            successText: "操作成功",
+            errorText: "操作失败",
             onSuccess: res => {
-                // 提交成功
-                state.data = state.data.filter(el => el.appointmentId !== appointmentId);
+                state.data = state.data.filter(el => el.appointmentId !== cfg.appointmentId);
             },
         });
     },
@@ -100,8 +101,11 @@ const mutations = {
     Ok(state, cfg) {
         fetchPost({
             cfg,
+            isMessage: true,
+            successText: "操作成功",
+            errorText: "操作失败",
             onSuccess: res => {
-                console.log(res);
+                state.data = state.data.filter(el => el.appointmentId !== cfg.appointmentId);
             },
         });
     },
@@ -141,7 +145,7 @@ const mutations = {
                     senderType: 1,
                     senderName: "我", // 发送者名称
                     message: cfg.message, // 消息
-                    addTimestamp: Math.floor(new Date().getTime()/1000)
+                    addTimestamp: Math.floor(new Date().getTime() / 1000)
                 })
             }
         });

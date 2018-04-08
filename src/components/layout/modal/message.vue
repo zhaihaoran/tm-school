@@ -99,21 +99,6 @@ export default {
                         this.message = '';
                     }
                 });
-                // axios
-                //     .get('/admin/logout')
-                //     .then(res => {
-                //         this.chatList.push({
-                //             senderType: 3, // 发送者类型：1=学校；2=演讲者；3=途梦管理员
-                //             senderName: this.senderType[3], // 发送者名称
-                //             message: this.message, // 消息
-                //             addTimestamp: 123 // 添加时间戳
-                //         });
-                //     })
-                //     .then(() => {
-                //         // 将滚动条控制在最底部
-                //         this.$refs.mesbox.scrollTop = this.$refs.mesbox.scrollHeight;
-                //         this.message = '';
-                //     });
             }
         }
     }

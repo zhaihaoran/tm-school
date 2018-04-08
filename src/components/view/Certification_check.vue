@@ -113,7 +113,7 @@
                     <el-input type="textarea" :disabled="isDisabled" :rows="rows" class="info-textarea" v-model="form.whyChooseUs"></el-input>
                 </el-form-item>
                 <el-form-item label-width="0" >
-                    <el-checkbox :disabled="isDisabled" v-model="isCheck" >我已阅读并同意途梦 <a class="tm-a" href="#">用户规约</a></el-checkbox>
+                    <el-checkbox :disabled="isDisabled" v-model="isCheck" >我已阅读并同意途梦 <a class="tm-a"  @click="modal.rules=true" >用户规约</a></el-checkbox>
                 </el-form-item>
                 <div v-if="!isDisabled">
                     <el-button class="tm-border" @click="onSave('form')">保存文件</el-button>
@@ -130,6 +130,16 @@
                 <p>您可以随时登陆个人中心查看审核进展</p>
                 <span slot="footer" class="tm-modal-footer">
                     <a href="/" class="tm-btn" >去首页看看</a>
+                </span>
+            </el-dialog>
+            <!-- 用户规约 -->
+            <el-dialog width="50%" center :visible.sync="modal.rules" title="用户规约" >
+                <div class="rules-context">
+                    hahaha
+                </div>
+                <span slot="footer">
+                    <el-button class="tm-btn-border" @click="modal.rules=false">取 消</el-button>
+                    <el-button class="tm-btn" type="primary" @click="modal.rules=false" >确 定</el-button>
                 </span>
             </el-dialog>
         </div>
@@ -155,7 +165,8 @@ export default {
             rows: 8,
             form: {},
             modal: {
-                submit: false
+                submit: false,
+                rules: false
             },
             rules: {
                 name: [
@@ -460,6 +471,14 @@ export default {
     font-weight: bold;
     color: #000;
     margin-right: 20px;
+}
+
+.rules-context {
+    padding: 20px;
+    background: #f5f7fa;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 400px;
 }
 </style>
 

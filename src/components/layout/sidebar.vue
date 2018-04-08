@@ -7,10 +7,11 @@
                     :index="sidebarRender(menu,'path')" >
                     <i :class="sidebarRender(menu,'icon')"></i>
                     {{sidebarRender(menu,'name')}}
-                    <span v-if="!!sidebarRender(menu,'status')" >(
+                    <span v-if="sidebarRender(menu,'status')" >(
                         {{sidebarRender(menu,'status')[menu.status]}}
                     )</span>
                 </el-menu-item>
+                <div class="dividar" v-show="sidebarRender(menu,'dividar')" ></div>
             </router-link>
         </el-menu>
         <!-- help -->
@@ -91,3 +92,11 @@ export default {
     }
 };
 </script>
+<style lang="scss" scoped>
+.dividar {
+    height: 2px;
+    // margin: 0 5px;
+    background: #ececec;
+}
+</style>
+

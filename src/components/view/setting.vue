@@ -66,7 +66,7 @@
                 <el-col class="tm-col-5" :sm="12" :md="8" :lg="6" v-for="video in videos" :key="video.videoId" >
                     <div :class="[videoClass,{active:videoIdOfRecommended == video.videoId}]" >
                         <div class="card-image">
-                            <img class="img-fluid" :src="video.previewUrl">
+                            <img class="img-fluid min-images" :src="video.previewUrl">
                             <span class="vd-times badge">{{video.duration}}</span>
                         </div>
                         <div :href="video.linkUrl" class="card-content">
@@ -337,6 +337,11 @@ export default {
 }
 .picture-card {
     display: none;
+}
+.min-images {
+    min-height: 150px;
+    min-width: 100%;
+    background: #ececec;
 }
 </style>
 

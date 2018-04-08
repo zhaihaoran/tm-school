@@ -16,47 +16,49 @@ const attrs = {
         10101: {
             name: "发起邀约",
             path: "/invite/send",
-            icon: "el-icon-phone"
+            icon: "el-icon-phone",
+            dividar: true
         },
         10201: {
             name: "已发起邀约",
             path: "/invite/over",
-            icon: "el-icon-phone"
+            icon: "el-icon-message"
         },
         10202: {
             name: "收到的邀约",
             path: "/invite/received",
-            icon: "el-icon-phone"
+            icon: "el-icon-phone-outline"
         },
         10203: {
             name: "进行中",
             path: "/underway",
-            icon: "el-icon-phone"
+            icon: "el-icon-date"
         },
         10204: {
             name: "已完成",
             path: "/done",
-            icon: "el-icon-phone"
+            icon: "el-icon-printer"
         },
         10205: {
             name: "被拒绝",
             path: "/refused",
-            icon: "el-icon-phone"
+            icon: "el-icon-circle-close-outline"
         },
         10206: {
             name: "我拒绝",
             path: "/refuse",
-            icon: "el-icon-phone"
+            icon: "el-icon-circle-close"
         },
         10207: {
             name: "全部邀约",
             path: "/invite/all",
-            icon: "el-icon-phone"
+            icon: "el-icon-view"
         },
         10301: {
             name: "主页设置",
             path: "/setting",
-            icon: "el-icon-phone"
+            icon: "el-icon-setting",
+            dividar: true
         },
         10401: {
             name: "学校资料",
@@ -66,7 +68,7 @@ const attrs = {
                 2: "已提交",
                 3: "已审核"
             },
-            icon: "el-icon-phone"
+            icon: "el-icon-document",
         },
 
     },
