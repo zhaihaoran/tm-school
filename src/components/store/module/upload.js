@@ -19,14 +19,14 @@ const fetchData = ({
     onError,
     cfg,
     isMessage = false,
-    successText = "成功",
-    errorText = "失败",
+    successText = "上传成功",
+    errorText = "上传失败",
     ActionSuccess
 }) => {
     axios({
         url,
         headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
         },
         data: cfg
     }).then(res => {
@@ -54,9 +54,10 @@ const mutations = {
     }) {
         formCfg.append('act', 'upload');
         fetchData({
-            url: "common/",
+            url: "api/common/",
             cfg: formCfg,
             onSuccess,
+            isMessage: true,
             onError,
             ActionSuccess: res => {
                 state[previewname] = res.data.data.fileUrl
@@ -71,8 +72,9 @@ const mutations = {
         formCfg
     }) {
         fetchData({
-            url: "schoolConsole/",
+            url: "api/schoolConsole/",
             cfg: formCfg,
+            isMessage: true,
             onSuccess,
             onError,
         })

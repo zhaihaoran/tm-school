@@ -95,8 +95,7 @@ export default {
 <style lang="scss" scoped>
 .dividar {
     height: 2px;
-    // margin: 0 5px;
-    background: #ececec;
+    background: #4e4b4b;
 }
 </style>
 

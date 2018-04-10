@@ -246,6 +246,8 @@ export default {
                     this.formSubmit({
                         act: 'removePersonalPagePhoto',
                         schoolPhotoId: row.schoolPhotoId,
+                        successText: '删除成功',
+                        errorText: '删除失败',
                         onSuccess: res => {
                             const index = this.photoList.findIndex(
                                 el => el.schoolPhotoId === row.schoolPhotoId

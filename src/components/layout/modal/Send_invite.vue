@@ -68,18 +68,20 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['submit', 'setDateValue', 'closeModal']),
+        ...mapMutations(['formSubmit', 'setDateValue', 'closeModal']),
         dateformat,
         handleSubmitForm() {
             console.log(this.form);
             console.log(this.speakTimestamp);
 
-            this.submit({
+            this.formSubmit({
                 act: 'createAppointment',
                 speakerId: this.form.speakerId,
                 speakTitle: this.form.speakTitle,
                 speakTimestamp: this.speakTimestamp / 1000,
                 speakDuration: this.form.speakDuration,
+                successText: '邀约成功',
+                errorText: '邀约失败',
                 onSuccess: res => {
                     this.handleClose();
                 }

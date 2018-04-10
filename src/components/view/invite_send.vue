@@ -79,17 +79,6 @@ export default {
                 speakTimestamp: 0,
                 addTimestamp: 0
             });
-        },
-        handleInvite({ speakerId, speakTitle, speakTimestamp, speakDuration }) {
-            // 发起邀约 --- 参数对不上？ 为什么要传其他东西，不只需要id
-            const cfg = {
-                act: 'createAppointment',
-                speakerId,
-                speakTitle,
-                speakTimestamp,
-                speakDuration
-            };
-            this.formSubmit(cfg);
         }
     }
 };
