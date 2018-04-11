@@ -9,7 +9,7 @@
             <el-form-item label="演讲者" >
                 <span>{{form.speakerName}}</span>
             </el-form-item>
-            <el-form-item label="演讲主题" >
+            <el-form-item label="演讲主题" :show-overflow-tooltip="true" >
                 <el-input v-model="form.speakTitle" ></el-input>
             </el-form-item>
             <el-form-item label="演讲时间" >

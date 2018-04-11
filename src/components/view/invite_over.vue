@@ -11,7 +11,7 @@
                 <el-table-column
                     align="center"
                     prop="speakTitle"
-                    label="演讲主题"
+                    label="演讲主题" :show-overflow-tooltip="true"
                     >
                 </el-table-column>
                 <el-table-column

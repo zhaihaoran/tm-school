@@ -10,11 +10,20 @@
         <div class="tm-card">
             <Table :loading="tableLoading" :data="data" >
                 <el-table-column
+                    type="index"
+                    align="center"
+                    width="40"
+                >
+                </el-table-column>
+                <el-table-column
                     prop="status"
                     align="center"
                     label="状态">
                     <template slot-scope="scope">
-                        {{attrs["status"][scope.row.status+''+scope.row.fromSide]}}
+                        <el-tag
+                        :type="attrs['status'][scope.row.status+''+scope.row.fromSide].tags"
+                        close-transition>
+                        {{attrs["status"][scope.row.status+''+scope.row.fromSide].text}}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -22,8 +31,6 @@
                     align="center"
                     :formatter="formatAttr"
                     label="发起者"
-                    :filters="[{text: '演讲者', value: '演讲者'}, {text: '学校', value: '学校'}]"
-                    :filter-method="filterFromSide"
                 >
                     <template slot-scope="scope">
                         <el-tag
@@ -39,7 +46,7 @@
                 <el-table-column
                     prop="speakTitle"
                     align="center"
-                    label="演讲主题">
+                    label="演讲主题" :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column
                     prop="speakTimestamp"
@@ -177,10 +184,7 @@ export default {
         handleEdit(index, row) {
             this.showModal(row);
         },
-        filterFromSide(value, row, column) {
-            const property = column['property'];
-            return attrs[property][row[property]] === value;
-        },
+
         showReason(row) {
             this.getRejectDesc({
                 act: 'getRejectDescOfAppointment',

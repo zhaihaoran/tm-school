@@ -8,8 +8,6 @@
                     :formatter="formatAttr"
                     label="邀约发起者"
                     width="120px"
-                    :filters="[{text: '演讲者', value: '演讲者'}, {text: '学校', value: '学校'}]"
-                    :filter-method="filterFromSide"
                 >
                     <template slot-scope="scope">
                         <el-tag
@@ -25,7 +23,7 @@
                 <el-table-column
                     prop="speakTitle"
                     align="center"
-                    label="演讲主题">
+                    label="演讲主题" :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column
                     prop="speakTimestamp"
@@ -172,10 +170,6 @@ export default {
             'getFeedList',
             'photoUpload'
         ]),
-        filterFromSide(value, row, column) {
-            const property = column['property'];
-            return attrs[property][row[property]] === value;
-        },
         handleRemove(file, fileList) {
             console.log('remove');
             console.log(file, fileList);
