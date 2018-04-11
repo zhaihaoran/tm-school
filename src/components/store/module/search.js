@@ -48,6 +48,22 @@ const mutations = {
     updateValue(state, payload) {
         state = Object.assign(state, payload)
     },
+    setTimeRange(state, array) {
+        if (array.length == 0) {
+            state.timerange = [];
+        } else {
+            state.timerange = [array[0] / 1000, array[1] / 1000]
+        }
+    },
+    /* 更新data中一行数据 */
+    updatelist(state, row) {
+        state.data.map(el => {
+            if (+el.addTimestamp === +row.addTimestamp) {
+                return Object.assign(el, row)
+            }
+            return el;
+        })
+    },
     resetValue(state) {
         state = {
             timerange: [], // 开始时间，结束时间

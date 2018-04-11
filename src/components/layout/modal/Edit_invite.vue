@@ -71,19 +71,21 @@ export default {
         ...mapMutations(['formSubmit', 'setDateValue', 'closeModal']),
         dateformat,
         handleSubmitForm() {
-            console.log(this.form);
-            console.log(this.speakTimestamp);
-
-            this.formSubmit({
-                act: 'modifyAppointment',
+            let cfg = {
                 appointmentId: this.form.appointmentId,
                 speakTitle: this.form.speakTitle,
                 speakTimestamp: this.speakTimestamp / 1000,
                 speakDuration: this.form.speakDuration,
+                addTimestamp: this.form.addTimestamp
+            };
+
+            this.formSubmit({
+                act: 'modifyAppointment',
+                ...cfg,
                 successText: '修改成功',
                 errorText: '修改失败',
                 onSuccess: res => {
-                    // todo : 需要做修改之后的数据处理
+                    this.updatelist(cfg);
                     this.handleClose();
                 }
             });

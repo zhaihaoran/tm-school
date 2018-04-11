@@ -74,7 +74,7 @@
                             <div class="vd-extra">
                                 <span>演讲者：{{video.speakerName}}</span>
                                 <span>学校：{{video.schoolName}}</span>
-                                <span>{{video.addTimestamp}} <span class="text-right" >{{video.playTimes}} 次播放</span> </span>
+                                <span>{{dateformat(video.addTimestamp)}} <span class="text-right" >{{video.playTimes}} 次播放</span> </span>
                             </div>
                         </div>
                         <span @click="recommend(video,videoIdOfRecommended == video.videoId)" class="bages"><i class="el-icon-upload2"></i>推荐</span>
@@ -101,7 +101,7 @@ import '@comp/lib/velocity.min.js';
 import '@comp/lib/materialbox.js';
 import { mapState, mapMutations } from 'vuex';
 
-import { Api } from '@comp/lib/api_maps';
+import { Api, dateformat } from '@comp/lib/api_maps';
 
 import Cropper from '@layout/modal/Cropper.vue';
 
@@ -161,6 +161,7 @@ export default {
         })
     },
     methods: {
+        dateformat,
         ...mapMutations([
             'update',
             'getFormData',

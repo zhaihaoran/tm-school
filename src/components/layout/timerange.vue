@@ -59,13 +59,11 @@ export default {
     computed: {
         timerange: {
             set(value) {
-                this.$store.commit('updateValue', {
-                    // 当清空时，设为[]
-                    timerange: value || []
-                });
+                this.$store.commit('setTimeRange', value || []);
             },
             get() {
-                return this.$store.state.search.timerange;
+                let ary = this.$store.state.search.timerange;
+                return [ary[0] * 1000, ary[1] * 1000];
             }
         }
     },
@@ -80,7 +78,7 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['updateValue'])
+        ...mapMutations(['setTimeRange'])
     }
 };
 </script>
