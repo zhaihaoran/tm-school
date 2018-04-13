@@ -1,6 +1,6 @@
 <template>
     <div class="tm-card" >
-        <el-radio-group  v-model="orderType" >
+        <el-radio-group  v-model="orderType" @change="handleSearch" >
             <el-radio-button label="0">综合排序</el-radio-button>
             <el-radio-button label="1">最近演讲</el-radio-button>
             <el-radio-button label="2">最近邀约</el-radio-button>

@@ -34,6 +34,7 @@
     </div>
 </template>
 <script>
+import Vue from 'vue';
 import { dateformat } from '@comp/lib/api_maps';
 import { mapState, mapMutations } from 'vuex';
 
@@ -48,14 +49,6 @@ export default {
             loading: false,
             modal: false,
             message: ''
-            // chatList: [
-            //     {
-            //         senderType: 1, // 发送者类型：1=学校；2=演讲者；3=途梦管理员
-            //         senderName: '', // 发送者名称
-            //         message: '', // 消息
-            //         addTimestamp: 123 // 添加时间戳
-            //     }
-            // ]
         };
     },
     computed: {
@@ -76,12 +69,15 @@ export default {
                 appointmentId: row.appointmentId,
                 onSuccess: res => {
                     this.loading = false;
-                    this.$refs.mesbox.scrollTop = this.$refs.mesbox.scrollHeight;
+                    /**
+                     * 由于拿到数据后还没渲染呢,需要通过异步更新队列来实现滚动条置底的功能点
+                     * nextTick 在dom更新循环结束之后执行延迟回调，获取更新后的dom,这正是我想要的！
+                     */
+                    this.$nextTick(function() {
+                        this.$refs.mesbox.scrollTop = this.$refs.mesbox.scrollHeight;
+                    });
                 }
             });
-        },
-        handleSend() {
-            console.log('haha');
         },
         sendMessage(row) {
             if (!this.message) {

@@ -7,8 +7,11 @@
                 </div>
             </template>
         </Search>
+        <div class="tm-card center" v-show="data.length<1" >
+            <img :src="emptyImage" class="img-fluid" alt="empty">
+        </div>
         <div v-for="person in data" :key="person.$index" class="tm-card in-card">
-            <a href="/home_lecturer.html" class="card-image">
+            <a :href="handleHomePage(person.speakerId)" class="card-image">
                 <img :src="person.personalPageLinkUrl" class="img-fluid" :alt="person.name">
             </a>
             <div class="card-wrapper">
@@ -24,7 +27,7 @@
         <!-- edit -->
         <EditInvite title="发起邀约" ></EditInvite>
         <el-card class="text-center" >
-            <Pagination :cfg="searchCfg" :count="count" ></Pagination>
+            <Pagination classes="center" :cfg="searchCfg" :count="count" ></Pagination>
         </el-card>
     </div>
 </template>
@@ -34,9 +37,12 @@ import Pagination from '@layout/Pagination.vue';
 import EditInvite from '@layout/modal/Send_invite.vue';
 import Search from '@layout/Search.vue';
 
+import emptyImage from '@image/empty.png';
+
 export default {
     data() {
         return {
+            emptyImage,
             searchCfg: {
                 act: 'getSpeakerList',
                 orderType: this.orderType,
@@ -79,6 +85,9 @@ export default {
                 speakTimestamp: 0,
                 addTimestamp: 0
             });
+        },
+        handleHomePage(id) {
+            return `/speaker/speakerId/${id}`;
         }
     }
 };

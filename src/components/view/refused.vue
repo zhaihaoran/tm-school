@@ -22,6 +22,7 @@
                 <el-table-column
                     prop="speakTimestamp"
                     align="center"
+                    width="140"
                     label="演讲时间">
                     <template slot-scope="scope">
                         {{dateformat(scope.row.speakTimestamp)}}
@@ -35,6 +36,7 @@
                 <el-table-column
                     prop="addTimestamp"
                     align="center"
+                    width="140"
                     label="发起邀约时间">
                     <template slot-scope="scope">
                         {{dateformat(scope.row.addTimestamp)}}

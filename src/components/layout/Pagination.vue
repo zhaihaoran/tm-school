@@ -5,7 +5,7 @@
         layout="total, prev, pager, next"
         :total="count"
         @current-change="pageCurrentChange"
-        class="flex-end"
+        :class="classes"
     >
     </el-pagination>
 </template>
@@ -18,6 +18,10 @@ export default {
         };
     },
     props: {
+        classes: {
+            type: String,
+            default: 'flex-end'
+        },
         page: {
             type: Number,
             default: 1
