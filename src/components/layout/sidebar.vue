@@ -5,7 +5,7 @@
             <router-link v-for="menu in menuList" :key="menu.$index" :to="sidebarRender(menu,'path')" >
                 <el-menu-item class="sider-menu-item"
                     :index="sidebarRender(menu,'path')" >
-                    <i :class="sidebarRender(menu,'icon')"></i>
+                    <i :class="[iconfont,sidebarRender(menu,'icon')]"></i>
                     {{sidebarRender(menu,'name')}}
                     <span v-if="sidebarRender(menu,'status')" >(
                         {{sidebarRender(menu,'status')[menu.status]}}
@@ -42,31 +42,18 @@
 </template>
 
 <script>
-import axios from 'axios';
-import qs from 'qs';
-import { attrs, sidebarRender } from '@comp/lib/api_maps';
+import { sidebarRender } from '@comp/lib/api_maps';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
     data() {
         return {
-            attrs,
-            menuList: {},
-            path: this.$route.path
+            path: this.$route.path,
+            iconfont: 'icon iconfont sd-icon'
         };
     },
     mounted() {
-        axios({
-            data: qs.stringify({
-                act: 'getMenuList'
-            })
-        }).then(res => {
-            const menus = res.data.data.menuList;
-            this.menuList = menus;
-            const checkState = +menus.find(el => el.menuId == 10401).status;
-            console.log(checkState);
-            this.setValue({ checkState });
-        });
+        this.getMenuList();
         this.changeSidebarView();
     },
     updated() {
@@ -76,11 +63,13 @@ export default {
     computed: mapState({
         help: state => state.common.help_sidebar,
         main: state => state.common.common_sidebar,
-        sidebarState: state => state.common.sidebar_toggle
+        sidebarState: state => state.common.sidebar_toggle,
+        menuList: state => state.common.menuList,
+        users: state => state.common.users
     }),
     methods: {
         sidebarRender,
-        ...mapMutations(['setValue', 'switchSidebarView']),
+        ...mapMutations(['getMenuList', 'switchSidebarView']),
         changeSidebarView() {
             this.path = this.$route.path;
             if (this.path.indexOf('help') > -1) {
@@ -96,6 +85,10 @@ export default {
 .dividar {
     height: 2px;
     background: #4e4b4b;
+}
+.sd-icon {
+    margin-right: 8px;
+    font-size: 16px;
 }
 </style>
 

@@ -17,6 +17,10 @@ $sider_item_active: rgb(29, 27, 27);
 $context_bg: rgb(236, 236, 236);
 // shadow
 
+.tm-color {
+    color: $primary-color;
+}
+
 .flow-step {
     height: 800px;
     padding: 40px;
@@ -54,7 +58,7 @@ a {
 }
 
 .avatar-uploader .el-upload--picture-card {
-    width: 380px;
+    width: 250px;
     height: 250px;
     line-height: 250px;
     overflow: hidden;
@@ -266,7 +270,7 @@ a {
         }
         .user-logo {
             img {
-                height: 50px;
+                height: 45px;
             }
         }
     }

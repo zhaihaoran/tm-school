@@ -21,7 +21,7 @@ const mutations = {
         formCfg
     }) {
         formCfg.append('act', 'upload');
-        Util.fetchData({
+        Util.uploadPost({
             url: "api/common/",
             cfg: formCfg,
             onSuccess,
@@ -39,7 +39,7 @@ const mutations = {
         onError,
         formCfg
     }) {
-        Util.fetchData({
+        Util.uploadPost({
             url: "api/schoolConsole/",
             cfg: formCfg,
             isMessage: true,

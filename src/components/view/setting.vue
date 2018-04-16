@@ -1,9 +1,10 @@
 <template>
-    <el-tabs type="border-card">
-        <el-tab-pane label="通用">
+    <el-tabs @tab-click="handleLoading" v-model="activeName" type="border-card">
+        <el-tab-pane name="common" v-loading="loading.form" label="通用">
             <el-form :model="form" :rules="rules" ref="form" label-width="100px" class="setting-form" >
                 <el-form-item label="头像">
                     <Cropper
+                        classes="avatar-uploader"
                         v-on:update="handleUpdateCropperUrl"
                         filepathname="pathfilename"
                         previewname="photoUrl"
@@ -36,7 +37,7 @@
                 <el-button type="primary" @click="onSubmit('form')">保存</el-button>
             </el-form>
         </el-tab-pane>
-        <el-tab-pane label="相册">
+        <el-tab-pane name="photo" v-loading="loading.pictures" label="相册">
             <div class="upload-pic">
                 <el-upload
                     :action="Api.upload"
@@ -57,16 +58,27 @@
                     暂无图片
                 </div>
                 <el-col class="tm-col-5 pic-cube" :sm="12" :md="8" :lg="6" v-for="photo in photoList" :key="photo.schoolPhotoId" v-dragging="{ item: photo, list: photoList, group: 'photo' }" >
-                    <img @click="handleDeletePic(photo)" ref="photo" :src="photo.photoUrl" class="img-fluid" :time="photo.addTimestamp">
+                    <img ref="photo" :src="photo.photoUrl" class="img-fluid" :time="photo.addTimestamp">
+                    <div class="op_context">
+                        <span class="photo-cube" @click="handleDeletePic(photo)">
+                            <i class="el-icon-delete"></i>
+                        </span>
+                        <span class="photo-cube" @click="handleShowPic(photo)">
+                            <i class="el-icon-view"></i>
+                        </span>
+                    </div>
                 </el-col>
             </el-row>
+            <el-dialog :visible.sync="dialogVisible">
+                <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
         </el-tab-pane>
-        <el-tab-pane label="视频">
+        <el-tab-pane name="video" v-loading="loading.videos" label="视频">
             <el-row :gutter="10">
-                <el-col class="tm-col-5" :sm="12" :md="8" :lg="6" v-for="video in videos" :key="video.videoId" >
+                <el-col class="tm-col-5 card-wrapper" :sm="12" :md="8" :lg="6" v-for="video in videos" :key="video.videoId" >
                     <div :class="[videoClass,{active:videoIdOfRecommended == video.videoId}]" >
                         <div class="card-image">
-                            <img class="img-fluid min-images" :src="video.previewUrl">
+                            <img class="min-images" :src="video.previewUrl">
                             <span class="vd-times badge">{{video.duration}}</span>
                         </div>
                         <div :href="video.linkUrl" class="card-content">
@@ -96,18 +108,22 @@
     </el-tabs>
 </template>
 <script>
-import jQuery from 'jquery';
-import '@comp/lib/velocity.min.js';
-import '@comp/lib/materialbox.js';
 import { mapState, mapMutations } from 'vuex';
-
 import { Api, dateformat } from '@comp/lib/api_maps';
-
 import Cropper from '@layout/modal/Cropper.vue';
 
 export default {
     data() {
         return {
+            dialogImageUrl: '',
+            dialogVisible: false,
+            form: {},
+            activeName: 'common',
+            loading: {
+                form: false,
+                pictures: false,
+                videos: false
+            },
             photoList: [],
             videoClass: {
                 video: true,
@@ -119,40 +135,15 @@ export default {
             count: 0,
             rules: {},
             videos: [],
-            Api,
-            form: {}
+            Api
         };
     },
     mounted() {
         this.$dragging.$on('dragged', ({ value }) => {
             console.log('hahaha');
         });
-        $(this.$refs.photo).materialbox();
 
-        this.getFormData({
-            act: 'getPersonalPageGeneral',
-            onSuccess: res => {
-                this.form = res.data.data;
-            }
-        });
-
-        /* 相册数据 */
-        this.getArrayData({
-            act: 'getPersonalPagePhotoList',
-            onSuccess: res => {
-                this.photoList = res.data.data.photoList;
-            }
-        });
-
-        /* 视频信息 */
-        this.getArrayData({
-            act: 'getPersonalPageVideoList',
-            onSuccess: res => {
-                this.videos = res.data.data.data;
-                this.count = +res.data.data.count;
-                this.videoIdOfRecommended = res.data.data.videoIdOfRecommended;
-            }
-        });
+        this.handleForm();
     },
     computed: {
         ...mapState({
@@ -169,6 +160,62 @@ export default {
             'getArrayData',
             'photoUpload'
         ]),
+        handleLoading(context) {
+            switch (context.name) {
+                case 'common':
+                    this.handleForm();
+                    break;
+                case 'photo':
+                    this.handlePics();
+                    break;
+                case 'video':
+                    this.handleVideos();
+                    break;
+            }
+        },
+        /* 预览照片 */
+        handleShowPic(photo) {
+            this.dialogImageUrl = photo.photoUrl;
+            this.dialogVisible = true;
+        },
+        /* 加载表单数据 */
+        handleForm() {
+            this.loading.form = true;
+            this.getFormData({
+                act: 'getPersonalPageGeneral',
+                onSuccess: res => {
+                    this.form = res.data.data;
+                    this.loading.form = false;
+                }
+            });
+        },
+        /* 加载图片数据 */
+        handlePics() {
+            this.loading.pictures = true;
+            /* 相册数据 */
+            this.getArrayData({
+                act: 'getPersonalPagePhotoList',
+                onSuccess: res => {
+                    this.photoList = res.data.data.photoList;
+                    this.loading.pictures = false;
+                }
+            });
+        },
+        /* 加载视频数据 */
+        handleVideos() {
+            this.loading.videos = true;
+            /* 视频信息 */
+            this.getArrayData({
+                act: 'getPersonalPageVideoList',
+                onSuccess: res => {
+                    this.videos = res.data.data.data;
+                    this.count = +res.data.data.count;
+                    this.videoIdOfRecommended =
+                        res.data.data.videoIdOfRecommended;
+                    this.loading.videos = false;
+                }
+            });
+        },
         /* 设置cropperUrl */
         handleUpdateCropperUrl(obj) {
             this.form.profilePhotoUrl = obj.fileUrl;
@@ -266,6 +313,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped >
+.avatar {
+    .el-upload--picture-card {
+        width: 200px;
+        height: 200px;
+        line-height: 200px;
+    }
+}
 .setting-form {
     max-width: 500px;
     padding: 30px;
@@ -284,9 +338,6 @@ export default {
 .el-upload-list--picture .el-upload-list__item {
     max-width: 300px;
     margin-right: 10px;
-}
-.pic-cube {
-    margin: 5px 0;
 }
 
 .video {
@@ -338,13 +389,51 @@ export default {
     width: 500px;
     height: 500px;
 }
-.picture-card {
-    display: none;
+
+.card-wrapper {
+    max-width: 240px;
 }
+
 .min-images {
     min-height: 150px;
     min-width: 100%;
     background: #ececec;
+}
+
+.pic-cube {
+    position: relative;
+    height: 200px;
+    background: #dedcdc;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    &:hover {
+        .op_context {
+            visibility: visible;
+            .photo-cube {
+            }
+        }
+    }
+    .op_context {
+        font-size: 24px;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        visibility: hidden;
+        top: 0;
+        left: 0;
+        .photo-cube {
+            margin: 5px 10px;
+            cursor: pointer;
+        }
+    }
 }
 </style>
 
