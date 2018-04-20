@@ -22,14 +22,15 @@
                     </p>
                 </div>
             </div>
-            <el-form ref="modal_message" class="message-form">
+            <el-form ref="modal_message" v-if="canSend" class="message-form">
                 <el-form-item>
                     <el-input @keyup.native.ctrl.enter="sendMessage(scope.row)" class="tm-textarea" type="textarea" v-model="message" placeholder="ctrl + enter 快捷发送" ></el-input>
                 </el-form-item>
             </el-form>
-            <span slot="footer">
+            <span slot="footer" v-if="canSend" >
                 <el-button class="tm-btn" type="primary" @click="sendMessage(scope.row)">发送</el-button>
             </span>
+            <div v-else class="msg-bottom" ></div>
         </el-dialog>
     </div>
 </template>
@@ -56,7 +57,15 @@ export default {
             chatList: state => state.search.chatList
         })
     },
-    props: ['scope'],
+    props: {
+        scope: {
+            type: Object
+        },
+        canSend: {
+            type: Boolean,
+            default: true
+        }
+    },
     methods: {
         dateformat,
         ...mapMutations(['getChatList', 'sendChatMsg']),
@@ -162,6 +171,9 @@ export default {
     font-weight: normal;
     font-size: 18px;
     margin: 0 0 15px;
+}
+.msg-bottom {
+    height: 50px;
 }
 </style>
 

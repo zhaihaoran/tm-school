@@ -27,7 +27,7 @@
         <!-- edit -->
         <EditInvite title="发起邀约" ></EditInvite>
         <el-card class="text-center" >
-            <Pagination classes="center" :cfg="searchCfg" :count="count" ></Pagination>
+            <Pagination classes="center offer-pagination" :cfg="searchCfg" :count="count" ></Pagination>
         </el-card>
     </div>
 </template>

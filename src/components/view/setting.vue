@@ -148,7 +148,7 @@ export default {
     computed: {
         ...mapState({
             pathfilename: state => state.upload.pathfilename,
-            photoUrl: state => state.search.photoUrl
+            photoUrl: state => state.upload.photoUrl
         })
     },
     methods: {
@@ -232,9 +232,6 @@ export default {
                 });
             }
         },
-        handleSetPathFileName(res) {
-            console.log(res);
-        },
         onSubmit(form) {
             const cfg = Object.assign(this.form, {
                 profilePhotoShortPathFilename: this.pathfilename,
@@ -257,9 +254,6 @@ export default {
                     return false;
                 }
             });
-        },
-        resetForm(formName) {
-            this.$refs[formName].resetFields();
         },
         handleExceed(files, fileList) {
             this.$message.warning(
