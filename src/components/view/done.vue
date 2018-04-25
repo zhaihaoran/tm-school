@@ -1,7 +1,14 @@
 <template>
     <div>
+        <Search :cfg="searchCfg" >
+            <template slot-scope="props" >
+                <div class="search-input">
+                    <TimeRange></TimeRange>
+                </div>
+            </template>
+        </Search>
         <div class="tm-card">
-            <Table :loading="loading" :data="data" >
+            <Table :loading="tableLoading" :data="data" >
                 <el-table-column
                     prop="fromSide"
                     align="center"
@@ -18,7 +25,7 @@
                 <el-table-column
                     prop="speakerName"
                     align="center"
-                    label="演讲者">
+                    label="梦享者">
                 </el-table-column>
                 <el-table-column
                     prop="speakTitle"
@@ -56,12 +63,16 @@
                     </template>
                 </el-table-column>
             </Table>
+            <Pagination :cfg="searchCfg" :count="count" ></Pagination>
         </div>
     </div>
 </template>
 <script>
 import MessageBox from '@layout/modal/Message.vue';
 import Table from '@layout/Table.vue';
+import Pagination from '@layout/Pagination.vue';
+import Search from '@layout/Search.vue';
+import TimeRange from '@layout/TimeRange.vue';
 
 import {
     attrs,
@@ -74,7 +85,14 @@ import { mapState, mapMutations } from 'vuex';
 export default {
     data() {
         return {
-            attrs
+            attrs,
+            searchCfg: {
+                act: 'getAppointmentList',
+                status: 3,
+                orderType: this.orderType,
+                speakTimestampStart: undefined,
+                speakTimestampEnd: undefined
+            }
         };
     },
     mounted() {
@@ -87,11 +105,21 @@ export default {
             }
         );
     },
-    components: { MessageBox, Table },
+    components: {
+        MessageBox,
+        Table,
+        Pagination,
+        Search,
+        TimeRange
+    },
     computed: {
         ...mapState({
             data: state => state.search.data,
-            loading: state => state.search.tableLoading
+            tableLoading: state => state.search.tableLoading,
+            orderType: state => state.search.orderType,
+            timerange: state => state.search.timerange,
+            count: state => state.search.count,
+            status: state => state.search.status
         })
     },
     methods: {

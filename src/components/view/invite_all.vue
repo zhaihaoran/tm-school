@@ -41,7 +41,7 @@
                 <el-table-column
                     prop="speakerName"
                     align="center"
-                    label="演讲者">
+                    label="梦享者">
                 </el-table-column>
                 <el-table-column
                     prop="speakTitle"
@@ -82,7 +82,7 @@
                     prop="speakerStatus"
                     align="center"
                     :formatter="formatAttr"
-                    label="演讲者进展">
+                    label="梦享者进展">
                 </el-table-column>
                 <el-table-column
                     prop="reason"

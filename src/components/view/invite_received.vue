@@ -1,11 +1,18 @@
 <template>
     <div>
+        <Search :cfg="searchCfg" >
+            <template slot-scope="props" >
+                <div class="search-input">
+                    <TimeRange></TimeRange>
+                </div>
+            </template>
+        </Search>
         <div class="tm-card">
             <Table :data="data" >
                 <el-table-column
                     align="center"
                     prop="speakerName"
-                    label="演讲者"
+                    label="梦享者"
                     >
                 </el-table-column>
                 <el-table-column
@@ -48,31 +55,43 @@
                     </template>
                 </el-table-column>
             </Table>
+            <Pagination :cfg="searchCfg" :count="count" ></Pagination>
             <!-- edit -->
             <EditInvite></EditInvite>
         </div>
     </div>
 </template>
 <script>
-import Operation from '@layout/Operation.vue';
-import EditInvite from '@layout/modal/Edit_invite.vue';
-import MessageBox from '@layout/modal/Message.vue';
-import Table from '@layout/Table.vue';
-
+import { mapState, mapMutations } from 'vuex';
 import {
     attrs,
     formatAttr,
     dateformat,
     commonPageInit
 } from '@comp/lib/api_maps.js';
-import { mapState, mapMutations } from 'vuex';
+
+import Operation from '@layout/Operation.vue';
+import EditInvite from '@layout/modal/Edit_invite.vue';
+import MessageBox from '@layout/modal/Message.vue';
+import Table from '@layout/Table.vue';
+import Pagination from '@layout/Pagination.vue';
+import Search from '@layout/Search.vue';
+import TimeRange from '@layout/TimeRange.vue';
 
 export default {
     data() {
         return {
             attrs,
             form: {},
-            modal_edit: false
+            modal_edit: false,
+            searchCfg: {
+                act: 'getAppointmentList',
+                status: 1,
+                fromSide: 2,
+                orderType: this.orderType,
+                speakTimestampStart: undefined,
+                speakTimestampEnd: undefined
+            }
         };
     },
     mounted() {
@@ -89,7 +108,11 @@ export default {
     computed: {
         ...mapState({
             data: state => state.search.data,
-            tableLoading: state => state.search.tableLoading
+            tableLoading: state => state.search.tableLoading,
+            orderType: state => state.search.orderType,
+            timerange: state => state.search.timerange,
+            count: state => state.search.count,
+            status: state => state.search.status
         })
     },
     methods: {
@@ -108,7 +131,10 @@ export default {
         Operation,
         MessageBox,
         Table,
-        EditInvite
+        EditInvite,
+        Pagination,
+        Search,
+        TimeRange
     }
 };
 </script>

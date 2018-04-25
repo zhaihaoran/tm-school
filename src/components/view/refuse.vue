@@ -3,16 +3,16 @@
         <Search :cfg="searchCfg" >
             <template slot-scope="props" >
                 <div class="search-input">
-                    <el-input type="search" placeholder="搜索关键字" v-model="searchCfg.searchText" ></el-input>
+                    <TimeRange></TimeRange>
                 </div>
             </template>
         </Search>
         <div class="tm-card">
-            <Table :data="data" >
+            <Table :data="data" :loading="tableLoading" >
                 <el-table-column
                     prop="speakerName"
                     align="center"
-                    label="演讲者">
+                    label="梦享者">
                 </el-table-column>
                 <el-table-column
                     prop="speakTitle"
@@ -70,6 +70,8 @@ import Search from '@layout/Search.vue';
 import Pagination from '@layout/Pagination.vue';
 import Table from '@layout/Table.vue';
 import MessageBox from '@layout/modal/Message.vue';
+import TimeRange from '@layout/TimeRange.vue';
+
 export default {
     data() {
         return {
@@ -78,7 +80,8 @@ export default {
                 orderType: this.orderType,
                 status: 4,
                 fromSide: 2,
-                searchText: ''
+                speakTimestampStart: undefined,
+                speakTimestampEnd: undefined
             }
         };
     },
@@ -95,15 +98,15 @@ export default {
     },
     computed: {
         ...mapState({
-            orderType: state => state.search.orderType,
             data: state => state.search.data,
+            tableLoading: state => state.search.tableLoading,
+            orderType: state => state.search.orderType,
+            timerange: state => state.search.timerange,
             count: state => state.search.count,
-            loading: state => state.search.tableLoading,
-            page: state => state.search.page,
-            perPage: state => state.search.perPage
+            status: state => state.search.status
         })
     },
-    components: { Search, MessageBox, Table, Pagination },
+    components: { Search, MessageBox, Table, Pagination, TimeRange },
     methods: {
         dateformat,
         ...mapMutations([

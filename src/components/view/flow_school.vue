@@ -3,8 +3,8 @@
         <el-steps direction="vertical" class="flow-step" >
             <el-step title="注册账号"></el-step>
             <el-step title="填写申请表"></el-step>
-            <el-step title="邀约演讲者"></el-step>
-            <el-step title="登录管理中心与演讲者处理邀约事宜"></el-step>
+            <el-step title="邀约梦享者"></el-step>
+            <el-step title="登录管理中心与梦享者处理邀约事宜"></el-step>
             <el-step class="step-click" title="下载ClassIn教学工具" @click.native="redirect('https://www.baidu.com')" ></el-step>
             <el-step title="等待途梦联系处理上课流程"></el-step>
             <el-step title="上课"></el-step>

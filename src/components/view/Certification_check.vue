@@ -36,10 +36,17 @@
                 </el-form-item>
                 <el-form-item label="开课教室图片" >
                     <Upload filepathname="classroomPhotoShortPathFilename" previewname="classroomPhotoUrl" :action="Api.upload" :disabled="isDisabled" :preview="classroomPhotoUrl" ></Upload>
+                    <div class="pic-info">
+                        <h3>请拍摄学校的外景，尽量包含学校的名字</h3>
+                        <p class="info-p">图片类型：JPG、PNG</p>
+                        <p class="info-p">图片大小：不超过5M</p>
+                        <h3 class="mm">样例</h3>
+                        <img :src="schoolDemo" class="img-fluid" alt="demo">
+                    </div>
                 </el-form-item>
                 <div class="individar"></div>
                 <h3 class="info-h3" >贫困学校申请</h3>
-                <p class="info-p">普通学校可以享受6次免费演讲分享，之后将收取费用用于公益事业</p>
+                <p class="info-p">普通学校可以享受3次免费演讲分享，之后将收取费用用于公益事业</p>
                 <p class="info-p">贫困学校可以完全享受免费的演讲分享</p>
                 <p class="info-p">如果您的学校符合贫困条件，请填写相关信息</p>
                 <el-form-item prop="poorDesc" label-width="0" >
@@ -79,7 +86,7 @@
                             </el-radio-group>
                         </div>
                         <div class="cube">
-                            <p>3.多媒体教师（有投影或显示设备）</p>
+                            <p>3.多媒体教室（有投影或显示设备）</p>
                             <el-radio-group :disabled="isDisabled" v-model="form.haveMultimediaClassroom">
                                 <el-radio label="0">是</el-radio>
                                 <el-radio label="1">否</el-radio>
@@ -138,8 +145,7 @@
                     hahaha
                 </div>
                 <span slot="footer">
-                    <el-button class="tm-btn-border" @click="modal.rules=false">取 消</el-button>
-                    <el-button class="tm-btn" type="primary" @click="modal.rules=false" >确 定</el-button>
+                    <el-button class="tm-btn-border" @click="modal.rules=false">关闭</el-button>
                 </span>
             </el-dialog>
         </div>

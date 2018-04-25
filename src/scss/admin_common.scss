@@ -58,7 +58,7 @@ a {
 }
 
 .avatar-uploader .el-upload--picture-card {
-    width: 250px;
+    width: 375px;
     height: 250px;
     line-height: 250px;
     overflow: hidden;
@@ -118,6 +118,7 @@ a {
     }
     &:active:focus {
         box-shadow: none !important;
+        background: inherit;
     }
 }
 
@@ -259,11 +260,15 @@ a {
         list-style: none;
         justify-content: flex-end;
         flex: 1;
+
         .nav-header-item {
             display: flex;
             align-items: center;
             padding: 0 20px;
             color: #fff;
+            &.active {
+                background: #ac2030;
+            }
             a {
                 color: #fff;
             }
@@ -271,6 +276,7 @@ a {
         .user-logo {
             img {
                 height: 45px;
+                border-radius: 30px;
             }
         }
     }

@@ -29,7 +29,7 @@ Vue.use(Router)
 const router = new Router({
     routes: [{
         path: '/',
-        redirect: '/certification/check'
+        redirect: '/invite/received'
     }, {
         path: '/certification/check',
         name: 'Certification_check',

@@ -6,7 +6,7 @@
         :before-close="handleClose"
     >
         <el-form ref="form" :model="form" label-width="80px" >
-            <el-form-item label="演讲者" >
+            <el-form-item label="梦享者" >
                 <span>{{form.speakerName}}</span>
             </el-form-item>
             <el-form-item label="演讲主题" :show-overflow-tooltip="true" >
@@ -14,9 +14,8 @@
             </el-form-item>
             <el-form-item label="演讲时间" >
                 <el-date-picker
-                    v-model.number="speakTimestamp"
+                    v-model="timestamp"
                     type="datetime"
-                    value-format="timestamp"
                     placeholder="选择日期时间">
                 </el-date-picker>
             </el-form-item>
@@ -44,37 +43,44 @@ import {
 } from '@comp/lib/api_maps.js';
 
 export default {
+    data() {
+        return {
+            timestamp: ''
+        };
+    },
     props: {
         title: {
             type: String,
             default: ''
         }
     },
+    watch: {
+        speakTimestamp(val) {
+            this.timestamp = !!val ? new Date(+val * 1000) : '';
+        }
+    },
     computed: {
         ...mapState({
             form: state => state.modal.form,
-            modal: state => state.modal.modal
-        }),
-        speakTimestamp: {
-            set(value) {
-                console.log(value);
-                this.$store.commit('setDateValue', {
-                    speakTimestamp: value / 1000
-                });
-            },
-            get() {
-                return this.$store.state.modal.speakTimestamp * 1000;
-            }
-        }
+            modal: state => state.modal.modal,
+            speakTimestamp: state => state.modal.speakTimestamp
+        })
     },
     methods: {
-        ...mapMutations(['formSubmit', 'setDateValue', 'closeModal']),
+        ...mapMutations([
+            'formSubmit',
+            'setDateValue',
+            'closeModal',
+            'updatelist'
+        ]),
         dateformat,
         handleSubmitForm() {
             let cfg = {
                 appointmentId: this.form.appointmentId,
                 speakTitle: this.form.speakTitle,
-                speakTimestamp: this.speakTimestamp / 1000,
+                speakTimestamp: Math.floor(
+                    new Date(this.timestamp).getTime() / 1000
+                ),
                 speakDuration: this.form.speakDuration,
                 addTimestamp: this.form.addTimestamp
             };

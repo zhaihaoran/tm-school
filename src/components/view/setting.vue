@@ -84,7 +84,7 @@
                         <div :href="video.linkUrl" class="card-content">
                             <span class="card-title grey-333">{{video.videoTitle}}</span>
                             <div class="vd-extra">
-                                <span>演讲者：{{video.speakerName}}</span>
+                                <span>梦享者：{{video.speakerName}}</span>
                                 <span>学校：{{video.schoolName}}</span>
                                 <span>{{dateformat(video.addTimestamp)}} <span class="text-right" >{{video.playTimes}} 次播放</span> </span>
                             </div>

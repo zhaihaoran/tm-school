@@ -1,9 +1,11 @@
 <template>
     <div v-loading="loading" >
-        <Search :cfg="searchCfg" >
+        <!-- 如何在外部调用组件内的方法 -->
+        <!-- 最简单：在组件上加ref，直接在外部就可以掉组件内部方法 -->
+        <Search left-text="无排序" center-text="邀约数" right-text="受益人次" :cfg="searchCfg" ref="sr_component" >
             <template slot-scope="props" >
                 <div class="search-input">
-                    <el-input type="search" placeholder="搜索关键字" v-model="searchCfg.searchText" ></el-input>
+                    <el-input type="search" @keyup.native.enter="handleSearch" placeholder="搜索关键字" v-model="searchCfg.searchText" ></el-input>
                 </div>
             </template>
         </Search>
@@ -12,20 +14,20 @@
         </div>
         <div v-for="person in data" :key="person.$index" class="tm-card in-card">
             <a :href="handleHomePage(person.speakerId)" class="card-image">
-                <img :src="person.personalPageLinkUrl" class="img-fluid" :alt="person.name">
+                <img :src="person.profilePhotoUrl" class="img-fluid" :alt="person.name">
             </a>
             <div class="card-wrapper">
                 <p class="no-margin" ><span class="teacher-name" >{{person.name}}</span>{{person.speakerShortDesc}}</p>
                 <p>
                     <span class="num tm-text-color" >{{person.appointmentTimes}}</span>邀约数
-                    <span class="num tm-text-color" style="margin-left:20px;" >{{person.benefitPeopleTimes}}</span>贡献人次
+                    <span class="num tm-text-color" style="margin-left:20px;" >{{person.benefitPeopleTimes}}</span>受益人次
                 </p>
                 <p class="no-margin text-overflow" >简介：{{person.speakerDesc}}</p>
             </div>
             <el-button @click="handleEdit(person)" class="tm-btn invite-btn">邀约</el-button>
         </div>
         <!-- edit -->
-        <EditInvite title="发起邀约" ></EditInvite>
+        <SendInvite title="发起邀约" ></SendInvite>
         <el-card class="text-center" >
             <Pagination classes="center offer-pagination" :cfg="searchCfg" :count="count" ></Pagination>
         </el-card>
@@ -34,7 +36,7 @@
 <script>
 import { mapState, mapMutations } from 'vuex';
 import Pagination from '@layout/Pagination.vue';
-import EditInvite from '@layout/modal/Send_invite.vue';
+import SendInvite from '@layout/modal/Send_invite.vue';
 import Search from '@layout/Search.vue';
 
 import emptyImage from '@image/empty.png';
@@ -62,7 +64,7 @@ export default {
     },
     components: {
         Search,
-        EditInvite,
+        SendInvite,
         Pagination
     },
     mounted() {
@@ -88,6 +90,9 @@ export default {
         },
         handleHomePage(id) {
             return `/speaker/speakerId/${id}`;
+        },
+        handleSearch() {
+            this.$refs.sr_component.handleSearch();
         }
     }
 };

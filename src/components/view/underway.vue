@@ -1,7 +1,14 @@
 <template>
     <div>
+        <Search :cfg="searchCfg" >
+            <template slot-scope="props" >
+                <div class="search-input">
+                    <TimeRange></TimeRange>
+                </div>
+            </template>
+        </Search>
         <div class="tm-card">
-            <Table :loading="loading" :data="data" >
+            <Table :loading="tableLoading" :data="data" >
                 <el-table-column
                     prop="fromSide"
                     align="center"
@@ -18,7 +25,7 @@
                 <el-table-column
                     prop="speakerName"
                     align="center"
-                    label="演讲者">
+                    label="梦享者">
                 </el-table-column>
                 <el-table-column
                     prop="speakTitle"
@@ -71,7 +78,7 @@
                     prop="speakerStatus"
                     align="center"
                     min-width="120px"
-                    label="演讲者进展">
+                    label="梦享者进展">
                     <template slot-scope="scope">
                         <el-popover class="offer-step" ref="popovers" trigger="click">
                             <el-steps direction="vertical" class="admin-step" :active="+scope.row.speakerStatus">
@@ -114,6 +121,7 @@
                     <el-button @click="handleSubmitFeedList" type="primary" >提交反馈</el-button>
                 </span>
             </el-dialog>
+            <Pagination :cfg="searchCfg" :count="count" ></Pagination>
         </div>
     </div>
 </template>
@@ -127,12 +135,11 @@ import {
 } from '@comp/lib/api_maps.js';
 import MessageBox from '@layout/modal/Message.vue';
 import Table from '@layout/Table.vue';
+import Pagination from '@layout/Pagination.vue';
+import Search from '@layout/Search.vue';
+import TimeRange from '@layout/TimeRange.vue';
 
 export default {
-    components: {
-        MessageBox,
-        Table
-    },
     data() {
         return {
             currentId: '',
@@ -141,6 +148,13 @@ export default {
                 upload: false,
                 imageUrl: '',
                 image: false
+            },
+            searchCfg: {
+                act: 'getAppointmentList',
+                status: 2,
+                orderType: this.orderType,
+                speakTimestampStart: undefined,
+                speakTimestampEnd: undefined
             }
         };
     },
@@ -157,9 +171,20 @@ export default {
     computed: {
         ...mapState({
             data: state => state.search.data,
-            loading: state => state.search.tableLoading,
+            tableLoading: state => state.search.tableLoading,
+            orderType: state => state.search.orderType,
+            timerange: state => state.search.timerange,
+            count: state => state.search.count,
+            status: state => state.search.status,
             feedList: state => state.search.feedList
         })
+    },
+    components: {
+        MessageBox,
+        Table,
+        Pagination,
+        Search,
+        TimeRange
     },
     methods: {
         dateformat,
