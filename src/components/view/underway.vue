@@ -25,7 +25,7 @@
                 <el-table-column
                     prop="speakerName"
                     align="center"
-                    label="梦享者">
+                    label="梦享家">
                 </el-table-column>
                 <el-table-column
                     prop="speakTitle"
@@ -77,7 +77,7 @@
                     prop="speakerStatus"
                     align="center"
                     min-width="120px"
-                    label="梦享者进展">
+                    label="梦享家进展">
                     <template slot-scope="scope">
                         <el-popover class="offer-step" ref="popovers" trigger="click">
                             <el-steps direction="vertical" class="admin-step" :active="+scope.row.speakerStatus">

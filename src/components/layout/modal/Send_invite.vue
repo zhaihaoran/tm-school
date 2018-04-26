@@ -8,7 +8,7 @@
         :before-close="handleClose"
     >
         <el-form ref="form" :model="form" label-width="80px" >
-            <el-form-item label="梦享者" >
+            <el-form-item label="梦享家" >
                 <span>{{form.speakerName}}</span>
             </el-form-item>
             <el-form-item label="演讲主题" :show-overflow-tooltip="true" >

@@ -44,7 +44,7 @@ export default {
         return {
             senderType: {
                 1: '学校',
-                2: '梦享者',
+                2: '梦享家',
                 3: '途梦管理员'
             },
             loading: false,

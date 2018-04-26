@@ -12,7 +12,7 @@
                 <el-table-column
                     prop="speakerName"
                     align="center"
-                    label="梦享者">
+                    label="梦享家">
                 </el-table-column>
                 <el-table-column
                     prop="speakTitle"

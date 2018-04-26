@@ -87,7 +87,7 @@
                             <span class="card-title grey-333">
                                 <a target="_blank" class="tm-inherit" :href="video.linkUrl">{{video.videoTitle}}</a></span>
                             <div class="vd-extra">
-                                <span>梦享者：{{video.speakerName}}</span>
+                                <span>梦享家：{{video.speakerName}}</span>
                                 <span>{{dateformat(video.addTimestamp)}} <span class="text-right" >{{video.playTimes}} 次播放</span> </span>
                             </div>
                         </div>

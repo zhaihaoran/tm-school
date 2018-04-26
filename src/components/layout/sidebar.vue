@@ -25,7 +25,7 @@
                 </router-link>
                 <router-link to="/help/flow/speaker" >
                     <el-menu-item class="sider-menu-item" index="/help/flow/speaker">
-                        梦享者上课流程
+                        梦享家上课流程
                     </el-menu-item>
                 </router-link>
             </el-submenu>
@@ -33,7 +33,7 @@
                 <template slot="title"><i class="el-icon-download"></i><span slot="title">下载</span></template>
                 <router-link to="/help/download/resources" >
                     <el-menu-item class="sider-menu-item" index="/help/download/resources">
-                        梦享者上课流程
+                        梦享家上课流程
                     </el-menu-item>
                 </router-link>
             </el-submenu>
