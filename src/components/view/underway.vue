@@ -58,7 +58,7 @@
                 <el-table-column
                     prop="schoolStatus"
                     align="center"
-                    min-width="120px"
+                    width="220px"
                     label="学校进展">
                     <template slot-scope="scope">
                         <el-popover class="offer-step" ref="popover" trigger="click">
@@ -70,8 +70,7 @@
                                 <el-step title="完成"></el-step>
                             </el-steps>
                         </el-popover>
-                        <!-- <el-button type="text" v-if="scope.row.schoolStatus === 3"  ><span v-popover:popover >待课后反馈提交</span><span  > </span></el-button> -->
-                        <el-button type="text" v-popover:popover >{{attrs["schoolStatus"][scope.row.schoolStatus]}} <span class="normal-a" @click.stop.prevent='handleShowImage(scope.row)' v-if="scope.row.schoolStatus == 3" >(立即上传）</span> </el-button>
+                        <el-button type="text" v-popover:popover >{{attrs["schoolStatus"][scope.row.schoolStatus]}}</el-button><a class="normal-a" @click.stop.prevent='handleShowImage(scope.row)' v-if="scope.row.schoolStatus == 3" >立即上传</a>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -98,30 +97,9 @@
                     </template>
                 </el-table-column>
             </Table>
-            <!-- 反馈 -->
-            <el-dialog :visible.sync="modal.upload" title="查看反馈" >
-                <el-dialog append-to-body :visible.sync="modal.image" >
-                    <img width="100%" :src="modal.imageUrl" alt="">
-                </el-dialog>
-                <el-upload
-                    class="upload-box"
-                    action=""
-                    :on-change="handleChange"
-                    :on-preview="handlePreview"
-                    :on-remove="handleRemove"
-                    :before-remove="beforeRemove"
-                    :auto-upload="false"
-                    :limit="3"
-                    list-type="picture-card"
-                    :on-exceed="handleExceed"
-                    :file-list="feedList">
-                    <i class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-                <span slot="footer" class="dialog-footer center">
-                    <el-button @click="handleSubmitFeedList" type="primary" >提交反馈</el-button>
-                </span>
-            </el-dialog>
             <Pagination :cfg="searchCfg" :count="count" ></Pagination>
+            <!-- 反馈 -->
+            <FeedList v-on:close="handleClose" :modal="modal" :current-id="currentId" ></FeedList>
         </div>
     </div>
 </template>
@@ -137,25 +115,22 @@ import MessageBox from '@layout/modal/Message.vue';
 import Table from '@layout/Table.vue';
 import Pagination from '@layout/Pagination.vue';
 import Search from '@layout/Search.vue';
+import FeedList from '@layout/modal/FeedList.vue';
 import TimeRange from '@layout/TimeRange.vue';
 
 export default {
     data() {
         return {
-            currentId: '',
             attrs,
-            modal: {
-                upload: false,
-                imageUrl: '',
-                image: false
-            },
+            currentId: '',
             searchCfg: {
                 act: 'getAppointmentList',
                 status: 2,
                 orderType: this.orderType,
                 speakTimestampStart: undefined,
                 speakTimestampEnd: undefined
-            }
+            },
+            modal: false
         };
     },
     mounted() {
@@ -175,8 +150,7 @@ export default {
             orderType: state => state.search.orderType,
             timerange: state => state.search.timerange,
             count: state => state.search.count,
-            status: state => state.search.status,
-            feedList: state => state.search.feedList
+            status: state => state.search.status
         })
     },
     components: {
@@ -184,7 +158,8 @@ export default {
         Table,
         Pagination,
         Search,
-        TimeRange
+        TimeRange,
+        FeedList
     },
     methods: {
         dateformat,
@@ -196,56 +171,18 @@ export default {
             'getFeedList',
             'photoUpload'
         ]),
-        handleRemove(file, fileList) {
-            console.log('remove');
-            console.log(file, fileList);
-        },
-        /* 上传照片 */
-        handleChange(file) {
-            let formCfg = new FormData();
-            formCfg.append('act', 'uploadFeedback');
-            formCfg.append('appointmentId', this.currentId);
-            formCfg.append('file', file.raw);
-            this.photoUpload({
-                formCfg,
-                onSuccess: res => {
-                    this.updateValue({
-                        feedList: feedList.push(res.data.data)
-                    });
-                },
-                onError: res => {
-                    console.log('error', res);
-                }
-            });
-        },
         // 学校预览照片，并可以上传
         handleShowImage(row) {
-            this.modal.upload = true;
+            this.modal = true;
             this.currentId = row.appointmentId;
             this.getFeedList({
                 act: 'getFeedbackList',
                 appointmentId: row.appointmentId
             });
         },
-        handlePreview(file) {
-            this.ImageUrl = file.url;
-            this.VisibSle = true;
-        },
-        handleExceed(files, fileList) {
-            this.$message.warning(
-                `当前限制选择 3 个文件，本次选择了 ${
-                    files.length
-                } 个文件，共选择了 ${files.length + fileList.length} 个文件`
-            );
-        },
-        beforeRemove(file, fileList) {
-            return this.$confirm(`确定移除 ${file.name}？`);
-        },
-        handleSubmitFeedList() {
-            this.formSubmit({
-                act: 'submitFeedback',
-                appointmentId: this.currentId
-            });
+
+        handleClose() {
+            this.modal = false;
         }
     }
 };

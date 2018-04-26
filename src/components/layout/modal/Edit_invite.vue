@@ -2,6 +2,7 @@
     <el-dialog
         :visible.sync="modal"
         :title="title"
+        :close-on-click-modal="false"
         width="30%"
         :before-close="handleClose"
     >

@@ -47,7 +47,7 @@
                     align="center"
                     label="拒绝原因">
                     <template slot-scope="scope">
-                        <el-button type="text" @click="showReason(scope.row)" >查看原因</el-button>
+                        <el-button type="text" @click="showReason(scope.row)" >查看</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -126,9 +126,9 @@ export default {
                 appointmentId: obj.appointmentId,
                 onSuccess: res => {
                     console.log('success', res);
-                    this.$alert(res.data.data.rejectDesc, '拒绝原因').catch(
-                        () => {}
-                    );
+                    this.$alert(res.data.data.rejectDesc, '拒绝原因', {
+                        confirmButtonText: '关闭'
+                    }).catch(() => {});
                 }
             });
         }

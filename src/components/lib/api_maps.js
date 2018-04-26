@@ -281,5 +281,10 @@ module.exports = {
     commonPageInit(context, obj, cfg) {
         context.updateValue(obj);
         context.getPageData(cfg);
+    },
+    videoFormat(sec) {
+        let min = ~~(sec / 60);
+        let second = sec % 60;
+        return `${min}:${second}`
     }
 }

@@ -5,7 +5,6 @@ $footer: 60px;
 $primary-color: #bb2133;
 $btn_hover: #e05162;
 $btn_active: #990e1f;
-
 $header_bg: $primary-color;
 $sider_bg: rgb(47, 46, 48);
 $sider_active: rgb(38, 36, 36);
@@ -16,7 +15,6 @@ $sider_submenu_active: rgb(47, 46, 48);
 $sider_item_active: rgb(29, 27, 27);
 $context_bg: rgb(236, 236, 236);
 // shadow
-
 .tm-color {
     color: $primary-color;
 }
@@ -146,6 +144,7 @@ a {
     background-color: $primary-color;
     border-color: $primary-color;
 }
+
 //
 @media only screen and (min-width: 1500px) {
     .tm-col-5 {
@@ -260,7 +259,6 @@ a {
         list-style: none;
         justify-content: flex-end;
         flex: 1;
-
         .nav-header-item {
             display: flex;
             align-items: center;
@@ -333,6 +331,7 @@ a {
 
 // .car
 .card-image {
+    display: block;
     overflow: hidden;
     position: relative;
     img {
@@ -361,6 +360,10 @@ a {
     }
 }
 
+.tm-inherit {
+    color: inherit;
+}
+
 .vd-extra {
     margin-top: 5px;
     display: flex;
@@ -382,15 +385,6 @@ a {
 
 .hoverable.card-hover:hover {
     position: relative;
-    transition: transform 0.3s ease-in;
-    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2), 0 3px 5px 0 rgba(0, 0, 0, 0.19);
-    .card-content {
-        background: $primary-color;
-        padding: 10px;
-        span {
-            color: white;
-        }
-    }
     .recommend-box,
     .bages {
         opacity: 1;
@@ -462,14 +456,12 @@ img {
     cursor: zoom-in;
     position: relative;
     transition: opacity 0.4s;
-
     &:hover {
         will-change: left, top, width, height;
     }
     &:hover:not(.active) {
         opacity: 0.8;
     }
-
     &.active {
         cursor: zoom-out;
     }
@@ -485,6 +477,7 @@ img {
     z-index: 999;
     will-change: opacity;
 }
+
 .materialbox-caption {
     position: fixed;
     display: none;
@@ -510,4 +503,48 @@ img {
 .center {
     display: flex;
     justify-content: center;
+}
+
+.tm-card.flow {
+    .el-step.is-vertical {
+        .el-step__head {
+            width: auto;
+            color: #bb2133;
+            border-color: #bb2133;
+            .el-step__line {
+                background-color: #bb2133;
+            }
+        }
+        .el-step__icon.is-text {
+            padding: 20px;
+            font-size: 20px;
+        }
+        .el-step__line {
+            left: 50%;
+            margin-left: -1px;
+        }
+        .el-step__title {
+            line-height: 44px;
+            color: #333;
+        }
+        .el-step__main {
+            padding-left: 30px;
+        }
+    }
+}
+
+.el-step__head.is-process {
+    color: #c0c4cc;
+    border-color: #c0c4cc;
+}
+
+.el-step__title.is-process {
+    color: #c0c4cc;
+    font-weight: normal;
+}
+
+.normal-a {
+    display: block;
+    color: #409eff;
+    cursor: pointer;
 }

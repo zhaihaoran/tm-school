@@ -35,7 +35,7 @@
             </el-form>
             <span slot="footer" class="tm-modal-footer">
                 <el-button class="tm-btn-border" @click="modal.refuse = false">取 消</el-button>
-                <el-button class="tm-btn" type="primary" @click="handleRefuse(scope.$index,scope.row)">确 定</el-button>
+                <el-button class="tm-btn" :disabled="rejectDesc.length == 0" type="primary" @click="handleRefuse(scope.$index,scope.row)">确 定</el-button>
             </span>
         </el-dialog>
     </div>

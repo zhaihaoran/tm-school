@@ -4,6 +4,7 @@
         :visible.sync="modal"
         :title="title"
         width="30%"
+        :close-on-click-modal="false"
         :before-close="handleClose"
     >
         <el-form ref="form" :model="form" label-width="80px" >
