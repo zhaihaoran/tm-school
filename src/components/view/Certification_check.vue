@@ -9,6 +9,14 @@
                 <p>完成认证信息，即可提交申请途梦学校，您的学校有机会获得各行各业志愿者的演讲分享服务，让孩子们提前了解他们梦想的世界</p>
             </div>
         </div>
+        <el-alert
+            v-show="checkState === 4"
+            title="您提交的资料被驳回"
+            show-icon
+            :description="rejectDesc"
+            class="mb-20"
+            type="error">
+        </el-alert>
         <div class="tm-card info-box">
             <el-form ref="form" :model="form" :rules="rules" label-width="100px">
                 <h3>基本信息</h3>
@@ -37,10 +45,6 @@
                 <el-form-item label="开课教室图片" >
                     <Upload filepathname="classroomPhotoShortPathFilename" previewname="classroomPhotoUrl" :action="Api.upload" :disabled="isDisabled" :preview="classroomPhotoUrl" ></Upload>
                     <div class="pic-info">
-                        <h3>请拍摄学校的外景，尽量包含学校的名字</h3>
-                        <p class="info-p">图片类型：JPG、PNG</p>
-                        <p class="info-p">图片大小：不超过5M</p>
-                        <h3 class="mm">样例</h3>
                         <img :src="schoolDemo" class="img-fluid" alt="demo">
                     </div>
                 </el-form-item>
@@ -59,13 +63,13 @@
                 <div class="info-table">
                     <div class="info-table-col" style="max-width:250px;" >
                         <div class="cube-big">
-                            <img :src="img_pc" alt="">
+                            <img class="img-fluid" :src="img_pc" alt="">
                         </div>
                         <div class="cube">
-                            <img :src="img_class" alt="">
+                            <img :style="{height: '100%'}" :src="img_class" alt="">
                         </div>
                         <div class="cube-big">
-                            <img :src="img_camera" alt="">
+                            <img class="img-fluid" :src="img_camera" alt="">
                         </div>
                     </div>
                     <div class="info-table-col">
@@ -170,6 +174,7 @@ export default {
             Api,
             rows: 8,
             form: {},
+            rejectDesc: '',
             modal: {
                 submit: false,
                 rules: false
@@ -241,6 +246,9 @@ export default {
             act: 'getApplication',
             onSuccess: res => {
                 this.form = res.data.data;
+                this.rejectDesc = `您提交的资料被驳回，原因：${
+                    this.form.rejectDesc
+                }`;
 
                 const {
                     classroomPhotoShortPathFilename,
@@ -308,17 +316,7 @@ export default {
             );
         },
         onSave(form) {
-            this.handleForm(
-                form,
-                'modifyApplication',
-                res => {
-                    console.log(res);
-                },
-                res => {}
-            );
-        },
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
+            this.handleForm(form, 'modifyApplication');
         }
     },
     components: {

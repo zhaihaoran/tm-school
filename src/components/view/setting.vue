@@ -80,7 +80,7 @@
                         <a target="_blank" :href="video.linkUrl" class="card-image">
                             <img class="min-images" :src="video.previewUrl">
                             <span class="vd-times badge">
-                                {{videoFormat(video.duration)}}
+                                {{formatDuration(video.duration)}}
                             </span>
                         </a>
                         <div class="card-content">
@@ -108,7 +108,7 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { Api, dateformat, videoFormat } from '@comp/lib/api_maps';
+import { Api, dateformat, formatDuration } from '@comp/lib/api_maps';
 import Cropper from '@layout/modal/Cropper.vue';
 
 export default {
@@ -138,9 +138,7 @@ export default {
         };
     },
     mounted() {
-        this.$dragging.$on('dragged', ({ value }) => {
-            console.log('hahaha');
-        });
+        this.$dragging.$on('dragged', ({ value }) => {});
 
         this.handleForm();
     },
@@ -152,7 +150,7 @@ export default {
     },
     methods: {
         dateformat,
-        videoFormat,
+        formatDuration,
         ...mapMutations([
             'update',
             'getFormData',
@@ -242,13 +240,7 @@ export default {
                 if (valid) {
                     this.formSubmit({
                         act: 'modifyPersonalPageGeneral',
-                        ...cfg,
-                        onSuccess: res => {
-                            console.log('修改成功');
-                        },
-                        onError: res => {
-                            console.log('失败');
-                        }
+                        ...cfg
                     });
                 } else {
                     return false;
@@ -269,11 +261,7 @@ export default {
             this.photoUpload({
                 formCfg,
                 onSuccess: res => {
-                    console.log(res);
                     this.photoList.push(res.data.data);
-                },
-                onError: res => {
-                    console.log('error', res);
                 }
             });
         },

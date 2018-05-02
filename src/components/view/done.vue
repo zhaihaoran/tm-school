@@ -1,6 +1,14 @@
 <template>
     <div>
-        <Search :cfg="searchCfg" >
+        <el-alert
+            :type="pageInfo($route.path,'type')"
+            :title="pageInfo($route.path,'title')"
+            :description="pageInfo($route.path,'description')"
+            show-icon
+            class="mb-20"
+        >
+        </el-alert>
+        <Search :cfg="searchCfg" ref="sr_component" >
             <template slot-scope="props" >
                 <div class="search-input">
                     <TimeRange></TimeRange>
@@ -45,6 +53,9 @@
                     prop="speakDuration"
                     align="center"
                     label="演讲时长（分钟）">
+                    <template slot-scope="scope">
+                        {{secToMin(scope.row.speakDuration)}}
+                    </template>
                 </el-table-column>
                 <el-table-column
                     align="center"
@@ -77,9 +88,12 @@ import TimeRange from '@layout/TimeRange.vue';
 import {
     attrs,
     formatAttr,
+    secToMin,
     dateformat,
     commonPageInit
 } from '@comp/lib/api_maps.js';
+import { pageInfo } from '@comp/lib/page_alert_text';
+
 import { mapState, mapMutations } from 'vuex';
 
 export default {
@@ -124,6 +138,8 @@ export default {
     },
     methods: {
         dateformat,
+        pageInfo,
+        secToMin,
         formatAttr,
         ...mapMutations(['updateValue', 'getPageData', 'formSubmit'])
     }

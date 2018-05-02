@@ -81,9 +81,6 @@ export default {
                         act: 'getFeedbackList',
                         appointmentId: this.currentId
                     });
-                },
-                onError: res => {
-                    console.log('error', res);
                 }
             });
         },

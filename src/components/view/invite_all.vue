@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Search :cfg="searchCfg" >
+        <Search :cfg="searchCfg" ref="sr_component" >
             <template slot-scope="props" >
                 <div class="search-input">
                     <TimeRange></TimeRange>
@@ -56,6 +56,9 @@
                     align="center"
                     width="80px"
                     label="演讲时长（分钟）">
+                    <template slot-scope="scope">
+                        {{secToMin(scope.row.speakDuration)}}
+                    </template>
                 </el-table-column>
                 <el-table-column
                     prop="addTimestamp"
@@ -137,6 +140,7 @@
 import { mapState, mapMutations } from 'vuex';
 import {
     attrs,
+    secToMin,
     formatAttr,
     dateformat,
     commonPageInit
@@ -199,6 +203,7 @@ export default {
     },
     methods: {
         formatAttr,
+        secToMin,
         dateformat,
         ...mapMutations([
             'updateValue',
@@ -217,7 +222,6 @@ export default {
                 act: 'getRejectDescOfAppointment',
                 appointmentId: row.appointmentId,
                 onSuccess: res => {
-                    console.log('success', res);
                     this.$alert(res.data.data.rejectDesc, '拒绝原因', {
                         confirmButtonText: '关闭'
                     }).catch(() => {});

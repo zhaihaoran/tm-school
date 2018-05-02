@@ -30,7 +30,6 @@ axios.interceptors.response.use(res => {
             message: '登陆过期,请重新登陆',
             type: 'error',
             onClose: () => {
-                console.log("登陆");
                 window.location.href = baseURL
             }
         })

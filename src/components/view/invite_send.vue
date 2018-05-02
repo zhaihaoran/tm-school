@@ -14,7 +14,7 @@
         </div>
         <div v-for="person in data" :key="person.$index" class="tm-card in-card">
             <a :href="handleHomePage(person.speakerId)" class="card-image">
-                <img :src="person.profilePhotoUrl" class="img-fluid" :alt="person.name">
+                <img :src="handleAvatar(person.profilePhotoUrl)" class="img-fluid" :alt="person.name">
             </a>
             <div class="card-wrapper">
                 <p class="no-margin" ><span class="teacher-name" >{{person.name}}</span>{{person.speakerShortDesc}}</p>
@@ -38,6 +38,7 @@ import { mapState, mapMutations } from 'vuex';
 import Pagination from '@layout/Pagination.vue';
 import SendInvite from '@layout/modal/Send_invite.vue';
 import Search from '@layout/Search.vue';
+import avatar from '@image/avatar.png';
 
 import emptyImage from '@image/empty.png';
 
@@ -69,11 +70,7 @@ export default {
     },
     mounted() {
         this.getPageData({
-            act: 'getSpeakerList',
-            onError: res => {},
-            onSuccess: res => {
-                console.log(res);
-            }
+            act: 'getSpeakerList'
         });
     },
     methods: {
@@ -93,6 +90,9 @@ export default {
         },
         handleSearch() {
             this.$refs.sr_component.handleSearch();
+        },
+        handleAvatar(url) {
+            return url || avatar;
         }
     }
 };
@@ -109,6 +109,8 @@ export default {
     flex-direction: row;
     .card-image {
         width: 160px;
+        height: 160px;
+        background: #d6d4d4;
         overflow: hidden;
     }
     .card-wrapper {

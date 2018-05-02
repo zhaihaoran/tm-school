@@ -27,6 +27,9 @@
                     align="center"
                     prop="speakDuration"
                     label="演讲时长（分钟）">
+                    <template slot-scope="scope">
+                        {{secToMin(scope.row.speakDuration)}}
+                    </template>
                 </el-table-column>
                 <el-table-column
                     align="center"
@@ -61,6 +64,7 @@ import EditInvite from '@layout/modal/Edit_invite.vue';
 import {
     attrs,
     formatAttr,
+    secToMin,
     dateformat,
     commonPageInit
 } from '@comp/lib/api_maps.js';
@@ -93,6 +97,7 @@ export default {
         })
     },
     methods: {
+        secToMin,
         dateformat,
         ...mapMutations([
             'updateValue',

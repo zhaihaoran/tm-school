@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Search :cfg="searchCfg" >
+        <Search :cfg="searchCfg" ref="sr_component" >
             <template slot-scope="props" >
                 <div class="search-input">
                     <TimeRange></TimeRange>
@@ -45,6 +45,9 @@
                     prop="speakDuration"
                     align="center"
                     label="演讲时长（分钟）">
+                    <template slot-scope="scope">
+                        {{secToMin(scope.row.speakDuration)}}
+                    </template>
                 </el-table-column>
                 <el-table-column
                     prop="addTimestamp"
@@ -107,6 +110,7 @@
 import { mapState, mapMutations } from 'vuex';
 import {
     attrs,
+    secToMin,
     formatAttr,
     dateformat,
     commonPageInit
@@ -162,6 +166,7 @@ export default {
         FeedList
     },
     methods: {
+        secToMin,
         dateformat,
         formatAttr,
         ...mapMutations([

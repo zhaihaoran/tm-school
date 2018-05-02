@@ -1,6 +1,14 @@
 <template>
     <div>
-        <Search :cfg="searchCfg" >
+        <el-alert
+            :type="pageInfo($route.path,'type')"
+            :title="pageInfo($route.path,'title')"
+            :description="pageInfo($route.path,'description')"
+            show-icon
+            class="mb-20"
+        >
+        </el-alert>
+        <Search :cfg="searchCfg" ref="sr_component" >
             <template slot-scope="props" >
                 <div class="search-input">
                     <TimeRange></TimeRange>
@@ -34,6 +42,9 @@
                     align="center"
                     prop="speakDuration"
                     label="演讲时长（分钟）">
+                    <template slot-scope="scope">
+                        {{secToMin(scope.row.speakDuration)}}
+                    </template>
                 </el-table-column>
                 <el-table-column
                     align="center"
@@ -66,9 +77,11 @@ import { mapState, mapMutations } from 'vuex';
 import {
     attrs,
     formatAttr,
+    secToMin,
     dateformat,
     commonPageInit
 } from '@comp/lib/api_maps.js';
+import { pageInfo } from '@comp/lib/page_alert_text';
 
 import Operation from '@layout/Operation.vue';
 import EditInvite from '@layout/modal/Edit_invite.vue';
@@ -84,6 +97,7 @@ export default {
             attrs,
             form: {},
             modal_edit: false,
+            description: '指的是邀约内容，文字说明，加油',
             searchCfg: {
                 act: 'getAppointmentList',
                 status: 1,
@@ -116,6 +130,8 @@ export default {
         })
     },
     methods: {
+        pageInfo,
+        secToMin,
         dateformat,
         ...mapMutations([
             'updateValue',
