@@ -26,6 +26,9 @@
                     prop="speakerName"
                     align="center"
                     label="梦享家">
+                    <template slot-scope="scope">
+                        <a target="_black" class="tm-link" :href="toSpeakerHome(scope.row.speakerId)">{{scope.row.speakerName}}</a>
+                    </template>
                 </el-table-column>
                 <el-table-column
                     prop="speakTitle"
@@ -110,6 +113,7 @@
 import { mapState, mapMutations } from 'vuex';
 import {
     attrs,
+    toSpeakerHome,
     secToMin,
     formatAttr,
     dateformat,
@@ -166,6 +170,7 @@ export default {
         FeedList
     },
     methods: {
+        toSpeakerHome,
         secToMin,
         dateformat,
         formatAttr,

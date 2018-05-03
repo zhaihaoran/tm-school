@@ -16,12 +16,14 @@
                 <img :src="handleAvatar(person.profilePhotoUrl)" class="img-fluid" :alt="person.name">
             </a>
             <div class="card-wrapper">
-                <p class="no-margin" ><span class="teacher-name" >{{person.name}}</span>{{person.speakerShortDesc}}</p>
+                <a :href="handleHomePage(person.speakerId)" class="no-margin" >
+                    <span class="teacher-name" >{{person.name || "未填写名称"}}</span>{{person.speakerShortDesc}}
+                </a>
                 <p>
                     <span class="num tm-text-color" >{{person.appointmentTimes}}</span>邀约数
                     <span class="num tm-text-color" style="margin-left:20px;" >{{person.benefitPeopleTimes}}</span>受益人次
                 </p>
-                <p class="no-margin text-overflow" >简介：{{person.speakerDesc}}</p>
+                <p class="no-margin text-overflow" >简介：{{person.speakerDesc || "未填写信息"}}</p>
             </div>
             <el-button @click="handleEdit(person)" class="tm-btn invite-btn">邀约</el-button>
         </div>
@@ -125,13 +127,12 @@ export default {
                 font-weight: bold;
                 margin-right: 10px;
             }
-
-            .teacher-name {
-                font-size: 22px;
-                font-weight: bold;
-                color: #000;
-                margin-right: 20px;
-            }
+        }
+        .teacher-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #000;
+            margin-right: 20px;
         }
     }
     .invite-btn {

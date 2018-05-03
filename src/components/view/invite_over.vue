@@ -7,6 +7,9 @@
                     prop="speakerName"
                     label="梦享家"
                     >
+                    <template slot-scope="scope">
+                        <a target="_black" class="tm-link" :href="toSpeakerHome(scope.row.speakerId)">{{scope.row.speakerName}}</a>
+                    </template>
                 </el-table-column>
                 <el-table-column
                     align="center"
@@ -64,6 +67,7 @@ import EditInvite from '@layout/modal/Edit_invite.vue';
 import {
     attrs,
     formatAttr,
+    toSpeakerHome,
     secToMin,
     dateformat,
     commonPageInit
@@ -97,6 +101,7 @@ export default {
         })
     },
     methods: {
+        toSpeakerHome,
         secToMin,
         dateformat,
         ...mapMutations([
