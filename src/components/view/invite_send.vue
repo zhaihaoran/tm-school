@@ -1,8 +1,7 @@
 <template>
     <div v-loading="loading" >
         <!-- 如何在外部调用组件内的方法 -->
-        <!-- 最简单：在组件上加ref，直接在外部就可以掉组件内部方法 -->
-        <Search left-text="无排序" center-text="邀约数" right-text="受益人次" :cfg="searchCfg" ref="sr_component" >
+        <Search left-text="综合排序" center-text="邀约数" right-text="受益人次" :cfg="searchCfg" ref="sr_component" >
             <template slot-scope="props" >
                 <div class="search-input">
                     <el-input type="search" @keyup.native.enter="handleSearch" placeholder="搜索关键字" v-model="searchCfg.searchText" ></el-input>
