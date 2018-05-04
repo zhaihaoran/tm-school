@@ -10,7 +10,8 @@
                         previewname="photoUrl"
                         :previewUrl="form.profilePhotoUrl"
                         :action='Api.upload'
-                        aspectRatio.number=0.5
+                        width="170"
+                        height="170"
                     ></Cropper>
                 </el-form-item>
                 <el-form-item label="学校名称" prop="name" >
@@ -194,7 +195,9 @@ export default {
             this.getArrayData({
                 act: 'getPersonalPagePhotoList',
                 onSuccess: res => {
-                    this.photoList = res.data.data.photoList;
+                    this.photoList = res.data.data.photoList.sort((a,b)=>{
+                        return a.addTimestamp - b.addTimestamp;
+                    });
                     this.loading.pictures = false;
                 }
             });
@@ -248,10 +251,7 @@ export default {
             });
         },
         handleExceed(files, fileList) {
-            this.$message.warning(
-                `当前限制选择 10 个文件，共选择了 ${files.length +
-                    fileList.length} 个文件`
-            );
+            this.$message.warning(`图片已满，请删除不需要的图片`);
         },
         /* 添加图片 */
         handlePicChange(file) {

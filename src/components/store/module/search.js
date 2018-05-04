@@ -35,15 +35,7 @@ const mutations = {
             return el;
         })
     },
-    resetValue(state) {
-        state = {
-            timerange: [], // 开始时间，结束时间
-            orderType: 0, // 排序类型
-            status: 1, // 发起状态
-            page: 1, //页码
-            perPage: 20 //每页数量
-        }
-    },
+    
     getPageData(state, {
         onSuccess,
         ...cfg

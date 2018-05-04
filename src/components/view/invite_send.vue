@@ -17,8 +17,9 @@
             </a>
             <div class="card-wrapper">
                 <a :href="handleHomePage(person.speakerId)" class="no-margin" >
-                    <span class="teacher-name" >{{person.name || "未填写名称"}}</span>{{person.speakerShortDesc}}
+                    <span class="teacher-name" >{{person.name || "未填写名称"}}</span>
                 </a>
+                {{person.speakerShortDesc}}
                 <p>
                     <span class="num tm-text-color" >{{person.appointmentTimes}}</span>邀约数
                     <span class="num tm-text-color" style="margin-left:20px;" >{{person.benefitPeopleTimes}}</span>受益人次
