@@ -33,7 +33,7 @@
                     <el-input v-model="form.teacherPhone" :disabled="isDisabled" ></el-input>
                 </el-form-item>
                 <el-form-item label="学校图片" >
-                    <Upload filepathname="schoolPhotoShortPathFilename" previewname="schoolPhotoUrl" :action="Api.upload" :preview="schoolPhotoUrl" :disabled="isDisabled" ></Upload>
+                    <Upload filepathname="schoolPhotoShortPathFilename" previewname="schoolPhotoUrl"  :preview="schoolPhotoUrl" :disabled="isDisabled" ></Upload>
                     <div v-show="!isDisabled" class="pic-info">
                         <h3>请拍摄学校的外景，尽量包含学校的名字</h3>
                         <p class="info-p">图片类型：JPG、PNG</p>
@@ -43,7 +43,7 @@
                     </div>
                 </el-form-item>
                 <el-form-item label="开课教室图片" >
-                    <Upload filepathname="classroomPhotoShortPathFilename" previewname="classroomPhotoUrl" :action="Api.upload" :disabled="isDisabled" :preview="classroomPhotoUrl" ></Upload>
+                    <Upload filepathname="classroomPhotoShortPathFilename" previewname="classroomPhotoUrl"  :disabled="isDisabled" :preview="classroomPhotoUrl" ></Upload>
                     <div v-show="!isDisabled" class="pic-info">
                         <img :src="schoolDemo" class="img-fluid" alt="demo">
                     </div>
@@ -157,7 +157,6 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { Api } from '@comp/lib/api_maps';
 
 import schoolDemo from '@image/admin/school.png';
 import classDemo from '@image/admin/class.png';
@@ -171,7 +170,6 @@ import Upload from '@layout/Upload.vue';
 export default {
     data() {
         return {
-            Api,
             rows: 8,
             form: {},
             rejectDesc: '',
@@ -184,7 +182,7 @@ export default {
                     {
                         required: true,
                         message: '请输入学校名称',
-                        trigger: 'blur'
+                        trigger: 'change'
                     }
                 ],
                 address: [
@@ -205,6 +203,13 @@ export default {
                     {
                         required: true,
                         message: '请填写联系电话',
+                        trigger: 'change'
+                    }
+                ],
+                poorDesc: [
+                    {
+                        required: true,
+                        message: '请填写贫困信息',
                         trigger: 'change'
                     }
                 ]

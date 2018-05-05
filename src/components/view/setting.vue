@@ -1,7 +1,7 @@
 <template>
     <el-tabs @tab-click="handleLoading" v-model="activeName" type="border-card">
         <el-tab-pane name="common" v-loading="loading.form" label="通用">
-            <el-form :model="form" :rules="rules" ref="form" label-width="100px" class="setting-form" >
+            <el-form ref="form" :model="form" :rules="rules" label-width="100px" class="setting-form" >
                 <el-form-item label="头像">
                     <Cropper
                         classes="avatar"
@@ -9,7 +9,6 @@
                         filepathname="pathfilename"
                         previewname="photoUrl"
                         :previewUrl="form.profilePhotoUrl"
-                        :action='Api.upload'
                         width="170"
                         height="170"
                     ></Cropper>
@@ -41,7 +40,7 @@
         <el-tab-pane name="photo" v-loading="loading.pictures" label="相册">
             <div class="upload-pic">
                 <el-upload
-                    :action="Api.upload"
+                    action=""
                     :show-file-list="false"
                     :limit="10"
                     :on-change="handlePicChange"
@@ -98,8 +97,9 @@
             </el-row>
             <el-pagination
                 :current-page.sync="current"
-                :page-size="8"
+                :page-size="perPage"
                 layout="total, prev, pager, next"
+                @current-change="pageCurrentChange"
                 :total="count"
                 class="photo-pagination"
             >
@@ -109,7 +109,7 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { Api, dateformat, formatDuration } from '@comp/lib/api_maps';
+import { dateformat, formatDuration } from '@comp/lib/api_maps';
 import Cropper from '@layout/modal/Cropper.vue';
 
 export default {
@@ -130,12 +130,63 @@ export default {
                 'card-hover': true,
                 hoverable: true
             },
-            current: 1,
+            /* 视频列表 */
+            current: 1, //当前页
+            perPage: 10, //每个视频数
+            count: 1, //总数
             videoIdOfRecommended: '',
-            count: 0,
-            rules: {},
-            videos: [],
-            Api
+            rules: {
+                name: [
+                    {
+                        required: true,
+                        message: '请填写学校名称',
+                        trigger: 'change'
+                    }
+                ],
+                address: [
+                    {
+                        required: true,
+                        message: '请填写学校地址',
+                        trigger: 'change'
+                    }
+                ],
+                schoolShortDesc: [
+                    {
+                        required: true,
+                        message: '请填写简要介绍',
+                        trigger: 'change'
+                    }
+                ],
+                schoolDesc: [
+                    {
+                        required: true,
+                        message: '请填写学校简介',
+                        trigger: 'change'
+                    }
+                ],
+                philosophy: [
+                    {
+                        required: true,
+                        message: '请填写办学理念',
+                        trigger: 'change'
+                    }
+                ],
+                culture: [
+                    {
+                        required: true,
+                        message: '请填写校园文化',
+                        trigger: 'change'
+                    }
+                ],
+                growth: [
+                    {
+                        required: true,
+                        message: '请填写发展历程',
+                        trigger: 'change'
+                    }
+                ]
+            },
+            videos: []
         };
     },
     mounted() {
@@ -188,6 +239,10 @@ export default {
                 }
             });
         },
+        /* 视频列表 -- 翻页 */
+        pageCurrentChange(page) {
+            this.handleVideos();
+        },
         /* 加载图片数据 */
         handlePics() {
             this.loading.pictures = true;
@@ -195,7 +250,7 @@ export default {
             this.getArrayData({
                 act: 'getPersonalPagePhotoList',
                 onSuccess: res => {
-                    this.photoList = res.data.data.photoList.sort((a,b)=>{
+                    this.photoList = res.data.data.photoList.sort((a, b) => {
                         return a.addTimestamp - b.addTimestamp;
                     });
                     this.loading.pictures = false;
@@ -208,6 +263,8 @@ export default {
             /* 视频信息 */
             this.getArrayData({
                 act: 'getPersonalPageVideoList',
+                page: this.current,
+                perPage: this.perPage,
                 onSuccess: res => {
                     this.videos = res.data.data.data;
                     this.count = +res.data.data.count;
