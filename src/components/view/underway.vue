@@ -175,6 +175,7 @@ export default {
         dateformat,
         formatAttr,
         ...mapMutations([
+            'clearSearchOps',
             'updateValue',
             'getPageData',
             'formSubmit',

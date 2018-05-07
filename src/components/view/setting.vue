@@ -57,8 +57,8 @@
                 <div class="empty-box" v-show="photoList.length == 0" >
                     暂无图片
                 </div>
-                <el-col class="tm-col-5 pic-cube" :sm="12" :md="8" :lg="6" v-for="photo in photoList" :key="photo.schoolPhotoId" v-dragging="{ item: photo, list: photoList, group: 'photo' }" >
-                    <img ref="photo" :src="photo.photoUrl" class="img-fluid" :time="photo.addTimestamp">
+                <el-col class="tm-col-5 pic-cube" :sm="12" :md="8" :lg="6" v-for="photo in photoList" :key="photo.schoolPhotoId">
+                    <img :src="photo.photoUrl" class="img-fluid" :time="photo.addTimestamp">
                     <div class="op_context">
                         <span class="photo-cube" @click="handleDeletePic(photo)">
                             <i class="el-icon-delete"></i>
@@ -190,8 +190,6 @@ export default {
         };
     },
     mounted() {
-        this.$dragging.$on('dragged', ({ value }) => {});
-
         this.handleForm();
     },
     computed: {
@@ -312,15 +310,18 @@ export default {
         },
         /* 添加图片 */
         handlePicChange(file) {
-            let formCfg = new FormData();
-            formCfg.append('file', file.raw);
-            formCfg.append('act', 'addPersonalPagePhoto');
-            this.photoUpload({
-                formCfg,
-                onSuccess: res => {
-                    this.photoList.push(res.data.data);
-                }
-            });
+            /* 是否符合标准 */
+            if (this.beforeUpload(file.raw)) {
+                let formCfg = new FormData();
+                formCfg.append('file', file.raw);
+                formCfg.append('act', 'addPersonalPagePhoto');
+                this.photoUpload({
+                    formCfg,
+                    onSuccess: res => {
+                        this.photoList.push(res.data.data);
+                    }
+                });
+            }
         },
         /* 删除照片 */
         handleDeletePic(row) {
@@ -344,6 +345,27 @@ export default {
                     });
                 })
                 .catch(() => {});
+        },
+
+        // 限制上传类型
+        beforeUpload(file) {
+            const isJPG = file.type === 'image/jpeg';
+            const isPNG = file.type === 'image/png';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+
+            if (!isJPG && !isPNG) {
+                this.$message({
+                    message: '上传图片必须是JPG/PNG 格式!',
+                    type: 'error'
+                });
+            }
+            if (!isLt2M) {
+                this.$message({
+                    message: '上传图片大小不能超过 2MB!',
+                    type: 'error'
+                });
+            }
+            return (isJPG || isPNG) && isLt2M;
         }
     },
     components: {
@@ -463,6 +485,12 @@ export default {
             cursor: pointer;
         }
     }
+}
+
+.empty-box {
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
 }
 </style>
 

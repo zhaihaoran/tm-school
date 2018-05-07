@@ -146,7 +146,12 @@ export default {
         toSpeakerHome,
         secToMin,
         formatAttr,
-        ...mapMutations(['updateValue', 'getPageData', 'formSubmit'])
+        ...mapMutations([
+            'updateValue',
+            'getPageData',
+            'formSubmit',
+            'clearSearchOps'
+        ])
     }
 };
 </script>

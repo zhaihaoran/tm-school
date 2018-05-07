@@ -15,13 +15,8 @@ import '@scss/admin_common.scss';
 import 'assets/icon/iconfont.css'
 import ElementUI from 'element-ui'
 
-// plugin -- draggable
-import VueDND from 'awe-dnd'
-
 Vue.config.productionTip = false
 Vue.use(ElementUI)
-// 拖拽控件
-Vue.use(VueDND)
 
 new Vue({
     el: '#app',

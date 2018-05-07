@@ -10,7 +10,7 @@
             <el-form-item label="梦享家" >
                 <span>{{form.speakerName}}</span>
             </el-form-item>
-            <el-form-item label="演讲主题" :show-overflow-tooltip="true" >
+            <el-form-item label="演讲主题" >
                 <el-input v-model="form.speakTitle" ></el-input>
             </el-form-item>
             <el-form-item label="演讲时间" >

@@ -71,12 +71,18 @@ export default {
         Pagination
     },
     mounted() {
+        this.clearSearchOps();
         this.getPageData({
             act: 'getSpeakerList'
         });
     },
     methods: {
-        ...mapMutations(['getPageData', 'showModal', 'formSubmit']),
+        ...mapMutations([
+            'getPageData',
+            'showModal',
+            'formSubmit',
+            'clearSearchOps'
+        ]),
         handleEdit(row) {
             this.showModal({
                 speakerId: row.speakerId,

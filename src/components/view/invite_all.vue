@@ -181,7 +181,6 @@ export default {
             data: state => state.search.data,
             count: state => state.search.count,
             tableLoading: state => state.search.tableLoading,
-            perPage: state => state.search.perPage,
             status: state => state.search.status
         })
     },
@@ -211,6 +210,7 @@ export default {
         secToMin,
         dateformat,
         ...mapMutations([
+            'clearSearchOps',
             'updateValue',
             'getPageData',
             'formSubmit',

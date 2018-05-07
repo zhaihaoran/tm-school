@@ -1,97 +1,75 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-// 发起邀约
-import Invite_send from '@comp/view/Invite_send.vue'
-/* 邀约信息 */
-// 已发起邀约
-import Invite_over from '@comp/view/Invite_over.vue'
-// 收到的邀约
-import Invite_received from '@comp/view/Invite_received.vue'
-// 进行中
-import Underway from '@comp/view/Underway.vue'
-
-import Certification_check from '@comp/view/Certification_check.vue'
-import Invite_all from '@comp/view/Invite_all.vue'
-import Refused from '@comp/view/Refused.vue'
-import Refuse from '@comp/view/Refuse.vue'
-import Done from '@comp/view/Done.vue'
-import Setting from '@comp/view/Setting.vue'
-import Flow_school from '@comp/view/Flow_school.vue'
-import Flow_speaker from '@comp/view/Flow_speaker.vue'
-import Download from '@comp/view/Download.vue'
-// error
-import ErrorPage from '@comp/view/Error_page.vue'
-
 Vue.use(Router)
 // 默认路由，通过重定向实现
 
 const router = new Router({
-    mode: "history",
     routes: [{
         path: '/',
         redirect: '/invite/received'
     }, {
-        path: '/certification/check',
-        name: 'Certification_check',
-        component: Certification_check,
-    }, {
         path: '/help',
         redirect: '/help/flow/school'
     }, {
+        path: '/certification/check',
+        name: 'Certification_check',
+        component: resolve => require(['@comp/view/Certification_check.vue'], resolve),
+    }, {
         path: '/404',
         name: '404',
-        component: ErrorPage,
+        component: resolve => require(['@comp/view/Error_page.vue'], resolve),
     }, {
         path: '/help/flow/school',
         name: 'flow_school',
-        component: Flow_school,
+        component: resolve => require(['@comp/view/Flow_school.vue'], resolve),
     }, {
         path: '/help/flow/speaker',
         name: 'flow_speaker',
-        component: Flow_speaker,
+        component: resolve => require(['@comp/view/Flow_speaker.vue'], resolve),
     }, {
         path: '/help/download/resources',
         name: 'download',
-        component: Download,
+        component: resolve => require(['@comp/view/Download.vue'], resolve),
     }, {
         path: '/invite/over',
         name: 'invite_over',
-        component: Invite_over,
+        component: resolve => require(['@comp/view/Invite_over.vue'], resolve),
     }, {
         path: '/invite/received',
         name: 'invite_received',
-        component: Invite_received,
-    }, {
-        path: '/refused',
-        name: 'Refused',
-        component: Refused,
-    }, {
-        path: '/refuse',
-        name: 'Refuse',
-        component: Refuse,
-    }, {
-        path: '/done',
-        name: 'Done',
-        component: Done,
+        component: resolve => require(['@comp/view/Invite_received.vue'], resolve),
     }, {
         path: '/underway',
         name: 'Underway',
-        component: Underway,
+        component: resolve => require(['@comp/view/Underway.vue'], resolve),
     }, {
         path: '/invite/send',
         name: 'invite_send',
-        component: Invite_send,
+        component: resolve => require(['@comp/view/Invite_send.vue'], resolve),
+    }, {
+        path: '/refused',
+        name: 'Refused',
+        component: resolve => require(['@comp/view/Refused.vue'], resolve),
+    }, {
+        path: '/refuse',
+        name: 'Refuse',
+        component: resolve => require(['@comp/view/Refuse.vue'], resolve),
+    }, {
+        path: '/done',
+        name: 'Done',
+        component: resolve => require(['@comp/view/Done.vue'], resolve),
     }, {
         path: '/invite/all',
         name: 'invite_all',
-        component: Invite_all,
+        component: resolve => require(['@comp/view/Invite_all.vue'], resolve),
     }, {
         path: '/setting',
         name: 'Setting',
-        component: Setting,
+        component: resolve => require(['@comp/view/Setting.vue'], resolve),
     }]
 })
+
 
 // 拦截器 --- 路由拦截
 router.beforeEach((to, from, next) => {

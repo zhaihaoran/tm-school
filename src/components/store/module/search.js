@@ -35,7 +35,7 @@ const mutations = {
             return el;
         })
     },
-    
+
     getPageData(state, {
         onSuccess,
         ...cfg
@@ -134,6 +134,10 @@ const mutations = {
             }
         });
     },
+    /* 清空聊天 */
+    clearChatMsg(state) {
+        state.chatList = [];
+    },
     /* 获取反馈列表 */
     getFeedList(state, cfg) {
         Util.fetchPost({
@@ -142,6 +146,12 @@ const mutations = {
                 state.feedList = res.data.data.feedbackList;
             }
         });
+    },
+    /* 清空查询条件 */
+    clearSearchOps(state) {
+        state.orderType = 0
+        state.timerange = [];
+        state.data = [];
     }
 }
 

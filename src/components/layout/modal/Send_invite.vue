@@ -3,7 +3,7 @@
     <el-dialog
         :visible.sync="modal"
         :title="title"
-        width="30%"
+        width="500px"
         :close-on-click-modal="false"
         :before-close="handleClose"
     >
@@ -61,6 +61,7 @@ import {
     dateformat,
     commonPageInit
 } from '@comp/lib/api_maps.js';
+import codes from '@comp/lib/codes';
 
 export default {
     data() {
@@ -109,6 +110,13 @@ export default {
                     onSuccess: res => {
                         this.isSuccess = true;
                         this.handleClose();
+                    },
+                    onError: res => {
+                        this.$message({
+                            showClose: true,
+                            message: codes[res.data.code],
+                            type: 'warning'
+                        });
                     }
                 });
             } else {
