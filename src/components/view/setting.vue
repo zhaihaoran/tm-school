@@ -289,13 +289,16 @@ export default {
             }
         },
         onSubmit(form) {
-            const cfg = Object.assign(this.form, {
-                profilePhotoShortPathFilename: this.pathfilename,
-                profilePhotoUrl: this.photoUrl
-            });
-
             this.$refs[form].validate(valid => {
                 if (valid) {
+                    /* 如果刚加载时，默认传入this.form的值 */
+                    const cfg = Object.assign(this.form, {
+                        profilePhotoShortPathFilename:
+                            this.pathfilename ||
+                            this.form.profilePhotoShortPathFilename,
+                        profilePhotoUrl:
+                            this.photoUrl || this.form.profilePhotoUrl
+                    });
                     this.formSubmit({
                         act: 'modifyPersonalPageGeneral',
                         ...cfg
