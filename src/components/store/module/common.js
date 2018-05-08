@@ -52,16 +52,19 @@ const mutations = {
      * @param {any} state
      * @param {any}
      */
-    getMenuList(state) {
+    getMenuList(state, {
+        onSuccess
+    }) {
         const cfg = {
             act: 'getMenuList',
         }
         Util.fetchPost({
             cfg,
+            onSuccess,
             ActionSuccess: res => {
                 state.menuList = res.data.data.menuList;
                 state.checkState = +state.menuList.find(el => el.menuId == 10401).status;
-            }
+            },
         })
     },
     /* 数组数据 - 照片 */
