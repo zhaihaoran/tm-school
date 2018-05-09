@@ -1,5 +1,14 @@
 <template>
     <div>
+        <el-alert
+            v-show="!alertState[$route.path]"
+            :type="pageInfo($route.path,'type')"
+            :title="pageInfo($route.path,'title')"
+            :description="pageInfo($route.path,'description')"
+            @close="changeAlertState($route.path)"
+            class="mb-20"
+        >
+        </el-alert>
         <Search :cfg="searchCfg" ref="sr_component" >
             <template slot-scope="props" >
                 <div class="search-input">
@@ -140,15 +149,8 @@
     </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex';
-import {
-    attrs,
-    toSpeakerHome,
-    secToMin,
-    formatAttr,
-    dateformat,
-    commonPageInit
-} from '@comp/lib/api_maps.js';
+import { commonPageInit } from '@comp/lib/api_maps.js';
+import common_mixin from '@comp/mixin/common';
 
 import Pagination from '@layout/Pagination.vue';
 import Operation from '@layout/Operation.vue';
@@ -160,9 +162,9 @@ import MessageBox from '@layout/modal/Message.vue';
 import TimeRange from '@layout/TimeRange.vue';
 
 export default {
+    mixins: [common_mixin],
     data() {
         return {
-            attrs,
             currentId: '',
             searchCfg: {
                 act: 'getAppointmentList',
@@ -173,16 +175,6 @@ export default {
             form: {},
             modal: false
         };
-    },
-    computed: {
-        ...mapState({
-            orderType: state => state.search.orderType,
-            timerange: state => state.search.timerange,
-            data: state => state.search.data,
-            count: state => state.search.count,
-            tableLoading: state => state.search.tableLoading,
-            status: state => state.search.status
-        })
     },
     mounted() {
         commonPageInit(
@@ -205,28 +197,10 @@ export default {
         FeedList
     },
     methods: {
-        formatAttr,
-        toSpeakerHome,
-        secToMin,
-        dateformat,
-        ...mapMutations([
-            'clearSearchOps',
-            'updateValue',
-            'getPageData',
-            'formSubmit',
-            'showModal',
-            'getFeedList',
-            'getRejectDesc'
-        ]),
-
         /* 渲染状态 */
         handleRendorState(obj, type) {
             let state = obj.status + obj.fromSide || '11';
             return this.attrs['status'][state][type];
-        },
-
-        handleEdit(index, row) {
-            this.showModal(row);
         },
 
         showReason(row) {

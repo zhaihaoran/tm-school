@@ -1,10 +1,11 @@
 <template>
     <div>
         <el-alert
+            v-show="!alertState[$route.path]"
             :type="pageInfo($route.path,'type')"
             :title="pageInfo($route.path,'title')"
             :description="pageInfo($route.path,'description')"
-            show-icon
+            @close="changeAlertState($route.path)"
             class="mb-20"
         >
         </el-alert>
@@ -76,16 +77,8 @@
     </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex';
-import {
-    attrs,
-    formatAttr,
-    toSpeakerHome,
-    secToMin,
-    dateformat,
-    commonPageInit
-} from '@comp/lib/api_maps.js';
-import { pageInfo } from '@comp/lib/page_alert_text';
+import { commonPageInit } from '@comp/lib/api_maps.js';
+import common_mixin from '@comp/mixin/common';
 
 import Operation from '@layout/Operation.vue';
 import EditInvite from '@layout/modal/Edit_invite.vue';
@@ -96,9 +89,9 @@ import Search from '@layout/Search.vue';
 import TimeRange from '@layout/TimeRange.vue';
 
 export default {
+    mixins: [common_mixin],
     data() {
         return {
-            attrs,
             form: {},
             modal_edit: false,
             description: '指的是邀约内容，文字说明，加油',
@@ -122,32 +115,6 @@ export default {
                 fromSide: 2
             }
         );
-    },
-    computed: {
-        ...mapState({
-            data: state => state.search.data,
-            tableLoading: state => state.search.tableLoading,
-            orderType: state => state.search.orderType,
-            timerange: state => state.search.timerange,
-            count: state => state.search.count,
-            status: state => state.search.status
-        })
-    },
-    methods: {
-        pageInfo,
-        toSpeakerHome,
-        secToMin,
-        dateformat,
-        ...mapMutations([
-            'clearSearchOps',
-            'updateValue',
-            'getPageData',
-            'formSubmit',
-            'showModal'
-        ]),
-        handleEdit(index, row) {
-            this.showModal(row);
-        }
     },
     components: {
         Operation,

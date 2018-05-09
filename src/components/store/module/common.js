@@ -10,7 +10,8 @@ const state = {
     menuList: {}, // 菜单列表
     users: {}, //用户信息
     isSuspend: false, // 是否被冻结
-    suspendDesc: "" // 冻结原因
+    suspendDesc: "", // 冻结原因
+    alertState: {} // 各页面info显示状态
 }
 // 模块的mutations 、 actions、getter 默认注册在全局命名空间的
 const mutations = {
@@ -35,7 +36,9 @@ const mutations = {
                 if (+cfg.suspend > 0) {
                     state.isSuspend = true;
                     state.suspendDesc = cfg.suspendDesc;
-                    context.push({ path: '/suspend' });
+                    context.push({
+                        path: '/suspend'
+                    });
                 }
                 if (cfg && +cfg.isLogin > 0) {
                     state.users = cfg
@@ -134,8 +137,9 @@ const mutations = {
             }
         })
     },
-    handleCheckState(state, ) {
-        state.check_state = 0;
+
+    changeAlertState(state, path) {
+        state.alertState[path] = true;
     }
 }
 

@@ -1,5 +1,14 @@
 <template>
-    <div v-loading="loading" >
+    <div v-loading="tableLoading" >
+        <el-alert
+            v-show="!alertState[$route.path]"
+            :type="pageInfo($route.path,'type')"
+            :title="pageInfo($route.path,'title')"
+            :description="pageInfo($route.path,'description')"
+            @close="changeAlertState($route.path)"
+            class="mb-20"
+        >
+        </el-alert>
         <!-- 如何在外部调用组件内的方法 -->
         <Search left-text="综合排序" center-text="邀约数" right-text="受益人次" :cfg="searchCfg" ref="sr_component" >
             <template slot-scope="props" >
@@ -36,15 +45,18 @@
     </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex';
+import { commonPageInit } from '@comp/lib/api_maps.js';
+import common_mixin from '@comp/mixin/common';
+
 import Pagination from '@layout/Pagination.vue';
 import SendInvite from '@layout/modal/Send_invite.vue';
 import Search from '@layout/Search.vue';
-import avatar from '@image/avatar.png';
 
+import avatar from '@image/avatar.png';
 import emptyImage from '@image/empty.png';
 
 export default {
+    mixins: [common_mixin],
     data() {
         return {
             emptyImage,
@@ -54,16 +66,6 @@ export default {
                 searchText: ''
             }
         };
-    },
-    computed: {
-        ...mapState({
-            orderType: state => state.search.orderType,
-            data: state => state.search.data,
-            count: state => state.search.count,
-            loading: state => state.search.tableLoading,
-            page: state => state.search.page,
-            perPage: state => state.search.perPage
-        })
     },
     components: {
         Search,
@@ -77,12 +79,6 @@ export default {
         });
     },
     methods: {
-        ...mapMutations([
-            'getPageData',
-            'showModal',
-            'formSubmit',
-            'clearSearchOps'
-        ]),
         handleEdit(row) {
             this.showModal({
                 speakerId: row.speakerId,
