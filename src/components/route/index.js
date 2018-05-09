@@ -12,6 +12,10 @@ const router = new Router({
         path: '/help',
         redirect: '/help/flow/school'
     }, {
+        path: '/suspend',
+        name: 'suspend',
+        component: resolve => require(['@comp/view/Suspend.vue'], resolve),
+    }, {
         path: '/certification/check',
         name: 'Certification_check',
         component: resolve => require(['@comp/view/Certification_check.vue'], resolve),
