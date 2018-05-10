@@ -1,5 +1,9 @@
 import Util from '@comp/lib/utils'
 
+import {
+    Message
+} from 'element-ui';
+
 const state = {
     common_sidebar: false, // 主体侧边栏状态
     help_sidebar: false, // 帮助侧边栏
@@ -33,17 +37,24 @@ const mutations = {
             cfg,
             ActionSuccess: res => {
                 let cfg = res.data.data;
-                if (+cfg.suspend > 0) {
-                    state.isSuspend = true;
-                    state.suspendDesc = cfg.suspendDesc;
-                    context.push({
-                        path: '/suspend'
-                    });
-                }
+
+                // 是否登陆
                 if (cfg && +cfg.isLogin > 0) {
                     state.users = cfg
-                } else {
-                    window.location.href = baseUrl
+                    // 是否冻结
+                    if (+cfg.suspend > 0) {
+                        state.isSuspend = true;
+                        state.suspendDesc = cfg.suspendDesc;
+                        context.push({
+                            path: '/suspend'
+                        });
+                        // 是否课程数量剩余不足
+                    } else if (+cfg.classQuantity < 1) {
+                        Message.warning({
+                            showClose: true,
+                            message: "剩余课程不足，这将影响到您获得梦享家的演讲和途梦的服务。请尽快联系途梦获得更多课程"
+                        })
+                    }
                 }
             }
         })

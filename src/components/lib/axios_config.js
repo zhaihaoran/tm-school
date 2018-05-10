@@ -34,25 +34,21 @@ axios.interceptors.response.use(res => {
                     window.location.href = baseURL
                 }
             })
-            return res;
+            break;
         case 211:
             // 用户被冻结
             Message.error({
                 showClose: true,
                 message: '您已被冻结，请联系管理员',
                 type: 'error',
-                onClose: () => {
-                    // 刷新
-                    window.location.reload();
-                }
             })
             break;
         case 1:
-            return res;
+            break;
         default:
             console.log("error", res.data);
-            return res;
     }
+    return res;
 }, err => {
     return Promise.reject(err)
 })

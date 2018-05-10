@@ -148,7 +148,7 @@ a {
     color: $primary-color;
 }
 
-.el-radio-button__orig-radio:checked + .el-radio-button__inner {
+.el-radio-button__orig-radio:checked+.el-radio-button__inner {
     background-color: $primary-color;
     border-color: $primary-color;
 }
@@ -252,8 +252,7 @@ a {
     background: $header-bg;
     display: flex;
     flex-direction: row;
-    box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.12),
-        0 7px 10px -5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.12), 0 7px 10px -5px rgba(0, 0, 0, 0.15);
     .logo {
         display: flex;
         align-items: center;
@@ -408,7 +407,7 @@ img {
     vertical-align: middle;
 }
 
-.el-tabs--border-card > .el-tabs__header .el-tabs__item {
+.el-tabs--border-card>.el-tabs__header .el-tabs__item {
     padding: 0 40px !important;
     height: 50px;
     line-height: 50px;
@@ -559,7 +558,7 @@ img {
 
 /* el radio disabled 掉之后去掉红色边框 */
 
-.el-radio-button__orig-radio:disabled:checked + .el-radio-button__inner {
+.el-radio-button__orig-radio:disabled:checked+.el-radio-button__inner {
     border-color: #ededed;
 }
 
@@ -567,5 +566,16 @@ img {
     color: $primary-color;
     &:hover {
         text-decoration: underline;
+    }
+}
+
+.hr-bages {
+    .el-badge__content {
+        background-color: #ff0000;
+        border: 0;
+        right: 7px;
+    }
+    i {
+        font-size: 24px;
     }
 }

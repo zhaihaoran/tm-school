@@ -13,13 +13,21 @@
             <li :class="[navClass,{active:help}]">
                 <router-link to="/help" ><span @click="switchSidebarView('help')" >帮助</span> </router-link>
             </li>
+            <li :class="navClass">
+                <el-tooltip class="item" effect="dark" :content="`课程剩余：${users.classQuantity}`" placement="bottom-start">
+                    <el-badge :value="users.classQuantity" :max="10" class="hr-bages">
+                        <i class="icon iconfont icon-kechengbiao"></i>
+                    </el-badge>
+                </el-tooltip>
+            </li>
             <li class="nav-header-item user-logo">
                 <el-dropdown type="primary">
                     <span class="el-dropdown-link">
                         <img :src="handleAvatar(users.profilePhotoUrl)"  alt="user">
                     </span>
-                    <el-dropdown-menu slot="dropdown" center >
+                    <el-dropdown-menu slot="dropdown" >
                         <el-dropdown-item disabled>账号：{{users.account}}</el-dropdown-item>
+                        <el-dropdown-item disabled>课程剩余：{{users.classQuantity}}</el-dropdown-item>
                         <el-dropdown-item @click="handleSignout" divided>
                             <a @click="handleSignout" class="tm-color" href="#">登出</a>
                         </el-dropdown-item>
