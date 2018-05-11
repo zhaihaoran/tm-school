@@ -148,6 +148,11 @@ export default {
                         required: true,
                         message: '请填写学校地址',
                         trigger: 'change'
+                    },
+                    {
+                        max: 25,
+                        message: '长度在25字以内',
+                        trigger: 'blur'
                     }
                 ],
                 schoolShortDesc: [
@@ -155,6 +160,11 @@ export default {
                         required: true,
                         message: '请填写简要介绍',
                         trigger: 'change'
+                    },
+                    {
+                        max: 64,
+                        message: '长度在64字以内',
+                        trigger: 'blur'
                     }
                 ],
                 schoolDesc: [
@@ -162,6 +172,11 @@ export default {
                         required: true,
                         message: '请填写学校简介',
                         trigger: 'change'
+                    },
+                    {
+                        max: 1000,
+                        message: '长度在1000字以内',
+                        trigger: 'blur'
                     }
                 ],
                 philosophy: [
@@ -169,6 +184,11 @@ export default {
                         required: true,
                         message: '请填写办学理念',
                         trigger: 'change'
+                    },
+                    {
+                        max: 1000,
+                        message: '长度在1000字以内',
+                        trigger: 'blur'
                     }
                 ],
                 culture: [
@@ -176,6 +196,11 @@ export default {
                         required: true,
                         message: '请填写校园文化',
                         trigger: 'change'
+                    },
+                    {
+                        max: 1000,
+                        message: '长度在1000字以内',
+                        trigger: 'blur'
                     }
                 ],
                 growth: [
@@ -183,6 +208,11 @@ export default {
                         required: true,
                         message: '请填写发展历程',
                         trigger: 'change'
+                    },
+                    {
+                        max: 1000,
+                        message: '长度在1000字以内',
+                        trigger: 'blur'
                     }
                 ]
             },
