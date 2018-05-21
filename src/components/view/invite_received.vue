@@ -2,9 +2,9 @@
     <div>
         <el-alert
             v-show="!alertState[$route.path]"
-            :type="pageInfo($route.path,'type')"
-            :title="pageInfo($route.path,'title')"
-            :description="pageInfo($route.path,'description')"
+            :type="$route.path | pageInfo('type')"
+            :title="$route.path | pageInfo('title')"
+            :description="$route.path | pageInfo('description')"
             @close="changeAlertState($route.path)"
             class="mb-20"
         >
@@ -24,7 +24,7 @@
                     label="梦享家"
                     >
                     <template slot-scope="scope">
-                        <a target="_black" class="tm-link" :href="toSpeakerHome(scope.row.speakerId)">{{scope.row.speakerName}}</a>
+                        <a target="_black" class="tm-link" :href="scope.row.speakerId | toSpeakerHome">{{scope.row.speakerName}}</a>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -39,7 +39,7 @@
                     width="140"
                     label="演讲时间">
                     <template slot-scope="scope">
-                        {{dateformat(scope.row.speakTimestamp)}}
+                        {{scope.row.speakTimestamp | dateformat}}
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -47,7 +47,7 @@
                     prop="speakDuration"
                     label="演讲时长（分钟）">
                     <template slot-scope="scope">
-                        {{secToMin(scope.row.speakDuration)}}
+                        {{scope.row.speakDuration | secToMin}}
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -56,7 +56,7 @@
                     width="140"
                     label="发起邀约时间">
                     <template slot-scope="scope">
-                        {{dateformat(scope.row.addTimestamp)}}
+                        {{scope.row.addTimestamp | dateformat}}
                     </template>
                 </el-table-column>
                 <el-table-column label="消息" prop="messages"  align="center" >

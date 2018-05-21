@@ -80,7 +80,7 @@
                         <a target="_blank" :href="video.linkUrl" class="card-image">
                             <img class="min-images" :src="video.previewUrl">
                             <span class="vd-times badge">
-                                {{formatDuration(video.duration)}}
+                                {{video.duration | formatDuration}}
                             </span>
                         </a>
                         <div class="card-content">
@@ -88,7 +88,7 @@
                                 <a target="_blank" class="tm-inherit" :href="video.linkUrl">{{video.videoTitle}}</a></span>
                             <div class="vd-extra">
                                 <span>梦享家：{{video.speakerName}}</span>
-                                <span>{{dateformat(video.addTimestamp)}} <span class="text-right" >{{video.playTimes}} 次播放</span> </span>
+                                <span>{{video.addTimestamp | dateformat}} <span class="text-right" >{{video.playTimes}} 次播放</span> </span>
                             </div>
                         </div>
                         <span @click="recommend(video,videoIdOfRecommended == video.videoId)" class="bages"><i class="el-icon-upload2"></i>个人主页置顶</span>
@@ -228,9 +228,11 @@ export default {
             photoUrl: state => state.upload.photoUrl
         })
     },
-    methods: {
+    filters: {
         dateformat,
-        formatDuration,
+        formatDuration
+    },
+    methods: {
         ...mapMutations([
             'update',
             'getFormData',

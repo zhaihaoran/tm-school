@@ -9,7 +9,10 @@ import {
     dateformat,
 } from '@comp/lib/api_maps.js';
 
-import { mapState, mapMutations } from 'vuex';
+import {
+    mapState,
+    mapMutations
+} from 'vuex';
 
 const mixin = {
     data() {
@@ -28,12 +31,14 @@ const mixin = {
             status: state => state.search.status
         })
     },
-    methods: {
-        pageInfo,
-        formatAttr,
-        toSpeakerHome,
-        secToMin,
+    filters: {
         dateformat,
+        secToMin,
+        toSpeakerHome,
+        pageInfo,
+    },
+    methods: {
+        formatAttr,
         ...mapMutations([
             'clearSearchOps',
             'changeAlertState',

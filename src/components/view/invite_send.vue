@@ -2,9 +2,9 @@
     <div v-loading="tableLoading" >
         <el-alert
             v-show="!alertState[$route.path]"
-            :type="pageInfo($route.path,'type')"
-            :title="pageInfo($route.path,'title')"
-            :description="pageInfo($route.path,'description')"
+            :type="$route.path | pageInfo('type')"
+            :title="$route.path | pageInfo('title')"
+            :description="$route.path | pageInfo('description')"
             @close="changeAlertState($route.path)"
             class="mb-20"
         >
@@ -21,14 +21,16 @@
             <img :src="emptyImage" class="img-fluid" alt="empty">
         </div>
         <div v-for="person in data" :key="person.$index" class="tm-card in-card">
-            <a :href="handleHomePage(person.speakerId)" class="card-image">
-                <img :src="handleAvatar(person.profilePhotoUrl)" class="img-fluid" :alt="person.name">
+            <a :href="person.speakerId | toSpeakerHome" class="card-image">
+                <img :src="person.profilePhotoUrl | handleAvatar" class="img-fluid" :alt="person.name">
             </a>
             <div class="card-wrapper">
-                <a :href="handleHomePage(person.speakerId)" class="no-margin" >
+                <a :href="person.speakerId | toSpeakerHome" class="no-margin" >
                     <span class="teacher-name" >{{person.name || "未填写名称"}}</span>
                 </a>
+                <span class="short-overflow" >
                 {{person.speakerShortDesc}}
+                </span>
                 <p>
                     <span class="num tm-text-color" >{{person.appointmentTimes}}</span>邀约数
                     <span class="num tm-text-color" style="margin-left:20px;" >{{person.benefitPeopleTimes}}</span>受益人次
@@ -72,6 +74,11 @@ export default {
         SendInvite,
         Pagination
     },
+    filters: {
+        handleAvatar: function(url) {
+            return url || avatar;
+        }
+    },
     mounted() {
         this.clearSearchOps();
         this.getPageData({
@@ -89,14 +96,8 @@ export default {
                 addTimestamp: 0
             });
         },
-        handleHomePage(id) {
-            return `/speaker/speakerId/${id}`;
-        },
         handleSearch() {
             this.$refs.sr_component.handleSearch();
-        },
-        handleAvatar(url) {
-            return url || avatar;
         }
     }
 };
@@ -107,6 +108,15 @@ export default {
 }
 .admin-step {
     height: 200px;
+}
+.short-overflow {
+    width: 400px;
+    display: inline-block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    position: relative;
+    bottom: -0.25em;
 }
 .in-card.tm-card {
     display: flex;
