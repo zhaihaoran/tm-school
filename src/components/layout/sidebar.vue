@@ -2,15 +2,16 @@
    <el-aside class="admin-aside" width="200px">
         <!-- 主视图 -->
         <el-menu router v-show="main" :default-active.sync="$route.path" :default-openeds="['/invite']" class="admin-sider-menu" :collapse="sidebarState" >
-            <router-link v-for="menu in menuList" :key="menu.$index" :to="sidebarRender(menu,'path')" >
+            <router-link v-for="menu in menuList" :key="menu.$index" :to="menu | route('path')" >
                 <el-menu-item class="sider-menu-item"
-                    :index="sidebarRender(menu,'path')" >
+                    :index="menu | route('path')" >
                     <i :class="[iconfont,sidebarRender(menu,'icon')]"></i>
-                    {{sidebarRender(menu,'name')}}
+                    {{menu | route('name')}}
                     <span v-if="sidebarRender(menu,'status')" >(
-                        {{sidebarRender(menu,'status')[menu.status]}}
+                        {{menu | route('status')[menu.status]}}
                     )</span>
                 </el-menu-item>
+                <!-- filter 有一个缺点，必须确保数据存在，不可以条件判断 -->
                 <div class="dividar" v-show="sidebarRender(menu,'dividar')" ></div>
             </router-link>
         </el-menu>
@@ -70,14 +71,19 @@ export default {
         this.changeSidebarView(this.$route.path);
     },
     // 可以将模块的空间名称字符串作为第一个参数传递给函数
-    computed: mapState({
-        help: state => state.common.help_sidebar,
-        main: state => state.common.common_sidebar,
-        sidebarState: state => state.common.sidebar_toggle,
-        checkState: state => state.common.checkState,
-        menuList: state => state.common.menuList,
-        users: state => state.common.users
-    }),
+    computed: {
+        ...mapState({
+            help: state => state.common.help_sidebar,
+            main: state => state.common.common_sidebar,
+            sidebarState: state => state.common.sidebar_toggle,
+            checkState: state => state.common.checkState,
+            menuList: state => state.common.menuList,
+            users: state => state.common.users
+        })
+    },
+    filters: {
+        route: sidebarRender
+    },
     watch: {
         /* 监听$oute 的方式写法 */
         '$route.path'(val) {

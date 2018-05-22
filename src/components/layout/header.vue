@@ -23,13 +23,13 @@
             <li class="nav-header-item user-logo">
                 <el-dropdown type="primary">
                     <span class="el-dropdown-link">
-                        <img :src="handleAvatar(users.profilePhotoUrl)"  alt="user">
+                        <img :src="avatar"  alt="user">
                     </span>
                     <el-dropdown-menu slot="dropdown" >
                         <el-dropdown-item disabled>账号：{{users.account}}</el-dropdown-item>
                         <el-dropdown-item disabled>课程剩余：{{users.classQuantity}}</el-dropdown-item>
-                        <el-dropdown-item @click="handleSignout" divided>
-                            <a @click="handleSignout" class="tm-color" href="#">登出</a>
+                        <el-dropdown-item @click="signout(baseURL)" divided>
+                            <a @click="signout(baseURL)" class="tm-color" href="#">登出</a>
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -54,11 +54,16 @@ export default {
         };
     },
     // 方便 属性使用 mapState
-    computed: mapState({
-        users: state => state.common.users,
-        help: state => state.common.help_sidebar,
-        main: state => state.common.common_sidebar
-    }),
+    computed: {
+        ...mapState({
+            users: state => state.common.users,
+            help: state => state.common.help_sidebar,
+            main: state => state.common.common_sidebar
+        }),
+        avatar: function() {
+            return this.users.profilePhotoUrl || school;
+        }
+    },
     mounted() {
         this.getUserLogin({
             baseURL,
@@ -66,13 +71,7 @@ export default {
         });
     },
     methods: {
-        ...mapMutations(['getUserLogin', 'switchSidebarView', 'signout']),
-        handleSignout() {
-            this.signout(baseURL);
-        },
-        handleAvatar(url) {
-            return url || school;
-        }
+        ...mapMutations(['getUserLogin', 'switchSidebarView', 'signout'])
     }
 };
 </script>
