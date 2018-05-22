@@ -41,7 +41,7 @@
 <script>
 import logo from '@image/logo/logo_white.png';
 import school from '@image/school.png';
-import { baseURL, attrs } from '@comp/lib/api_maps';
+import { baseURL, attrs } from '@lib/api_maps';
 import { mapState, mapMutations } from 'vuex';
 
 export default {

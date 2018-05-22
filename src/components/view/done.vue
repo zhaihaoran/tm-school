@@ -83,8 +83,8 @@
     </div>
 </template>
 <script>
-import { commonPageInit } from '@comp/lib/api_maps.js';
-import common_mixin from '@comp/mixin/common';
+import { commonPageInit } from '@lib/api_maps.js';
+import common_mixin from '@mixin/common';
 
 import MessageBox from '@layout/modal/Message.vue';
 import Table from '@layout/Table.vue';

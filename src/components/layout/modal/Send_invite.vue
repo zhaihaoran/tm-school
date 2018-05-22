@@ -60,8 +60,8 @@ import {
     formatAttr,
     dateformat,
     commonPageInit
-} from '@comp/lib/api_maps.js';
-import codes from '@comp/lib/codes';
+} from '@lib/api_maps.js';
+import codes from '@lib/codes';
 
 export default {
     data() {

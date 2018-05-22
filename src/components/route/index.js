@@ -14,63 +14,63 @@ const router = new Router({
     }, {
         path: '/suspend',
         name: 'suspend',
-        component: resolve => require(['@comp/view/Suspend.vue'], resolve),
+        component: resolve => require(['@view/Suspend.vue'], resolve),
     }, {
         path: '/certification/check',
         name: 'Certification_check',
-        component: resolve => require(['@comp/view/Certification_check.vue'], resolve),
+        component: resolve => require(['@view/Certification_check.vue'], resolve),
     }, {
         path: '/404',
         name: '404',
-        component: resolve => require(['@comp/view/Error_page.vue'], resolve),
+        component: resolve => require(['@view/Error_page.vue'], resolve),
     }, {
         path: '/help/flow/school',
         name: 'flow_school',
-        component: resolve => require(['@comp/view/Flow_school.vue'], resolve),
+        component: resolve => require(['@view/Flow_school.vue'], resolve),
     }, {
         path: '/help/flow/speaker',
         name: 'flow_speaker',
-        component: resolve => require(['@comp/view/Flow_speaker.vue'], resolve),
+        component: resolve => require(['@view/Flow_speaker.vue'], resolve),
     }, {
         path: '/help/download/resources',
         name: 'download',
-        component: resolve => require(['@comp/view/Download.vue'], resolve),
+        component: resolve => require(['@view/Download.vue'], resolve),
     }, {
         path: '/invite/over',
         name: 'invite_over',
-        component: resolve => require(['@comp/view/Invite_over.vue'], resolve),
+        component: resolve => require(['@view/Invite_over.vue'], resolve),
     }, {
         path: '/invite/received',
         name: 'invite_received',
-        component: resolve => require(['@comp/view/Invite_received.vue'], resolve),
+        component: resolve => require(['@view/Invite_received.vue'], resolve),
     }, {
         path: '/underway',
         name: 'Underway',
-        component: resolve => require(['@comp/view/Underway.vue'], resolve),
+        component: resolve => require(['@view/Underway.vue'], resolve),
     }, {
         path: '/invite/send',
         name: 'invite_send',
-        component: resolve => require(['@comp/view/Invite_send.vue'], resolve),
+        component: resolve => require(['@view/Invite_send.vue'], resolve),
     }, {
         path: '/refused',
         name: 'Refused',
-        component: resolve => require(['@comp/view/Refused.vue'], resolve),
+        component: resolve => require(['@view/Refused.vue'], resolve),
     }, {
         path: '/refuse',
         name: 'Refuse',
-        component: resolve => require(['@comp/view/Refuse.vue'], resolve),
+        component: resolve => require(['@view/Refuse.vue'], resolve),
     }, {
         path: '/done',
         name: 'Done',
-        component: resolve => require(['@comp/view/Done.vue'], resolve),
+        component: resolve => require(['@view/Done.vue'], resolve),
     }, {
         path: '/invite/all',
         name: 'invite_all',
-        component: resolve => require(['@comp/view/Invite_all.vue'], resolve),
+        component: resolve => require(['@view/Invite_all.vue'], resolve),
     }, {
         path: '/setting',
         name: 'Setting',
-        component: resolve => require(['@comp/view/Setting.vue'], resolve),
+        component: resolve => require(['@view/Setting.vue'], resolve),
     }]
 })
 

@@ -36,7 +36,7 @@
     </div>
 </template>
 <script>
-import { dateformat } from '@comp/lib/api_maps';
+import { dateformat } from '@lib/api_maps';
 import { mapState, mapMutations } from 'vuex';
 
 export default {

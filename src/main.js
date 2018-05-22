@@ -5,7 +5,7 @@ import router from '@route/index'
 import store from '@store/index'
 
 // config -- axios
-import '@comp/lib/axios_config'
+import '@lib/axios_config'
 
 // config -- scss
 import '@scss/theme/index.css'

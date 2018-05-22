@@ -1,13 +1,13 @@
 import {
     pageInfo
-} from '@comp/lib/page_alert_text';
+} from '@lib/page_alert_text';
 import {
     attrs,
     toSpeakerHome,
     secToMin,
     formatAttr,
     dateformat,
-} from '@comp/lib/api_maps.js';
+} from '@lib/api_maps.js';
 
 import {
     mapState,

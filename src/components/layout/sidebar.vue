@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { sidebarRender } from '@comp/lib/api_maps';
+import { sidebarRender } from '@lib/api_maps';
 import { mapState, mapMutations } from 'vuex';
 
 export default {
@@ -61,7 +61,8 @@ export default {
         let me = this;
         this.getMenuList({
             onSuccess: res => {
-                if (this.checkState < 3) {
+                console.log(this.checkState);
+                if (this.checkState !== 3) {
                     this.$router.push({
                         path: '/certification/check'
                     });

@@ -47,8 +47,8 @@
     </div>
 </template>
 <script>
-import { commonPageInit } from '@comp/lib/api_maps.js';
-import common_mixin from '@comp/mixin/common';
+import { commonPageInit } from '@lib/api_maps.js';
+import common_mixin from '@mixin/common';
 
 import Pagination from '@layout/Pagination.vue';
 import SendInvite from '@layout/modal/Send_invite.vue';

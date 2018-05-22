@@ -1,7 +1,7 @@
 import axios from 'axios';
 import qs from 'qs';
 
-import code from '@comp/lib/codes'
+import code from '@lib/codes'
 
 import {
     Message

@@ -4,7 +4,7 @@ import {
 } from 'element-ui';
 import {
     baseURL
-} from '@comp/lib/api_maps'
+} from '@lib/api_maps'
 // 全局配置
 axios.defaults.baseURL = baseURL;
 axios.defaults.url = 'api/schoolConsole/';

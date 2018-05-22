@@ -1,4 +1,4 @@
-import Util from '@comp/lib/utils'
+import Util from '@lib/utils'
 
 const state = {
     classroomPhotoShortPathFilename: '',

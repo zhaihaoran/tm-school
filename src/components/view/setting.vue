@@ -75,7 +75,7 @@
         </el-tab-pane>
         <el-tab-pane name="video" v-loading="loading.videos" label="视频">
             <el-row :gutter="10">
-                <el-col class="tm-col-5 card-wrapper" :sm="12" :md="8" :lg="6" v-for="video in videos" :key="video.videoId" >
+                <el-col class="tm-col-5 card-wrapper-item" :sm="12" :md="8" :lg="6" v-for="video in videos" :key="video.videoId" >
                     <div :class="[videoClass,{active:videoIdOfRecommended == video.videoId}]" >
                         <a target="_blank" :href="video.linkUrl" class="card-image">
                             <img class="min-images" :src="video.previewUrl">
@@ -109,7 +109,7 @@
 </template>
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { dateformat, formatDuration } from '@comp/lib/api_maps';
+import { dateformat, formatDuration } from '@lib/api_maps';
 import Cropper from '@layout/modal/Cropper.vue';
 
 export default {
@@ -475,7 +475,7 @@ export default {
     height: 500px;
 }
 
-.card-wrapper {
+.card-wrapper-item {
     max-width: 240px;
 }
 
@@ -498,8 +498,6 @@ export default {
     &:hover {
         .op_context {
             visibility: visible;
-            .photo-cube {
-            }
         }
     }
     .op_context {

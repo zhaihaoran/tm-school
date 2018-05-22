@@ -78,8 +78,8 @@
     </div>
 </template>
 <script>
-import { commonPageInit } from '@comp/lib/api_maps.js';
-import common_mixin from '@comp/mixin/common';
+import { commonPageInit } from '@lib/api_maps.js';
+import common_mixin from '@mixin/common';
 
 import Search from '@layout/Search.vue';
 import Pagination from '@layout/Pagination.vue';

@@ -12,7 +12,7 @@ const createLintingRule = () => ({
     test: /\.(js|vue)$/,
     loader: 'eslint-loader',
     enforce: 'pre',
-    include: [resolve('src'), resolve('test')],
+    include: [resolve('src/components'), resolve('test')],
     options: {
         formatter: require('eslint-friendly-formatter'),
         emitWarning: !config.dev.showEslintErrorsInOverlay
@@ -42,9 +42,11 @@ module.exports = {
             "@layout": resolve('src/components/layout'),
             "@view": resolve('src/components/view'),
             "@store": resolve('src/components/store'),
+            "@lib": resolve('src/components/lib'),
+            "@mixin": resolve('src/components/mixin'),
             "assets": resolve('src/assets'),
-            jquery: "jquery/src/jquery"
-        }
+            'jquery': "jquery/src/jquery"
+        },
     },
     module: {
         rules: [

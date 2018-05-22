@@ -43,7 +43,7 @@ import {
     formatAttr,
     dateformat,
     commonPageInit
-} from '@comp/lib/api_maps.js';
+} from '@lib/api_maps.js';
 
 export default {
     data() {
