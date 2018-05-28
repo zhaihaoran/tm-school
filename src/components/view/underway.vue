@@ -184,9 +184,6 @@ export default {
 .normal-a {
     color: #409eff;
 }
-.pic-cube {
-    margin: 5px 0;
-}
 </style>
 
 

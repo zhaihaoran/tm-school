@@ -6,6 +6,7 @@
         <ul class="header-right">
             <li class="nav-header-item flex-right left" >
                 <a target="_blank" :href="baseURL">网站首页</a>
+                <a target="_blank" class="l-30" :href="users.personalPageLinkUrl">个人主页</a>
             </li>
             <li :class="[navClass,{active:main}]">
                 <router-link to="/" > <span @click.capture="switchSidebarView('main')" >管理中心</span> </router-link>
@@ -28,8 +29,9 @@
                     <el-dropdown-menu slot="dropdown" >
                         <el-dropdown-item disabled>账号：{{users.account}}</el-dropdown-item>
                         <el-dropdown-item disabled>课程剩余：{{users.classQuantity}}</el-dropdown-item>
-                        <el-dropdown-item @click="signout(baseURL)" divided>
-                            <a @click="signout(baseURL)" class="tm-color" href="#">登出</a>
+                        <el-dropdown-item divided><a class="tm-text-color" :href="users.personalPageLinkUrl" >个人主页</a></el-dropdown-item>
+                        <el-dropdown-item @click.native="signout(baseURL)" divided>
+                            <a @click="signout(baseURL)" class="tm-text-color" href="#">登出</a>
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -81,6 +83,9 @@ export default {
 }
 .flex-right {
     margin-right: auto;
+}
+.l-30 {
+    margin-left: 30px;
 }
 </style>
 

@@ -204,7 +204,8 @@ a {
     position: relative;
     padding-top: 20px;
     z-index: 200;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     background-color: $sider_bg;
     box-shadow: 0 0px 3px 1px rgba(0, 0, 0, 0.1);
     .el-submenu__title {
@@ -237,6 +238,8 @@ a {
     .admin-sider-menu {
         width: 100%;
         background-color: $sider_bg;
+        position: relative;
+        z-index: 20;
         .el-submenu.is-opened {
             background: $sider_submenu_bg;
             .el-menu {

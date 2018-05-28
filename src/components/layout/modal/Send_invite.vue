@@ -18,6 +18,8 @@
                 <el-date-picker
                     v-model="timestamp"
                     type="datetime"
+                    format="yyyy-MM-dd HH:mm"
+                    :picker-options="pickerOptions"
                     placeholder="选择日期时间">
                 </el-date-picker>
             </el-form-item>
@@ -66,6 +68,15 @@ import codes from '@lib/codes';
 export default {
     data() {
         return {
+            // 可选择范围 一周后
+            pickerOptions: {
+                disabledDate(time) {
+                    return (
+                        time.getTime() <
+                        Date.now() + 3600 * 1000 * 24 * 7 - 8.64e6
+                    );
+                }
+            },
             isSuccess: false,
             timestamp: '',
             d_duration: ''

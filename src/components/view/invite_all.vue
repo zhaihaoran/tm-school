@@ -44,6 +44,7 @@
                 <el-table-column
                     prop="speakerName"
                     align="center"
+                    fixed
                     label="梦享家">
                     <template slot-scope="scope">
                         <a target="_black" class="tm-link" :href="scope.row.speakerId | toSpeakerHome">{{scope.row.speakerName}}</a>
@@ -52,6 +53,7 @@
                 <el-table-column
                     prop="speakTitle"
                     align="center"
+                    fixed
                     label="演讲主题" :show-overflow-tooltip="true">
                 </el-table-column>
                 <el-table-column
@@ -128,7 +130,7 @@
                     align="center"
                     label="消息">
                     <template slot-scope="scope">
-                        <MessageBox :canSend="+scope.row.status === 1" :scope="scope" ></MessageBox>
+                        <MessageBox :canSend="+scope.row.status === 1 || +scope.row.status === 2" :scope="scope" ></MessageBox>
                     </template>
                 </el-table-column>
                 <el-table-column

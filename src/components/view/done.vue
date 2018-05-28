@@ -74,7 +74,7 @@
                     align="center"
                     label="消息">
                     <template slot-scope="scope">
-                        <MessageBox :canSend="false" :scope="scope" ></MessageBox>
+                        <MessageBox :canSend="true" :scope="scope" ></MessageBox>
                     </template>
                 </el-table-column>
             </Table>

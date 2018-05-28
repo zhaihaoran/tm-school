@@ -170,7 +170,7 @@ import Upload from '@layout/Upload.vue';
 export default {
     data() {
         return {
-            rows: 8,
+            rows: 4,
             form: {},
             rejectDesc: '',
             modal: {
@@ -248,7 +248,7 @@ export default {
                 state.upload.schoolPhotoShortPathFilename,
             // 动态绑定disabled
             isDisabled() {
-                return this.checkState === 3;
+                return this.checkState === 3 || this.checkState === 2;
             }
         }),
         'form.isCheck': {
