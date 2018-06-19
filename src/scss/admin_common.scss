@@ -14,6 +14,11 @@ $sider_submenu_bg: inherit;
 $sider_submenu_active: rgb(47, 46, 48);
 $sider_item_active: rgb(29, 27, 27);
 $context_bg: rgb(236, 236, 236);
+// 修复浮动fixed表格，添加hover-row 造成hover样式不统一
+.el-table--enable-row-transition .el-table__body tr.hover-row>td {
+    background-color: #f5f7fa !important
+}
+
 /* 修复切换浏览器窗口，tabs组件出现边框问题 类似的问题都可以通过box-shadow：None 解决 */
 
 /* elementui 的tabs组件出现蓝色边框问题 */
